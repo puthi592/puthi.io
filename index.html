@@ -49,7 +49,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background:repeating-lin
 .online-dot{width:7px;height:7px;border-radius:50%;background:var(--online);box-shadow:0 0 8px var(--online);animation:onP 2s ease infinite;}
 @keyframes onP{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
 .ib{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.07);backdrop-filter:blur(8px);border:1px solid var(--gbr);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .2s;box-shadow:inset 0 1px 0 rgba(255,255,255,.1);}
-.ib:hover{color:var(--text);border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.1);}
+.ib:hover{color:var(--text);border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.1);box-shadow:0 0 12px rgba(34,211,238,.2),inset 0 1px 0 rgba(255,255,255,.15);}
 .mode-tabs{display:flex;gap:6px;padding:10px 18px 0;background:rgba(255,255,255,.03);border-bottom:1px solid var(--gbr);flex-shrink:0;overflow-x:auto;}
 .mode-tabs::-webkit-scrollbar{display:none;}
 .mode-tab{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px 10px 0 0;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);background:transparent;border:none;transition:all .2s;white-space:nowrap;border-bottom:2px solid transparent;}
@@ -77,7 +77,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background:repeating-lin
 .bubble hr{border:none;border-top:1px solid rgba(255,255,255,.1);margin:8px 0;}
 .bubble strong{color:rgba(199,210,254,.95);}
 .msg-acts{display:flex;gap:6px;flex-wrap:wrap;}
-.act-btn{display:flex;align-items:center;gap:5px;padding:4px 11px;background:rgba(255,255,255,.06);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:8px;font-size:11px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif;}
+.act-btn{display:flex;align-items:center;gap:5px;padding:4px 11px;background:rgba(255,255,255,.06);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:8px;font-size:11px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.08);}
 .act-btn:hover{color:var(--cyan);border-color:rgba(34,211,238,.35);background:rgba(34,211,238,.08);transform:translateY(-1px);}
 .typing-dots{display:flex;gap:6px;padding:5px 2px;align-items:center;}
 .typing-dots span{width:8px;height:8px;border-radius:50%;animation:tBlink 1.5s cubic-bezier(.4,0,.2,1) infinite;}
@@ -102,33 +102,20 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background:repeating-lin
 .size-btn{padding:8px 16px;background:rgba(255,255,255,.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:10px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;}
 .size-btn:hover,.size-btn.sel{background:rgba(34,211,238,.15);border-color:rgba(34,211,238,.4);color:var(--cyan);}
 .gen-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 28px;background:linear-gradient(135deg,rgba(244,114,182,.8),rgba(167,139,250,.8));backdrop-filter:blur(8px);border:1px solid rgba(244,114,182,.4);border-radius:14px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:#fff;cursor:pointer;transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 0 24px rgba(244,114,182,.35),inset 0 1px 0 rgba(255,255,255,.25);}
-.gen-btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 40px rgba(244,114,182,.5);}
+.gen-btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 0 40px rgba(244,114,182,.5),inset 0 1px 0 rgba(255,255,255,.3);}
 .gen-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
-
-/* ✅ REAL IMAGE CARD */
-.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
-.img-card{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,.2);}
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.img-card{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,.2);}
 .img-card:hover{transform:translateY(-4px) scale(1.02);border-color:rgba(244,114,182,.3);box-shadow:0 12px 40px rgba(244,114,182,.15);}
-.img-real{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#0a0a1a;}
-.img-loading-box{width:100%;aspect-ratio:1;background:linear-gradient(135deg,rgba(244,114,182,.08),rgba(167,139,250,.08));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;position:relative;overflow:hidden;}
-.img-loading-box::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(244,114,182,.1),rgba(167,139,250,.1),transparent);background-size:200% 100%;animation:pShimmer 1.5s ease infinite;}
+.img-preview{width:100%;aspect-ratio:1;background:linear-gradient(135deg,rgba(244,114,182,.08),rgba(167,139,250,.08));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted);font-size:12px;position:relative;overflow:hidden;}
+.img-preview-loading::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(244,114,182,.08),rgba(167,139,250,.08),transparent);background-size:200% 100%;animation:pShimmer 2s ease infinite;}
 @keyframes pShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.img-loading-text{font-size:12px;color:var(--muted);z-index:1;}
-.img-spinner{width:36px;height:36px;border:3px solid rgba(244,114,182,.2);border-top-color:var(--pink);border-radius:50%;animation:spin 0.8s linear infinite;z-index:1;}
-@keyframes spin{to{transform:rotate(360deg)}}
+.img-preview-emoji{font-size:48px;filter:drop-shadow(0 0 12px rgba(34,211,238,.4));}
 .img-card-meta{padding:10px 12px;}
 .img-card-prompt{font-size:12px;color:var(--text2);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .img-card-actions{display:flex;gap:6px;margin-top:8px;}
-.img-ca{flex:1;padding:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s;text-align:center;font-family:'Outfit',sans-serif;}
+.img-ca{flex:1;padding:5px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:7px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s;text-align:center;font-family:'Outfit',sans-serif;}
 .img-ca:hover{color:var(--pink);border-color:rgba(244,114,182,.3);}
-
-/* LIGHTBOX */
-.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(12px);}
-.lightbox.open{display:flex;}
-.lightbox img{max-width:90vw;max-height:90vh;border-radius:16px;box-shadow:0 0 80px rgba(244,114,182,.3);}
-.lightbox-close{position:fixed;top:20px;right:24px;font-size:28px;color:white;cursor:pointer;z-index:301;opacity:.7;}
-.lightbox-close:hover{opacity:1;}
-
 .welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:18px;text-align:center;padding:40px 20px;}
 .w-logo{width:100px;height:100px;background:rgba(34,211,238,.12);backdrop-filter:blur(16px);border:1px solid rgba(34,211,238,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(34,211,238,.4),0 0 80px rgba(34,211,238,.15),inset 0 2px 0 rgba(255,255,255,.3);animation:wFloat 4s cubic-bezier(.37,0,.63,1) infinite;overflow:hidden;position:relative;}
 .w-logo::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(34,211,238,.12) 60deg,transparent 120deg);animation:wSpin 6s linear infinite;}
@@ -138,61 +125,56 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background:repeating-lin
 @keyframes gShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .welcome p{color:var(--text2);font-size:14px;max-width:420px;line-height:1.65;}
 .chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:6px;}
-.chip{padding:9px 18px;background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.13);border-radius:24px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);font-weight:500;}
-.chip:hover{border-color:rgba(34,211,238,.4);color:var(--cyan);background:rgba(34,211,238,.1);transform:translateY(-3px) scale(1.03);}
+.chip{padding:9px 18px;background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.13);border-radius:24px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.12);}
+.chip:hover{border-color:rgba(34,211,238,.4);color:var(--cyan);background:rgba(34,211,238,.1);transform:translateY(-3px) scale(1.03);box-shadow:0 8px 24px rgba(34,211,238,.15);}
 .bottom-area{padding:12px 20px 16px;background:rgba(255,255,255,.04);backdrop-filter:blur(24px);border-top:1px solid var(--gbr);position:relative;box-shadow:0 -4px 24px rgba(0,0,0,.2);}
 .inp-wrap{max-width:860px;margin:0 auto;position:relative;}
-.tools-popup{position:absolute;bottom:calc(100% + 12px);left:0;background:rgba(10,12,28,.65);backdrop-filter:blur(28px);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:8px;min-width:215px;box-shadow:0 16px 48px rgba(0,0,0,.5);display:none;z-index:100;}
+.tools-popup{position:absolute;bottom:calc(100% + 12px);left:0;background:rgba(10,12,28,.65);backdrop-filter:blur(28px);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:8px;min-width:215px;box-shadow:0 16px 48px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.12);display:none;z-index:100;animation:popIn .22s cubic-bezier(.16,1,.3,1);}
 .tools-popup.open{display:block;}
+@keyframes popIn{from{opacity:0;transform:translateY(10px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
 .tool-item{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:11px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .2s;}
 .tool-item:hover{background:rgba(255,255,255,.08);color:var(--text);transform:translateX(3px);}
-.tool-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid rgba(255,255,255,.1);}
-.close-popup-btn{width:34px;height:34px;border-radius:50%;background:rgba(244,114,182,.25);border:1px solid rgba(244,114,182,.4);color:#fff;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:15px;font-weight:700;position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);z-index:101;}
-.close-popup-btn.open{display:flex;}
-.input-row{display:flex;align-items:flex-end;gap:10px;background:rgba(255,255,255,.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:10px 12px;transition:all .3s;box-shadow:0 4px 24px rgba(0,0,0,.2);}
-.input-row:focus-within{border-color:rgba(34,211,238,.45);background:rgba(34,211,238,.06);box-shadow:0 0 0 3px rgba(34,211,238,.1);}
-.plus-btn{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;flex-shrink:0;transition:all .25s;font-weight:300;}
-.plus-btn:hover,.plus-btn.open{background:rgba(34,211,238,.18);border-color:rgba(34,211,238,.45);color:var(--cyan);transform:scale(1.08) rotate(45deg);}
+.tool-ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(6px);}
+.close-popup-btn{width:34px;height:34px;border-radius:50%;background:rgba(244,114,182,.25);backdrop-filter:blur(8px);border:1px solid rgba(244,114,182,.4);color:#fff;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:15px;font-weight:700;position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);z-index:101;box-shadow:0 0 16px rgba(244,114,182,.4);transition:all .2s;}
+.close-popup-btn:hover{transform:translateX(-50%) scale(1.1);}
+.close-popup-btn.open{display:flex;animation:popIn .18s ease;}
+.input-row{display:flex;align-items:flex-end;gap:10px;background:rgba(255,255,255,.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:10px 12px;transition:all .3s cubic-bezier(.16,1,.3,1);box-shadow:0 4px 24px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.12);}
+.input-row:focus-within{border-color:rgba(34,211,238,.45);background:rgba(34,211,238,.06);box-shadow:0 0 0 3px rgba(34,211,238,.1),0 4px 24px rgba(0,0,0,.2);}
+.plus-btn{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.08);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px;flex-shrink:0;transition:all .25s cubic-bezier(.16,1,.3,1);font-weight:300;font-family:'Outfit',sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.12);}
+.plus-btn:hover,.plus-btn.open{background:rgba(34,211,238,.18);border-color:rgba(34,211,238,.45);color:var(--cyan);transform:scale(1.08) rotate(45deg);box-shadow:0 0 14px rgba(34,211,238,.3);}
 .chat-ta{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;resize:none;min-height:38px;max-height:140px;line-height:1.6;padding:7px 0;}
 .chat-ta::placeholder{color:rgba(240,244,255,.25);}
-.send-btn{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,rgba(34,211,238,.8),rgba(124,58,237,.8));border:1px solid rgba(34,211,238,.4);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;transition:all .25s;box-shadow:0 0 20px rgba(34,211,238,.4);}
-.send-btn:hover{transform:scale(1.1);}
+.send-btn{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,rgba(34,211,238,.8),rgba(124,58,237,.8));backdrop-filter:blur(8px);border:1px solid rgba(34,211,238,.4);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 0 20px rgba(34,211,238,.4),inset 0 1px 0 rgba(255,255,255,.3);}
+.send-btn:hover{transform:scale(1.1);box-shadow:0 0 32px rgba(34,211,238,.6);}
 .send-btn:disabled{opacity:.35;cursor:not-allowed;transform:none;}
 .inp-hint{text-align:center;font-size:11px;color:var(--muted);margin-top:8px;}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
-.modal{background:rgba(12,14,30,.75);backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:32px;width:470px;max-width:95vw;animation:modalIn .3s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.5);}
+.modal{background:rgba(12,14,30,.75);backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:32px;width:470px;max-width:95vw;animation:modalIn .3s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.15);}
 @keyframes modalIn{from{opacity:0;transform:scale(.93) translateY(-16px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .modal-hd{font-size:18px;font-weight:700;margin-bottom:22px;display:flex;align-items:center;gap:12px;}
-.modal-logo-sm{width:38px;height:38px;background:rgba(34,211,238,.15);border:1px solid rgba(34,211,238,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+.modal-logo-sm{width:38px;height:38px;background:rgba(34,211,238,.15);backdrop-filter:blur(8px);border:1px solid rgba(34,211,238,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px rgba(34,211,238,.4),inset 0 1px 0 rgba(255,255,255,.2);overflow:hidden;flex-shrink:0;}
 .modal-lbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px;}
-.modal-inp{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#4ade80;outline:none;transition:all .2s;margin-bottom:6px;}
-.modal-inp:focus{border-color:rgba(34,211,238,.5);}
+.modal-inp{width:100%;background:rgba(0,0,0,.3);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#4ade80;outline:none;transition:all .2s;margin-bottom:6px;box-shadow:inset 0 2px 6px rgba(0,0,0,.25);}
+.modal-inp:focus{border-color:rgba(34,211,238,.5);box-shadow:0 0 0 3px rgba(34,211,238,.1);}
 .modal-inp::placeholder{color:rgba(240,244,255,.2);font-family:'Outfit',sans-serif;}
 .modal-st{font-size:12px;min-height:16px;margin-bottom:16px;}
 .modal-st.ok{color:#4ade80;}.modal-st.err{color:#f87171;}
-.modal-info{font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:20px;background:rgba(255,255,255,.04);padding:13px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);}
+.modal-info{font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:20px;background:rgba(255,255,255,.04);backdrop-filter:blur(8px);padding:13px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);}
 .modal-info strong{color:var(--cyan);}
 .modal-row{display:flex;gap:10px;}
-.btn-save{flex:1;background:linear-gradient(135deg,rgba(34,211,238,.75),rgba(124,58,237,.75));color:#fff;border:1px solid rgba(34,211,238,.35);border-radius:11px;padding:12px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-save{flex:1;background:linear-gradient(135deg,rgba(34,211,238,.75),rgba(124,58,237,.75));backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(34,211,238,.35);border-radius:11px;padding:12px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 0 16px rgba(34,211,238,.25),inset 0 1px 0 rgba(255,255,255,.25);}
 .btn-save:hover{opacity:.9;transform:translateY(-1px);}
-.btn-cancel{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:12px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-cancel{background:rgba(255,255,255,.05);backdrop-filter:blur(8px);color:var(--muted);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:12px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
 .btn-cancel:hover{color:var(--text);}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px;}
-select.modal-inp option{background:#0a0e1f;color:var(--text);}
 </style>
 </head>
 <body>
 
 <div class="blob blob1"></div><div class="blob blob2"></div>
 <div class="blob blob3"></div><div class="blob blob4"></div>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <span class="lightbox-close">✕</span>
-  <img id="lightboxImg" src="" alt="">
-</div>
 
 <svg width="0" height="0" style="position:absolute;overflow:hidden">
   <defs>
@@ -202,29 +184,41 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
       <ellipse cx="44" cy="60" rx="8" ry="5" fill="white" opacity="0.45" transform="rotate(-20 44 60)"/>
       <ellipse cx="50" cy="76" rx="22" ry="26" fill="none" stroke="#b8cfe0" stroke-width="0.8" opacity="0.5"/>
       <ellipse cx="25" cy="74" rx="6" ry="9" fill="url(#aG)" transform="rotate(-10 25 74)"/>
+      <ellipse cx="23" cy="70" rx="2.5" ry="2" fill="white" opacity="0.4" transform="rotate(-10 23 70)"/>
       <ellipse cx="75" cy="74" rx="6" ry="9" fill="url(#aG)" transform="rotate(10 75 74)"/>
+      <ellipse cx="73" cy="70" rx="2.5" ry="2" fill="white" opacity="0.4" transform="rotate(10 73 70)"/>
       <rect x="44" y="48" width="12" height="8" rx="4" fill="url(#nG)"/>
       <rect x="22" y="10" width="56" height="42" rx="18" fill="url(#hG)"/>
+      <ellipse cx="38" cy="17" rx="12" ry="5" fill="white" opacity="0.5" transform="rotate(-10 38 17)"/>
       <rect x="22" y="10" width="56" height="42" rx="18" fill="none" stroke="#c0d4e8" stroke-width="0.8" opacity="0.6"/>
       <ellipse cx="22" cy="31" rx="4" ry="6" fill="url(#eG)"/>
       <ellipse cx="78" cy="31" rx="4" ry="6" fill="url(#eG)"/>
       <rect x="28" y="16" width="44" height="30" rx="12" fill="url(#vG)"/>
       <rect x="28" y="16" width="44" height="30" rx="12" fill="none" stroke="#22d3ee" stroke-width="1.2" opacity="0.6"/>
+      <rect x="30" y="17" width="40" height="8" rx="8" fill="white" opacity="0.08"/>
+      <ellipse cx="40" cy="31" rx="7" ry="7.5" fill="url(#elL)"/>
       <ellipse cx="40" cy="31" rx="5" ry="5.5" fill="#0ea5e9"/>
       <ellipse cx="40" cy="31" rx="3" ry="3.5" fill="#0369a1"/>
       <ellipse cx="38.5" cy="29" rx="1.5" ry="1.2" fill="white" opacity="0.9"/>
+      <ellipse cx="40" cy="31" rx="7" ry="7.5" fill="none" stroke="#22d3ee" stroke-width="1" opacity="0.8"/>
+      <ellipse cx="60" cy="31" rx="7" ry="7.5" fill="url(#elR)"/>
       <ellipse cx="60" cy="31" rx="5" ry="5.5" fill="#0ea5e9"/>
       <ellipse cx="60" cy="31" rx="3" ry="3.5" fill="#0369a1"/>
       <ellipse cx="58.5" cy="29" rx="1.5" ry="1.2" fill="white" opacity="0.9"/>
+      <ellipse cx="60" cy="31" rx="7" ry="7.5" fill="none" stroke="#22d3ee" stroke-width="1" opacity="0.8"/>
       <path d="M42 41 Q50 47 58 41" stroke="#22d3ee" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.9"/>
+      <path d="M42 41 Q50 47 58 41" stroke="#67e8f9" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.2"/>
       <rect x="41" y="68" width="18" height="10" rx="5" fill="url(#cG)" opacity="0.7"/>
+      <ellipse cx="50" cy="73" rx="5" ry="3" fill="#22d3ee" opacity="0.25"/>
       <defs>
-        <radialGradient id="hG" cx="40%" cy="30%" r="70%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#c8ddf0"/></radialGradient>
-        <radialGradient id="bG" cx="35%" cy="30%" r="75%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#bdd4eb"/></radialGradient>
+        <radialGradient id="hG" cx="40%" cy="30%" r="70%"><stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="#e8f4ff"/><stop offset="100%" stop-color="#c8ddf0"/></radialGradient>
+        <radialGradient id="bG" cx="35%" cy="30%" r="75%"><stop offset="0%" stop-color="#fff"/><stop offset="55%" stop-color="#e4f0fc"/><stop offset="100%" stop-color="#bdd4eb"/></radialGradient>
         <radialGradient id="aG" cx="35%" cy="30%" r="75%"><stop offset="0%" stop-color="#f0f7ff"/><stop offset="100%" stop-color="#c0d4e8"/></radialGradient>
         <radialGradient id="eG" cx="30%" cy="30%" r="80%"><stop offset="0%" stop-color="#e8f2fc"/><stop offset="100%" stop-color="#b8cfe0"/></radialGradient>
         <linearGradient id="nG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d8eaf8"/><stop offset="100%" stop-color="#b8cfe0"/></linearGradient>
-        <radialGradient id="vG" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#0c2d4a"/><stop offset="100%" stop-color="#040e1a"/></radialGradient>
+        <radialGradient id="vG" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="#0c2d4a"/><stop offset="60%" stop-color="#071829"/><stop offset="100%" stop-color="#040e1a"/></radialGradient>
+        <radialGradient id="elL" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#22d3ee" stop-opacity="0.5"/><stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
+        <radialGradient id="elR" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#22d3ee" stop-opacity="0.5"/><stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
         <linearGradient id="cG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c8ddf0"/><stop offset="100%" stop-color="#a8c4dc"/></linearGradient>
       </defs>
     </symbol>
@@ -233,7 +227,9 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
 
 <div class="app-shell">
   <div class="sidebar">
-    <div class="sb-logo" onclick="openSettings()" title="Puthi AI"><svg width="40" height="40"><use href="#robo"/></svg></div>
+    <div class="sb-logo" onclick="openSettings()" title="Puthi AI">
+      <svg width="40" height="40"><use href="#robo"/></svg>
+    </div>
     <button class="sb-btn active" onclick="switchMode('chat')" title="Chat">💬</button>
     <button class="sb-btn" onclick="switchMode('image')" title="Generate Image">🎨</button>
     <div class="sb-sep"></div>
@@ -242,7 +238,7 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
     <div class="sb-spacer"></div>
     <button class="sb-btn" onclick="clearChat()" title="New Chat">🗑️</button>
     <button class="sb-btn" onclick="openSettings()" title="Settings">⚙️</button>
-    <button class="sb-btn" onclick="openProfile()" title="Profile">👤</button>
+    <button class="sb-btn" title="Profile">👤</button>
   </div>
 
   <div class="main">
@@ -250,7 +246,7 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
       <div class="tb-logo"><svg width="30" height="30"><use href="#robo"/></svg></div>
       <div class="tb-info">
         <div class="tb-name">Puthi AI <svg width="14" height="14" viewBox="0 0 24 24" fill="#4ade80"><circle cx="12" cy="12" r="10"/></svg></div>
-        <div class="tb-sub">Groq Chat · Pollinations Images · master·puthi-ai</div>
+        <div class="tb-sub">Powered by Groq · master·puthi-ai</div>
       </div>
       <div class="tb-right">
         <div class="online-pill"><div class="online-dot"></div>Online</div>
@@ -260,11 +256,11 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
     </div>
 
     <div class="mode-tabs">
-      <button class="mode-tab active" id="tab-chat" onclick="switchMode('chat')">💬 Chat</button>
-      <button class="mode-tab" id="tab-image" onclick="switchMode('image')">🎨 Generate Photo</button>
-      <button class="mode-tab" id="tab-translate" onclick="switchMode('translate')">🌐 Translate</button>
-      <button class="mode-tab" id="tab-code" onclick="switchMode('code')">💻 Code</button>
-      <button class="mode-tab" id="tab-search" onclick="switchMode('search')">🔍 Search</button>
+      <button class="mode-tab active" id="tab-chat"      onclick="switchMode('chat')">💬 Chat</button>
+      <button class="mode-tab"        id="tab-image"     onclick="switchMode('image')">🎨 Generate Photo</button>
+      <button class="mode-tab"        id="tab-translate" onclick="switchMode('translate')">🌐 Translate</button>
+      <button class="mode-tab"        id="tab-code"      onclick="switchMode('code')">💻 Code</button>
+      <button class="mode-tab"        id="tab-search"    onclick="switchMode('search')">🔍 Search</button>
     </div>
 
     <!-- CHAT PANEL -->
@@ -273,10 +269,10 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
         <div class="welcome" id="welcomeScreen">
           <div class="w-logo"><svg width="82" height="82" style="position:relative;z-index:1"><use href="#robo"/></svg></div>
           <h1>Puthi AI</h1>
-          <p>ជំនួយការ AI ដ៏ឆ្លាតវៃ · Chat, Generate Real Images, Translate, Code & more!</p>
+          <p>ជំនួយការ AI ដ៏ឆ្លាតវៃរបស់អ្នក · Ask anything, generate images, translate, run code and more!</p>
           <div class="chips">
             <div class="chip" onclick="qa('Who is Elon Musk? Give full details')">👤 Who is Elon Musk?</div>
-            <div class="chip" onclick="switchMode('image')">🎨 Generate Real Image</div>
+            <div class="chip" onclick="switchMode('image')">🎨 Generate Image</div>
             <div class="chip" onclick="qa('Translate Hello to Khmer')">🌐 Translate</div>
             <div class="chip" onclick="qa('Write Python code to calculate fibonacci')">💻 Write Code</div>
             <div class="chip" onclick="qa('What can you do?')">🤖 What can you do?</div>
@@ -307,60 +303,45 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
       </div>
     </div>
 
-    <!-- ✅ GENERATE PHOTO PANEL — REAL IMAGES! -->
+    <!-- GENERATE PHOTO PANEL -->
     <div class="panel" id="panel-image">
-      <div class="gen-panel">
+      <div class="gen-panel" id="genPanel">
         <div>
           <div class="gen-section-title">✍️ Describe your image</div>
           <div class="gen-prompt-wrap">
-            <textarea class="gen-prompt-ta" id="genPrompt"
-              placeholder="e.g. A beautiful girl in cambodia forest, realistic, 4K…"
-              oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
+            <textarea class="gen-prompt-ta" id="genPrompt" placeholder="e.g. A futuristic city at sunset, cyberpunk style, ultra detailed, 4K…" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
             <div class="gen-prompt-footer">
               <span style="font-size:11px;color:var(--muted)" id="promptCounter">0 / 500</span>
-              <button class="gen-btn" id="genBtn" onclick="generateImage()">✨ Generate Real Image</button>
+              <button class="gen-btn" id="genBtn" onclick="generateImage()">✨ Generate Image</button>
             </div>
           </div>
         </div>
-
         <div>
           <div class="gen-section-title">🎨 Art Style</div>
-          <div class="style-grid">
-            <div class="style-chip sel" onclick="selStyle(this)" data-s="">🖼️ Realistic</div>
-            <div class="style-chip" onclick="selStyle(this)" data-s="anime style">🎌 Anime</div>
-            <div class="style-chip" onclick="selStyle(this)" data-s="oil painting style">🖌️ Oil Painting</div>
-            <div class="style-chip" onclick="selStyle(this)" data-s="pencil sketch style">✏️ Sketch</div>
-            <div class="style-chip" onclick="selStyle(this)" data-s="watercolor style">🌈 Watercolor</div>
-            <div class="style-chip" onclick="selStyle(this)" data-s="cyberpunk style neon lights">🤖 Cyberpunk</div>
-            <div class="style-chip" onclick="selStyle(this)" data-s="fantasy magical style">🌿 Fantasy</div>
-            <div class="style-chip" onclick="selStyle(this)" data-s="professional photography DSLR">📷 Photography</div>
-            <div class="style-chip" onclick="selStyle(this)" data-s="pixel art style 8-bit">🎮 Pixel Art</div>
-            <div class="style-chip" onclick="selStyle(this)" data-s="abstract digital art">🌀 Abstract</div>
+          <div class="style-grid" id="styleGrid">
+            <div class="style-chip sel" onclick="selStyle(this)">🖼️ Realistic</div>
+            <div class="style-chip" onclick="selStyle(this)">🎌 Anime</div>
+            <div class="style-chip" onclick="selStyle(this)">🖌️ Oil Painting</div>
+            <div class="style-chip" onclick="selStyle(this)">✏️ Sketch</div>
+            <div class="style-chip" onclick="selStyle(this)">🌈 Watercolor</div>
+            <div class="style-chip" onclick="selStyle(this)">🤖 Cyberpunk</div>
+            <div class="style-chip" onclick="selStyle(this)">🌿 Fantasy</div>
+            <div class="style-chip" onclick="selStyle(this)">📷 Photography</div>
+            <div class="style-chip" onclick="selStyle(this)">🎮 Pixel Art</div>
+            <div class="style-chip" onclick="selStyle(this)">🌀 Abstract</div>
           </div>
         </div>
-
         <div>
           <div class="gen-section-title">📐 Image Size</div>
           <div class="size-grid">
-            <div class="size-btn sel" onclick="selSize(this)" data-w="512" data-h="512">1:1 Square</div>
-            <div class="size-btn" onclick="selSize(this)" data-w="768" data-h="432">16:9 Wide</div>
-            <div class="size-btn" onclick="selSize(this)" data-w="432" data-h="768">9:16 Portrait</div>
-            <div class="size-btn" onclick="selSize(this)" data-w="640" data-h="480">4:3 Classic</div>
+            <div class="size-btn sel" onclick="selSize(this)" data-s="1:1">1:1 Square</div>
+            <div class="size-btn" onclick="selSize(this)" data-s="16:9">16:9 Wide</div>
+            <div class="size-btn" onclick="selSize(this)" data-s="9:16">9:16 Portrait</div>
+            <div class="size-btn" onclick="selSize(this)" data-s="4:3">4:3 Classic</div>
           </div>
         </div>
-
-        <!-- Count -->
-        <div>
-          <div class="gen-section-title">🔢 Number of Images</div>
-          <div class="size-grid">
-            <div class="size-btn sel" onclick="selCount(this)" data-c="1">× 1</div>
-            <div class="size-btn" onclick="selCount(this)" data-c="2">× 2</div>
-            <div class="size-btn" onclick="selCount(this)" data-c="4">× 4</div>
-          </div>
-        </div>
-
         <div id="genResults" style="display:none">
-          <div class="gen-section-title">🖼️ Generated Images — ចុចដើម្បីពង្រីក</div>
+          <div class="gen-section-title">🖼️ Generated Images</div>
           <div class="img-grid" id="imgGrid"></div>
         </div>
       </div>
@@ -398,7 +379,7 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
       <div class="gen-panel">
         <div class="gen-section-title">💻 Code Generator</div>
         <div class="gen-prompt-wrap" style="margin-bottom:14px">
-          <textarea class="gen-prompt-ta" id="codeInput" placeholder="Describe what code you want…" style="min-height:90px"></textarea>
+          <textarea class="gen-prompt-ta" id="codeInput" placeholder="Describe what code you want… e.g. Python function to sort a list" style="min-height:90px"></textarea>
           <div class="gen-prompt-footer">
             <div class="style-grid">
               <div class="style-chip sel" onclick="selCodeLang(this)">🐍 Python</div>
@@ -450,7 +431,7 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
       <div class="modal-logo-sm"><svg width="28" height="28"><use href="#robo"/></svg></div>
       API Settings — Puthi AI
     </div>
-    <div class="modal-lbl">Groq API Key (Chat · ឥតគិតថ្លៃ!)</div>
+    <div class="modal-lbl">Groq API Key (ឥតគិតថ្លៃ!)</div>
     <input type="password" class="modal-inp" id="apiKeyInput" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
     <div class="modal-st" id="apiStatus"></div>
     <div class="modal-lbl">របៀបទទួលបាន Groq API Key</div>
@@ -459,45 +440,11 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
       2. Sign in / Sign up (<strong>ឥតគិតថ្លៃ!</strong>)<br>
       3. ចុច <strong>API Keys → Create API Key</strong><br>
       4. Copy key ហើយ paste នៅខាងលើ<br>
-      <span style="color:var(--green);font-size:12px">✅ Key ចាប់ផ្តើមដោយ <strong>gsk_</strong></span><br>
-      <span style="color:var(--cyan);font-size:12px">🎨 Generate Image — ឥតគិតថ្លៃ មិនត្រូវការ Key!</span>
+      <span style="color:var(--green);font-size:12px">✅ Key ចាប់ផ្តើមដោយ <strong>gsk_</strong></span>
     </div>
     <div class="modal-row">
       <button class="btn-save" onclick="saveApiKey()">✓ Save &amp; Start</button>
       <button class="btn-cancel" onclick="closeSettings()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- PROFILE MODAL -->
-<div class="modal-overlay" id="profileModal" onclick="if(event.target===this)closeProfile()">
-  <div class="modal">
-    <div class="modal-hd">👤 Your Profile</div>
-    <div class="modal-info" style="margin-bottom:16px">
-      👋 Welcome! Please enter your name so Puthi AI can remember you and personalize your experience!
-    </div>
-    <div class="modal-lbl">YOUR NAME</div>
-    <input type="text" class="modal-inp" id="profileName" placeholder="Enter your name..." style="color:var(--text);font-family:'Outfit',sans-serif" autocomplete="off"/>
-    <div class="modal-lbl" style="margin-top:10px">YOUR LANGUAGE</div>
-    <select id="profileLang" class="modal-inp" style="color:var(--text);font-family:'Outfit',sans-serif;cursor:pointer">
-      <option value="en">🇺🇸 us English</option>
-      <option value="km">🇰🇭 Khmer</option>
-      <option value="zh">🇨🇳 Chinese</option>
-      <option value="ja">🇯🇵 Japanese</option>
-      <option value="fr">🇫🇷 French</option>
-      <option value="th">🇹🇭 Thai</option>
-      <option value="ko">🇰🇷 Korean</option>
-    </select>
-    <div class="modal-lbl" style="margin-top:10px">AI PERSONALITY</div>
-    <select id="profilePersonality" class="modal-inp" style="color:var(--text);font-family:'Outfit',sans-serif;cursor:pointer">
-      <option value="friendly">😊 Friendly &amp; casual</option>
-      <option value="professional">💼 Professional</option>
-      <option value="funny">😄 Funny &amp; playful</option>
-      <option value="expert">🎓 Expert &amp; detailed</option>
-      <option value="simple">🧒 Simple &amp; clear</option>
-    </select>
-    <div style="margin-top:18px">
-      <button class="btn-save" style="width:100%" onclick="saveProfile()">💾 Save Profile</button>
     </div>
   </div>
 </div>
@@ -507,61 +454,46 @@ select.modal-inp option{background:#0a0e1f;color:var(--text);}
 let apiKey = localStorage.getItem('puthi_groq_key') || '';
 let chatHistory = [];
 let toolsOpen = false;
-let selStyleVal = '';
-let selImgW = 512, selImgH = 512;
-let selImgCount = 1;
+let selStyleVal = 'Realistic';
+let selSizeVal  = '1:1';
 let selLangVal  = 'Khmer';
 let selCodeVal  = 'Python';
 
-/* ── PROFILE STATE ── */
-let userProfile = JSON.parse(localStorage.getItem('puthi_profile') || '{}');
-
-/* ── GROQ CONFIG ── */
+/* ── GROQ API CONFIG ── */
 const GROQ_URL   = 'https://api.groq.com/openai/v1/chat/completions';
-const GROQ_MODEL = 'llama-3.3-70b-versatile';
+const GROQ_MODEL = 'llama-3.3-70b-versatile'; // ✅ ល្អ, លឿន, ឥតគិតថ្លៃ
 
+/* ── GROQ HEADERS (no special browser header needed!) ── */
 function getHeaders() {
-  return { 'Authorization': 'Bearer ' + apiKey, 'Content-Type': 'application/json' };
-}
-
-function getSystemPrompt() {
-  const name = userProfile.name || '';
-  const lang = userProfile.lang || 'en';
-  const personality = userProfile.personality || 'friendly';
-  const langMap = {en:'English',km:'Khmer',zh:'Chinese',ja:'Japanese',fr:'French',th:'Thai',ko:'Korean'};
-  const personalityMap = {
-    friendly: 'Be friendly, warm, and casual. Use emojis occasionally.',
-    professional: 'Be professional, formal, and precise.',
-    funny: 'Be funny, playful, and use humor while being helpful.',
-    expert: 'Be an expert, give very detailed and technical answers.',
-    simple: 'Be simple, clear, and easy to understand like explaining to a beginner.'
+  return {
+    'Authorization': 'Bearer ' + apiKey,
+    'Content-Type': 'application/json'
   };
-  return `You are Puthi AI, a powerful and friendly AI assistant.${name ? ` The user's name is ${name}.` : ''} Always respond in ${langMap[lang] || 'English'}. ${personalityMap[personality] || ''} Use **bold**, ### headings and bullet points when helpful.`;
 }
 
+/* ── GROQ API CALL (OpenAI-compatible format) ── */
 function callAPI(msgs, system) {
-  const sys = system || getSystemPrompt();
+  const sys = system || 'You are Puthi AI, a powerful and friendly AI assistant. Answer in detail, use **bold**, ### headings and bullets. Respond in the user\'s language.';
+  const messages = [{ role: 'system', content: sys }, ...msgs];
   return fetch(GROQ_URL, {
-    method:'POST', headers:getHeaders(),
-    body:JSON.stringify({ model:GROQ_MODEL, max_tokens:2048, messages:[{role:'system',content:sys},...msgs] })
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({
+      model: GROQ_MODEL,
+      max_tokens: 2048,
+      messages: messages
+    })
   });
 }
+
+/* ── PARSE GROQ RESPONSE ── */
 function getReply(data) {
   return data?.choices?.[0]?.message?.content || data?.error?.message || 'Error';
 }
 
 window.onload = () => {
   if (apiKey) { document.getElementById('apiKeyInput').value = apiKey; setSt('✓ Groq API key loaded!','ok'); }
-  // Load profile
-  if (userProfile.name) {
-    document.getElementById('profileName').value = userProfile.name;
-    document.getElementById('profileLang').value = userProfile.lang || 'en';
-    document.getElementById('profilePersonality').value = userProfile.personality || 'friendly';
-  }
-  // Show profile modal first time
-  if (!userProfile.name && !apiKey) setTimeout(openProfile, 400);
-  else if (!apiKey) setTimeout(openSettings, 700);
-
+  else setTimeout(openSettings, 700);
   document.getElementById('genPrompt').addEventListener('input', () => {
     document.getElementById('promptCounter').textContent = document.getElementById('genPrompt').value.length + ' / 500';
   });
@@ -572,151 +504,99 @@ function openSettings()  { document.getElementById('settingsModal').classList.ad
 function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); }
 function saveApiKey() {
   const v = document.getElementById('apiKeyInput').value.trim();
-  if (!v.startsWith('gsk_') || v.length < 20) { setSt('✗ Invalid — ត្រូវចាប់ផ្តើមដោយ gsk_','err'); return; }
-  apiKey = v; localStorage.setItem('puthi_groq_key', apiKey);
-  setSt('✓ Saved! Ready 🚀','ok'); setTimeout(closeSettings, 800);
+  // ✅ FIX: accept gsk_ (Groq) keys
+  if (!v.startsWith('gsk_') || v.length < 20) {
+    setSt('✗ Invalid — Groq key ត្រូវចាប់ផ្តើមដោយ gsk_','err');
+    return;
+  }
+  apiKey = v;
+  localStorage.setItem('puthi_groq_key', apiKey);
+  setSt('✓ Saved! Groq AI ready 🚀','ok');
+  setTimeout(closeSettings, 800);
 }
 function setSt(m,c) { const el=document.getElementById('apiStatus'); el.textContent=m; el.className='modal-st '+c; }
 
-/* ── PROFILE ── */
-function openProfile()  { document.getElementById('profileModal').classList.add('open'); }
-function closeProfile() { document.getElementById('profileModal').classList.remove('open'); }
-function saveProfile() {
-  const name = document.getElementById('profileName').value.trim();
-  const lang = document.getElementById('profileLang').value;
-  const personality = document.getElementById('profilePersonality').value;
-  userProfile = { name, lang, personality };
-  localStorage.setItem('puthi_profile', JSON.stringify(userProfile));
-  closeProfile();
-  if (!apiKey) setTimeout(openSettings, 300);
-}
-
-/* ── MODE ── */
+/* ── MODE SWITCH ── */
 function switchMode(mode) {
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.sb-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('panel-'+mode).classList.add('active');
-  document.getElementById('tab-'+mode).classList.add('active');
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + mode).classList.add('active');
+  document.getElementById('tab-' + mode).classList.add('active');
   closeTools();
 }
 
 /* ── TOOLS ── */
 function toggleTools() {
-  toolsOpen=!toolsOpen;
-  document.getElementById('toolsPopup').classList.toggle('open',toolsOpen);
-  document.getElementById('closePopupBtn').classList.toggle('open',toolsOpen);
-  document.getElementById('plusBtn').classList.toggle('open',toolsOpen);
+  toolsOpen = !toolsOpen;
+  document.getElementById('toolsPopup').classList.toggle('open', toolsOpen);
+  document.getElementById('closePopupBtn').classList.toggle('open', toolsOpen);
+  document.getElementById('plusBtn').classList.toggle('open', toolsOpen);
 }
 function closeTools() {
-  toolsOpen=false;
-  ['toolsPopup','closePopupBtn','plusBtn'].forEach(id=>document.getElementById(id)?.classList.remove('open'));
+  toolsOpen = false;
+  document.getElementById('toolsPopup')?.classList.remove('open');
+  document.getElementById('closePopupBtn')?.classList.remove('open');
+  document.getElementById('plusBtn')?.classList.remove('open');
 }
 function injectTool(prefix) {
   closeTools();
-  const ta=document.getElementById('chatInput');
-  ta.value=prefix; ta.focus();
-  ta.style.height='auto'; ta.style.height=Math.min(ta.scrollHeight,140)+'px';
+  const ta = document.getElementById('chatInput');
+  ta.value = prefix; ta.focus();
+  ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight,140)+'px';
 }
-document.addEventListener('click',e=>{
-  if(toolsOpen&&!e.target.closest('#toolsPopup')&&!e.target.closest('#plusBtn')&&!e.target.closest('#closePopupBtn'))closeTools();
+document.addEventListener('click', e => {
+  if (toolsOpen && !e.target.closest('#toolsPopup') && !e.target.closest('#plusBtn') && !e.target.closest('#closePopupBtn')) closeTools();
 });
 
-/* ── SMART PROMPT DETECTION ── */
-function detectIntent(text) {
-  const t = text.toLowerCase();
-  // Code generation keywords
-  if (/^(generate|create|write|make|build|code)\s+(code|program|script|function|app|website)\s*(of|for|to|that|which)?/i.test(text) ||
-      /^(generate|write|create)\s+code\s+of/i.test(text) ||
-      /(generate code of|write code for|create code|build code|code for me)/i.test(t)) {
-    return 'code';
-  }
-  // Image generation keywords
-  if (/^(generate|create|make|draw|paint|show me)\s+(image|photo|picture|artwork|illustration)\s*(of|for)?/i.test(text) ||
-      /(generate image of|create image of|make image of|draw me|paint me)/i.test(t)) {
-    return 'image';
-  }
-  return 'chat';
-}
-
 /* ── CHAT ── */
-function qa(txt) { switchMode('chat'); document.getElementById('chatInput').value=txt; sendMsg(); }
+function qa(txt) { switchMode('chat'); document.getElementById('chatInput').value = txt; sendMsg(); }
+
 async function sendMsg() {
-  const ta=document.getElementById('chatInput');
-  const text=ta.value.trim();
-  if(!text)return;
-  if(!apiKey){openSettings();return;}
+  const ta   = document.getElementById('chatInput');
+  const text = ta.value.trim();
+  if (!text) return;
+  if (!apiKey) { openSettings(); return; }
   document.getElementById('welcomeScreen')?.remove();
-
-  // ✅ Smart intent detection
-  const intent = detectIntent(text);
-
-  if (intent === 'image') {
-    // Extract the subject after "generate image of ..."
-    const imgPrompt = text.replace(/^(generate|create|make|draw|paint|show me)\s+(image|photo|picture|artwork|illustration)\s*(of|for)?\s*/i, '').trim();
-    ta.value=''; ta.style.height='auto';
-    addUser(text);
-    addAI(`🎨 Generating image of: **${imgPrompt}**\n\nSwitching to image generator...`);
-    setTimeout(() => {
-      switchMode('image');
-      document.getElementById('genPrompt').value = imgPrompt;
-      generateImage();
-    }, 800);
-    return;
-  }
-
-  if (intent === 'code') {
-    // Extract what code to generate
-    const codeTask = text.replace(/^(generate|create|write|make|build|code)\s+(code|program|script|function|app|website)\s*(of|for|to|that|which)?\s*/i, '').trim();
-    ta.value=''; ta.style.height='auto';
-    addUser(text);
-    // Ask Groq to generate code in chat
-    const codeHistory = [{role:'user', content: `Write clean, well-commented code for: ${codeTask || text}\n\nFormat your response with the code in a code block.`}];
-    const tid=addTyping();
-    try {
-      const res=await fetch(GROQ_URL,{method:'POST',headers:getHeaders(),body:JSON.stringify({model:GROQ_MODEL,max_tokens:2048,messages:[{role:'system',content:'You are an expert programmer. Write clean, well-commented code with explanations. Always use code blocks.'},...codeHistory]})});
-      const data=await res.json();
-      rmNode(tid);
-      const r=getReply(data);
-      if(data.choices){chatHistory.push({role:'user',content:text});chatHistory.push({role:'assistant',content:r});addAI(r);}
-      else addAI('⚠️ '+r);
-    } catch(e){rmNode(tid);addAI('⚠️ '+e.message);}
-    document.getElementById('sendBtn').disabled=false;
-    return;
-  }
-
-  // Normal chat
-  ta.value=''; ta.style.height='auto';
-  document.getElementById('sendBtn').disabled=true;
+  ta.value = ''; ta.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
   addUser(text);
-  chatHistory.push({role:'user',content:text});
-  const tid=addTyping();
+  chatHistory.push({role:'user', content:text});
+  const tid = addTyping();
   try {
-    const res=await callAPI(chatHistory);
-    const data=await res.json();
+    const res  = await callAPI(chatHistory);
+    const data = await res.json();
     rmNode(tid);
-    const r=getReply(data);
-    if(data.choices){chatHistory.push({role:'assistant',content:r});addAI(r);}
-    else addAI('⚠️ '+r);
-  } catch(e){rmNode(tid);addAI('⚠️ '+e.message);}
-  document.getElementById('sendBtn').disabled=false;
+    const r = getReply(data);
+    if (data.choices) {
+      chatHistory.push({role:'assistant', content:r});
+      addAI(r);
+    } else {
+      addAI('⚠️ ' + r);
+    }
+  } catch(e) { rmNode(tid); addAI('⚠️ ' + e.message); }
+  document.getElementById('sendBtn').disabled = false;
 }
+
 function addUser(txt) {
-  const a=document.getElementById('chatArea');
-  const r=document.createElement('div'); r.className='msg-row user';
-  r.innerHTML=`<div class="msg-av" style="font-size:18px">👤</div><div class="msg-body"><div class="bubble">${sh(txt).replace(/\n/g,'<br>')}</div></div>`;
+  const a = document.getElementById('chatArea');
+  const r = document.createElement('div'); r.className = 'msg-row user';
+  r.innerHTML = `<div class="msg-av" style="font-size:18px">👤</div><div class="msg-body"><div class="bubble">${sh(txt).replace(/\n/g,'<br>')}</div></div>`;
   a.appendChild(r); sb();
 }
 function addAI(txt) {
-  const a=document.getElementById('chatArea');
-  const r=document.createElement('div'); r.className='msg-row ai';
-  r.innerHTML=`<div class="msg-av"><svg width="32" height="32"><use href="#robo"/></svg></div>
-    <div class="msg-body"><div class="bubble">${fmt(txt)}</div>
-    <div class="msg-acts">
-      <button class="act-btn" onclick="cp(this,\`${esc(txt)}\`)">📋 Copy</button>
-      <button class="act-btn" onclick="spk(\`${esc(txt)}\`)">🔊 Listen</button>
-      <button class="act-btn" onclick="shr(\`${esc(txt)}\`)">🔗 Share</button>
-    </div></div>`;
+  const a = document.getElementById('chatArea');
+  const r = document.createElement('div'); r.className = 'msg-row ai';
+  r.innerHTML = `
+    <div class="msg-av"><svg width="32" height="32"><use href="#robo"/></svg></div>
+    <div class="msg-body">
+      <div class="bubble">${fmt(txt)}</div>
+      <div class="msg-acts">
+        <button class="act-btn" onclick="cp(this,\`${esc(txt)}\`)">📋 Copy</button>
+        <button class="act-btn" onclick="spk(\`${esc(txt)}\`)">🔊 Listen</button>
+        <button class="act-btn" onclick="shr(\`${esc(txt)}\`)">🔗 Share</button>
+      </div>
+    </div>`;
   a.appendChild(r); sb();
 }
 let tN=0;
@@ -729,164 +609,155 @@ function addTyping() {
 function rmNode(id){document.getElementById(id)?.remove();}
 function sb(){const a=document.getElementById('chatArea');a.scrollTop=a.scrollHeight;}
 
-/* ── ✅ REAL IMAGE GENERATION (Pollinations.ai — ឥតគិតថ្លៃ!) ── */
-function selStyle(el) {
-  document.querySelectorAll('#panel-image .style-chip').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');
-  selStyleVal = el.dataset.s || '';
-}
-function selSize(el) {
-  document.querySelectorAll('.size-btn').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');
-  selImgW = parseInt(el.dataset.w);
-  selImgH = parseInt(el.dataset.h);
-}
-function selCount(el) {
-  document.querySelectorAll('[data-c]').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');
-  selImgCount = parseInt(el.dataset.c);
-}
+/* ── GENERATE IMAGE ── */
+function selStyle(el) { document.querySelectorAll('.style-chip').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); selStyleVal=el.textContent.replace(/[^\w\s]/g,'').trim(); }
+function selSize(el)  { document.querySelectorAll('.size-btn').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); selSizeVal=el.dataset.s; }
 
 async function generateImage() {
-  const promptRaw = document.getElementById('genPrompt').value.trim();
-  if (!promptRaw) { alert('សូមវាយ Prompt ជាមុន!'); return; }
-
+  const prompt = document.getElementById('genPrompt').value.trim();
+  if (!prompt) { alert('Please enter an image description!'); return; }
+  if (!apiKey) { openSettings(); return; }
   const btn = document.getElementById('genBtn');
-  btn.disabled = true; btn.innerHTML = '⏳ Generating…';
-
+  btn.disabled = true; btn.textContent = '⏳ Generating…';
   document.getElementById('genResults').style.display = 'block';
   const grid = document.getElementById('imgGrid');
-
-  // Build final prompt with style
-  const finalPrompt = promptRaw + (selStyleVal ? ', ' + selStyleVal : '') + ', high quality, detailed';
-
-  // Generate N images with different seeds
-  for (let i = 0; i < selImgCount; i++) {
-    const seed = Math.floor(Math.random() * 999999);
-
-    // ✅ Create image URL using Pollinations.ai (FREE, no API key!)
-    const encodedPrompt = encodeURIComponent(finalPrompt);
-    const imgUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${selImgW}&height=${selImgH}&seed=${seed}&nologo=true&enhance=true`;
-
-    // Create card with loading state
-    const card = document.createElement('div');
-    card.className = 'img-card';
-    card.innerHTML = `
-      <div class="img-loading-box" id="loadBox${seed}">
-        <div class="img-spinner"></div>
-        <div class="img-loading-text">Generating image ${i+1}…</div>
+  const card = document.createElement('div'); card.className = 'img-card';
+  const emojiMap = [
+    [/mountain|nature|forest/i,'🏔️'],[/city|urban/i,'🏙️'],[/ocean|sea|beach/i,'🌊'],
+    [/space|galaxy|star/i,'🌌'],[/cat|dog|animal/i,'🐾'],[/flower|garden/i,'🌸'],
+    [/food|meal/i,'🍜'],[/sunset|sky/i,'🌅'],[/portrait|person/i,'👤'],
+    [/dragon|fantasy/i,'🐉'],[/robot|cyber/i,'🤖'],[/car|vehicle/i,'🚗']
+  ];
+  let emoji='🖼️'; for(const[rx,em] of emojiMap) if(rx.test(prompt)){emoji=em;break;}
+  card.innerHTML = `
+    <div class="img-preview img-preview-loading">
+      <div class="img-preview-emoji">${emoji}</div>
+      <span style="font-size:12px;color:var(--muted);z-index:1">Generating…</span>
+    </div>
+    <div class="img-card-meta">
+      <div class="img-card-prompt">${sh(prompt)}</div>
+      <div class="img-card-actions">
+        <div class="img-ca" id="copyPromptBtn">📋 Copy Prompt</div>
+        <div class="img-ca" onclick="window.open('https://www.midjourney.com','_blank')">🎨 MJ</div>
+        <div class="img-ca" onclick="window.open('https://openai.com/dall-e-3','_blank')">✨ DALL-E</div>
       </div>
-      <div class="img-card-meta">
-        <div class="img-card-prompt">${sh(promptRaw)}</div>
-        <div class="img-card-actions">
-          <div class="img-ca" onclick="downloadImg('${imgUrl}', '${seed}')">⬇️ Download</div>
-          <div class="img-ca" onclick="openLightbox('${imgUrl}')">🔍 View</div>
-        </div>
-      </div>`;
-    grid.prepend(card);
-
-    // Load image
-    loadImage(card, imgUrl, seed);
+    </div>`;
+  grid.prepend(card);
+  card.scrollIntoView({behavior:'smooth', block:'nearest'});
+  try {
+    const res = await fetch(GROQ_URL, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({
+        model: GROQ_MODEL, max_tokens: 800,
+        messages: [
+          { role: 'system', content: 'You are a creative image prompt generator.' },
+          { role: 'user', content: `Generate a detailed, vivid image description for: "${prompt}"\nStyle: ${selStyleVal}, Size ratio: ${selSizeVal}\n\n1. Describe the scene in rich detail (4-5 sentences)\n2. Give an optimized prompt for Midjourney (starting with /imagine)\n3. Give an optimized prompt for DALL-E 3\n4. Suggest 3 variations of this concept` }
+        ]
+      })
+    });
+    const data = await res.json();
+    const reply = getReply(data);
+    const preview = card.querySelector('.img-preview');
+    preview.classList.remove('img-preview-loading');
+    preview.innerHTML = `
+      <div class="img-preview-emoji" style="animation:wFloat 3s ease infinite">${emoji}</div>
+      <div style="position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border-radius:8px;padding:6px 8px;font-size:11px;color:rgba(255,255,255,.8);line-height:1.4">${sh(selStyleVal)} · ${selSizeVal}</div>`;
+    card.querySelector('#copyPromptBtn').onclick = () => cp(card.querySelector('#copyPromptBtn'), reply);
+  } catch(e) {
+    card.querySelector('.img-preview').innerHTML = `<span style="color:#f87171">⚠️ Error: ${e.message}</span>`;
   }
-
-  btn.disabled = false; btn.innerHTML = '✨ Generate Real Image';
-  grid.scrollIntoView({behavior:'smooth', block:'nearest'});
-}
-
-function loadImage(card, imgUrl, seed) {
-  const img = new Image();
-  img.onload = () => {
-    const loadBox = card.querySelector(`#loadBox${seed}`);
-    if (loadBox) {
-      // Replace loading box with real image
-      const realImg = document.createElement('img');
-      realImg.className = 'img-real';
-      realImg.src = imgUrl;
-      realImg.alt = 'Generated image';
-      realImg.onclick = () => openLightbox(imgUrl);
-      realImg.style.cursor = 'zoom-in';
-      loadBox.replaceWith(realImg);
-    }
-  };
-  img.onerror = () => {
-    const loadBox = card.querySelector(`#loadBox${seed}`);
-    if (loadBox) loadBox.innerHTML = '<span style="color:#f87171;font-size:12px;padding:10px">⚠️ Failed to generate</span>';
-  };
-  img.src = imgUrl;
-}
-
-function openLightbox(url) {
-  document.getElementById('lightboxImg').src = url;
-  document.getElementById('lightbox').classList.add('open');
-}
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-  document.getElementById('lightboxImg').src = '';
-}
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
-
-function downloadImg(url, seed) {
-  const a = document.createElement('a');
-  a.href = url; a.download = 'puthi-ai-'+seed+'.jpg';
-  a.target = '_blank'; a.click();
+  btn.disabled = false; btn.innerHTML = '✨ Generate Image';
 }
 
 /* ── TRANSLATE ── */
 function selLang(el) { document.querySelectorAll('#panel-translate .style-chip').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); selLangVal=el.dataset.l; }
+
 async function doTranslate() {
-  const txt=document.getElementById('translateInput').value.trim();
-  if(!txt||!apiKey){if(!apiKey)openSettings();return;}
+  const txt = document.getElementById('translateInput').value.trim();
+  if (!txt || !apiKey) { if(!apiKey)openSettings(); return; }
   document.getElementById('translateResult').style.display='block';
-  document.getElementById('translateOutput').innerHTML='<span style="color:var(--muted)">Translating…</span>';
+  document.getElementById('translateOutput').innerHTML = '<span style="color:var(--muted)">Translating…</span>';
   try {
-    const res=await fetch(GROQ_URL,{method:'POST',headers:getHeaders(),body:JSON.stringify({model:GROQ_MODEL,max_tokens:1024,messages:[{role:'system',content:'You are a professional translator. Provide only the translation.'},{role:'user',content:`Translate to ${selLangVal}:\n\n${txt}`}]})});
-    const d=await res.json();
-    document.getElementById('translateOutput').innerHTML=fmt(getReply(d));
-  } catch(e){document.getElementById('translateOutput').textContent='⚠️ '+e.message;}
+    const res = await fetch(GROQ_URL, {
+      method: 'POST', headers: getHeaders(),
+      body: JSON.stringify({ model: GROQ_MODEL, max_tokens: 1024,
+        messages: [
+          { role: 'system', content: 'You are a professional translator. Provide only the translation, no explanation.' },
+          { role: 'user', content: `Translate this text to ${selLangVal}:\n\n${txt}` }
+        ]
+      })
+    });
+    const d = await res.json();
+    document.getElementById('translateOutput').innerHTML = fmt(getReply(d));
+  } catch(e) { document.getElementById('translateOutput').textContent='⚠️ '+e.message; }
 }
 
 /* ── CODE ── */
-function selCodeLang(el){document.querySelectorAll('#panel-code .style-chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');selCodeVal=el.textContent.replace(/[^\w]/g,'').trim();}
+function selCodeLang(el) { document.querySelectorAll('#panel-code .style-chip').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); selCodeVal=el.textContent.replace(/[^\w]/g,'').trim(); }
+
 async function doCode() {
-  const txt=document.getElementById('codeInput').value.trim();
-  if(!txt||!apiKey){if(!apiKey)openSettings();return;}
+  const txt = document.getElementById('codeInput').value.trim();
+  if (!txt || !apiKey) { if(!apiKey)openSettings(); return; }
   document.getElementById('codeResult').style.display='block';
   document.getElementById('codeOutput').textContent='Generating code…';
   try {
-    const res=await fetch(GROQ_URL,{method:'POST',headers:getHeaders(),body:JSON.stringify({model:GROQ_MODEL,max_tokens:2048,messages:[{role:'system',content:'You are an expert programmer.'},{role:'user',content:`Write ${selCodeVal} code for: ${txt}\n\nInclude comments.`}]})});
-    const d=await res.json();
-    document.getElementById('codeOutput').innerHTML=fmt(getReply(d));
-  } catch(e){document.getElementById('codeOutput').textContent='⚠️ '+e.message;}
+    const res = await fetch(GROQ_URL, {
+      method: 'POST', headers: getHeaders(),
+      body: JSON.stringify({ model: GROQ_MODEL, max_tokens: 2048,
+        messages: [
+          { role: 'system', content: 'You are an expert programmer. Write clean, well-commented code.' },
+          { role: 'user', content: `Write ${selCodeVal} code for: ${txt}\n\nInclude comments explaining the code.` }
+        ]
+      })
+    });
+    const d = await res.json();
+    document.getElementById('codeOutput').innerHTML = fmt(getReply(d));
+  } catch(e) { document.getElementById('codeOutput').textContent='⚠️ '+e.message; }
 }
 
 /* ── SEARCH ── */
 async function doSearch() {
-  const txt=document.getElementById('searchInput').value.trim();
-  if(!txt||!apiKey){if(!apiKey)openSettings();return;}
+  const txt = document.getElementById('searchInput').value.trim();
+  if (!txt || !apiKey) { if(!apiKey)openSettings(); return; }
   document.getElementById('searchResult').style.display='block';
   document.getElementById('searchOutput').innerHTML='<span style="color:var(--muted)">Searching…</span>';
   try {
-    const res=await fetch(GROQ_URL,{method:'POST',headers:getHeaders(),body:JSON.stringify({model:GROQ_MODEL,max_tokens:2048,messages:[{role:'system',content:'You are a helpful AI assistant.'},{role:'user',content:`Provide comprehensive information about: ${txt}\n\nFormat with clear headings and bullet points.`}]})});
-    const d=await res.json();
-    document.getElementById('searchOutput').innerHTML=fmt(getReply(d));
-  } catch(e){document.getElementById('searchOutput').textContent='⚠️ '+e.message;}
+    const res = await fetch(GROQ_URL, {
+      method: 'POST', headers: getHeaders(),
+      body: JSON.stringify({ model: GROQ_MODEL, max_tokens: 2048,
+        messages: [
+          { role: 'system', content: 'You are a helpful AI assistant. Provide comprehensive, well-formatted information.' },
+          { role: 'user', content: `Search and provide comprehensive information about: ${txt}\n\nFormat with clear headings and bullet points.` }
+        ]
+      })
+    });
+    const d = await res.json();
+    document.getElementById('searchOutput').innerHTML = fmt(getReply(d));
+  } catch(e) { document.getElementById('searchOutput').textContent='⚠️ '+e.message; }
 }
 
 /* ── ACTIONS ── */
-function cp(btn,txt){navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent='✓ Copied';setTimeout(()=>btn.textContent=o,2000);});}
-function spk(txt){const u=new SpeechSynthesisUtterance(txt.replace(/<[^>]+>/g,''));speechSynthesis.cancel();speechSynthesis.speak(u);}
-function shr(txt){if(navigator.share)navigator.share({title:'Puthi AI',text:txt});else{navigator.clipboard.writeText(txt);alert('Copied!');}}
+function cp(btn, txt) {
+  navigator.clipboard.writeText(txt).then(() => {
+    const o = btn.textContent; btn.textContent='✓ Copied';
+    setTimeout(() => btn.textContent=o, 2000);
+  });
+}
+function spk(txt) { const u=new SpeechSynthesisUtterance(txt.replace(/<[^>]+>/g,'')); speechSynthesis.cancel(); speechSynthesis.speak(u); }
+function shr(txt) { if(navigator.share)navigator.share({title:'Puthi AI',text:txt}); else{navigator.clipboard.writeText(txt);alert('Copied!');} }
 
 function clearChat() {
   chatHistory=[];
-  document.getElementById('chatArea').innerHTML=`
+  const a=document.getElementById('chatArea');
+  a.innerHTML=`
     <div class="welcome" id="welcomeScreen">
       <div class="w-logo"><svg width="82" height="82" style="position:relative;z-index:1"><use href="#robo"/></svg></div>
       <h1>Puthi AI</h1>
-      <p>ជំនួយការ AI ដ៏ឆ្លាតវៃ · Chat, Generate Real Images, Translate, Code & more!</p>
+      <p>ជំនួយការ AI ដ៏ឆ្លាតវៃរបស់អ្នក · Ask anything, generate images, translate, run code and more!</p>
       <div class="chips">
         <div class="chip" onclick="qa('Who is Elon Musk? Give full details')">👤 Who is Elon Musk?</div>
-        <div class="chip" onclick="switchMode('image')">🎨 Generate Real Image</div>
+        <div class="chip" onclick="switchMode('image')">🎨 Generate Image</div>
         <div class="chip" onclick="qa('Translate Hello to Khmer')">🌐 Translate</div>
         <div class="chip" onclick="qa('Write Python code to calculate fibonacci')">💻 Write Code</div>
         <div class="chip" onclick="qa('What can you do?')">🤖 What can you do?</div>
@@ -897,7 +768,19 @@ function clearChat() {
 }
 
 /* ── FORMAT ── */
-function fmt(text){return sh(text).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/```[\w]*\n?([\s\S]*?)```/g,'<div class="code-block">$1</div>').replace(/`([^`]+)`/g,'<code style="background:rgba(0,0,0,.3);padding:2px 7px;border-radius:5px;font-family:JetBrains Mono,monospace;font-size:12px;color:#22d3ee">$1</code>').replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h3 style="font-size:16px">$1</h3>').replace(/^# (.+)$/gm,'<h3 style="font-size:18px">$1</h3>').replace(/^={3,}$/gm,'<hr>').replace(/^-{4,}$/gm,'<hr>').replace(/^\* (.+)$/gm,'• $1').replace(/^- (.+)$/gm,'• $1').replace(/\n/g,'<br>');}
+function fmt(text) {
+  return sh(text)
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/```[\w]*\n?([\s\S]*?)```/g,'<div class="code-block">$1</div>')
+    .replace(/`([^`]+)`/g,'<code style="background:rgba(0,0,0,.3);padding:2px 7px;border-radius:5px;font-family:JetBrains Mono,monospace;font-size:12px;color:#22d3ee;border:1px solid rgba(34,211,238,.2)">$1</code>')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h3 style="font-size:16px">$1</h3>')
+    .replace(/^# (.+)$/gm,'<h3 style="font-size:18px">$1</h3>')
+    .replace(/^={3,}$/gm,'<hr>').replace(/^-{4,}$/gm,'<hr>')
+    .replace(/^\* (.+)$/gm,'• $1').replace(/^- (.+)$/gm,'• $1')
+    .replace(/\n/g,'<br>');
+}
 function sh(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function esc(t){return String(t).replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
 </script>
