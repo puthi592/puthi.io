@@ -465,7 +465,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background:repeating-lin
     <input class="signin-inp" id="signinName" placeholder="Enter your name…" autocomplete="off" maxlength="30"/>
     <div class="signin-field-lbl">YOUR API KEY</div>
     <input type="password" class="signin-inp" id="signinKey" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
-    <div class="modal-st" id="signinStatus"></div>
+    <div class="modal-st" id="signinStatus" style="min-height:20px;width:100%;text-align:center;font-size:13px;font-weight:600;"></div>
     <button class="signin-btn" onclick="doSignIn()">✨ Sign In</button>
     <div class="signin-device">Your Device ID: <strong id="deviceId">#00000000</strong></div>
     <div style="display:flex;gap:16px;justify-content:center;margin-top:10px;font-size:11px;color:var(--muted)">
@@ -572,14 +572,14 @@ function doSignIn() {
   const name = document.getElementById('signinName').value.trim();
   const key  = document.getElementById('signinKey').value.trim();
   const st   = document.getElementById('signinStatus');
-  if (!name) { st.textContent = '⚠ Please enter your name'; st.className='modal-st err'; return; }
-  if (!key.startsWith('gsk_') || key.length < 20) { st.textContent = '⚠ Invalid Groq API key (must start with gsk_)'; st.className='modal-st err'; return; }
+  if (!name) { st.textContent = '⚠ Please enter your name'; st.className='modal-st err'; st.style.display='block'; return; }
+  if (!key || key.length < 10) { st.textContent = '⚠ Please enter a valid API key'; st.className='modal-st err'; st.style.display='block'; return; }
   apiKey = key;
   localStorage.setItem('puthi_groq_key', key);
   localStorage.setItem('cpai_user_name', name);
   document.getElementById('apiKeyInput').value = key;
   document.getElementById('greetName').textContent = name;
-  st.textContent = '✓ Welcome, ' + name + '!'; st.className = 'modal-st ok';
+  st.textContent = '✓ Welcome, ' + name + '!'; st.className = 'modal-st ok'; st.style.display='block';
   setTimeout(() => { document.getElementById('signInModal').style.display = 'none'; }, 600);
 }
 
@@ -588,9 +588,8 @@ function openSettings()  { document.getElementById('settingsModal').classList.ad
 function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); }
 function saveApiKey() {
   const v = document.getElementById('apiKeyInput').value.trim();
-  // ✅ FIX: accept gsk_ (Groq) keys
-  if (!v.startsWith('gsk_') || v.length < 20) {
-    setSt('✗ Invalid — Groq key ត្រូវចាប់ផ្តើមដោយ gsk_','err');
+  if (!v || v.length < 10) {
+    setSt('✗ Invalid — please enter a valid API key','err');
     return;
   }
   apiKey = v;
