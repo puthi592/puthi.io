@@ -169,6 +169,33 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background:repeating-lin
 .btn-cancel:hover{color:var(--text);}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:2px;}
+
+/* ── CC-AI SIGN-IN CARD ── */
+.signin-card{background:rgba(14,17,40,.82);backdrop-filter:blur(36px);border:1px solid rgba(255,255,255,.13);border-radius:28px;padding:36px 32px 28px;width:400px;max-width:94vw;box-shadow:0 28px 72px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.13);animation:modalIn .35s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;align-items:center;gap:10px;}
+.signin-avatar{width:72px;height:72px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 0 0 4px rgba(167,139,250,.35),0 0 28px rgba(34,211,238,.25);flex-shrink:0;}
+.signin-title{font-size:22px;font-weight:800;background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0;text-align:center;}
+.signin-sub{font-size:13px;color:var(--muted);margin:0;text-align:center;}
+.signin-notice{width:100%;background:rgba(167,139,250,.18);border:1px solid rgba(167,139,250,.3);border-radius:12px;padding:10px 14px;font-size:13px;color:#c4b5fd;text-align:center;line-height:1.5;}
+.signin-field-lbl{width:100%;font-size:10px;font-weight:700;letter-spacing:1.4px;color:var(--muted);text-transform:uppercase;margin-bottom:-4px;}
+.signin-inp{width:100%;background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 16px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);outline:none;transition:all .22s;box-shadow:inset 0 2px 6px rgba(0,0,0,.2);}
+.signin-inp:focus{border-color:rgba(34,211,238,.5);box-shadow:0 0 0 3px rgba(34,211,238,.1),inset 0 2px 6px rgba(0,0,0,.2);}
+.signin-inp::placeholder{color:rgba(240,244,255,.22);}
+.signin-btn{width:100%;background:linear-gradient(135deg,rgba(167,139,250,.9),rgba(244,114,182,.9));border:none;border-radius:14px;padding:14px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:#fff;cursor:pointer;transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 0 28px rgba(167,139,250,.4),inset 0 1px 0 rgba(255,255,255,.25);letter-spacing:.3px;}
+.signin-btn:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 0 42px rgba(244,114,182,.55),inset 0 1px 0 rgba(255,255,255,.3);}
+.signin-device{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;}
+.signin-device strong{color:var(--cyan);}
+
+/* ── WELCOME SCREEN OVERRIDE (CC-AI style) ── */
+.welcome-ccai{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;position:relative;overflow:hidden;}
+.welcome-bg-blur{position:absolute;inset:0;background:url('') center/cover no-repeat;filter:blur(0);z-index:0;}
+.welcome-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:14px;padding:32px 20px;}
+.wcc-avatar{width:90px;height:90px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 0 0 3px rgba(255,255,255,.15),0 0 40px rgba(167,139,250,.5),0 0 80px rgba(34,211,238,.25);animation:wFloat 4s ease-in-out infinite;flex-shrink:0;}
+.wcc-title{font-size:28px;font-weight:800;color:#fff;display:flex;align-items:center;gap:10px;text-shadow:0 2px 20px rgba(0,0,0,.4);}
+.wcc-sub{font-size:14px;color:rgba(255,255,255,.65);margin:-4px 0;}
+.wcc-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px;max-width:760px;}
+.wcc-chip{display:flex;align-items:center;gap:7px;padding:9px 18px;background:rgba(255,255,255,.08);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.18);border-radius:24px;font-size:13px;font-weight:500;color:rgba(255,255,255,.85);cursor:pointer;transition:all .28s cubic-bezier(.16,1,.3,1);box-shadow:0 4px 16px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.15);white-space:nowrap;}
+.wcc-chip:hover{background:rgba(34,211,238,.18);border-color:rgba(34,211,238,.45);color:#fff;transform:translateY(-3px) scale(1.04);box-shadow:0 8px 24px rgba(34,211,238,.2);}
+.wcc-chip-icon{font-size:15px;}
 </style>
 </head>
 <body>
@@ -266,17 +293,20 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background:repeating-lin
     <!-- CHAT PANEL -->
     <div class="panel active" id="panel-chat">
       <div class="chat-area" id="chatArea">
-        <div class="welcome" id="welcomeScreen">
-          <div class="w-logo"><svg width="82" height="82" style="position:relative;z-index:1"><use href="#robo"/></svg></div>
-          <h1>Puthi AI</h1>
-          <p>ជំនួយការ AI ដ៏ឆ្លាតវៃរបស់អ្នក · Ask anything, generate images, translate, run code and more!</p>
-          <div class="chips">
-            <div class="chip" onclick="qa('Who is Elon Musk? Give full details')">👤 Who is Elon Musk?</div>
-            <div class="chip" onclick="switchMode('image')">🎨 Generate Image</div>
-            <div class="chip" onclick="qa('Translate Hello to Khmer')">🌐 Translate</div>
-            <div class="chip" onclick="qa('Write Python code to calculate fibonacci')">💻 Write Code</div>
-            <div class="chip" onclick="qa('What can you do?')">🤖 What can you do?</div>
-            <div class="chip" onclick="qa('Tell me a fun fact about space')">🚀 Fun Facts</div>
+        <div class="welcome-ccai" id="welcomeScreen">
+          <div class="welcome-inner">
+            <div class="wcc-avatar">👋</div>
+            <div class="wcc-title">Hello <span id="greetName">there</span>! I'm CP-AI 🔥 <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <p class="wcc-sub">I'm feeling chill 😎 today — let's chat!</p>
+            <div class="wcc-chips">
+              <div class="wcc-chip" onclick="qa('Who is the developer of CP-AI?')"><span class="wcc-chip-icon">👨‍💻</span> Who is the developer?</div>
+              <div class="wcc-chip" onclick="qa('Tell me a fun fact!')"><span class="wcc-chip-icon">🎉</span> Tell me a fun fact</div>
+              <div class="wcc-chip" onclick="qa('Help me study. Give me a study plan for learning programming.')"><span class="wcc-chip-icon">📚</span> Help me study</div>
+              <div class="wcc-chip" onclick="switchMode('search')"><span class="wcc-chip-icon">▶️</span> YouTube Search</div>
+              <div class="wcc-chip" onclick="switchMode('translate')"><span class="wcc-chip-icon">🌐</span> Translate</div>
+              <div class="wcc-chip" onclick="switchMode('code')"><span class="wcc-chip-icon">💻</span> Code Runner</div>
+              <div class="wcc-chip" onclick="switchMode('image')"><span class="wcc-chip-icon">🧠</span> Generate image</div>
+            </div>
           </div>
         </div>
       </div>
@@ -424,12 +454,35 @@ body::after{content:'';position:fixed;inset:0;z-index:0;background:repeating-lin
   </div>
 </div>
 
+<!-- SIGN-IN MODAL (CC-AI style) -->
+<div class="modal-overlay" id="signInModal" style="display:flex;background:rgba(0,0,0,.55);backdrop-filter:blur(16px);z-index:300;">
+  <div class="signin-card">
+    <div class="signin-avatar">👋</div>
+    <h2 class="signin-title">Welcome to CP-AI</h2>
+    <p class="signin-sub">Sign in to get started</p>
+    <div class="signin-notice">👋 Choose a unique name — only one account per device!</div>
+    <div class="signin-field-lbl">YOUR NAME</div>
+    <input class="signin-inp" id="signinName" placeholder="Enter your name…" autocomplete="off" maxlength="30"/>
+    <div class="signin-field-lbl">YOUR API KEY</div>
+    <input type="password" class="signin-inp" id="signinKey" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
+    <div class="modal-st" id="signinStatus"></div>
+    <button class="signin-btn" onclick="doSignIn()">✨ Sign In</button>
+    <div class="signin-device">Your Device ID: <strong id="deviceId">#00000000</strong></div>
+    <div style="display:flex;gap:16px;justify-content:center;margin-top:10px;font-size:11px;color:var(--muted)">
+      <span>🔒 Secure &amp; Private</span>
+      <span style="cursor:pointer;text-decoration:underline">About</span>
+      <span style="cursor:pointer;text-decoration:underline">Privacy</span>
+      <span style="cursor:pointer;text-decoration:underline">Terms</span>
+    </div>
+  </div>
+</div>
+
 <!-- SETTINGS MODAL -->
 <div class="modal-overlay" id="settingsModal" onclick="if(event.target===this)closeSettings()">
   <div class="modal">
     <div class="modal-hd">
       <div class="modal-logo-sm"><svg width="28" height="28"><use href="#robo"/></svg></div>
-      API Settings — Puthi AI
+      API Settings — CP-AI
     </div>
     <div class="modal-lbl">Groq API Key (ឥតគិតថ្លៃ!)</div>
     <input type="password" class="modal-inp" id="apiKeyInput" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
@@ -491,13 +544,44 @@ function getReply(data) {
   return data?.choices?.[0]?.message?.content || data?.error?.message || 'Error';
 }
 
+/* ── DEVICE ID ── */
+function getDeviceId() {
+  let id = localStorage.getItem('cpai_device_id');
+  if (!id) { id = '#' + Math.floor(10000000 + Math.random()*89999999); localStorage.setItem('cpai_device_id', id); }
+  return id;
+}
+
 window.onload = () => {
-  if (apiKey) { document.getElementById('apiKeyInput').value = apiKey; setSt('✓ Groq API key loaded!','ok'); }
-  else setTimeout(openSettings, 700);
+  document.getElementById('deviceId').textContent = getDeviceId();
+  const savedName = localStorage.getItem('cpai_user_name');
+  const savedKey  = localStorage.getItem('puthi_groq_key') || '';
+  if (savedKey) document.getElementById('signinKey').value = savedKey;
+  if (savedName && savedKey) {
+    // Auto sign in
+    apiKey = savedKey;
+    document.getElementById('apiKeyInput').value = savedKey;
+    document.getElementById('greetName').textContent = savedName;
+    document.getElementById('signInModal').style.display = 'none';
+  }
   document.getElementById('genPrompt').addEventListener('input', () => {
     document.getElementById('promptCounter').textContent = document.getElementById('genPrompt').value.length + ' / 500';
   });
 };
+
+function doSignIn() {
+  const name = document.getElementById('signinName').value.trim();
+  const key  = document.getElementById('signinKey').value.trim();
+  const st   = document.getElementById('signinStatus');
+  if (!name) { st.textContent = '⚠ Please enter your name'; st.className='modal-st err'; return; }
+  if (!key.startsWith('gsk_') || key.length < 20) { st.textContent = '⚠ Invalid Groq API key (must start with gsk_)'; st.className='modal-st err'; return; }
+  apiKey = key;
+  localStorage.setItem('puthi_groq_key', key);
+  localStorage.setItem('cpai_user_name', name);
+  document.getElementById('apiKeyInput').value = key;
+  document.getElementById('greetName').textContent = name;
+  st.textContent = '✓ Welcome, ' + name + '!'; st.className = 'modal-st ok';
+  setTimeout(() => { document.getElementById('signInModal').style.display = 'none'; }, 600);
+}
 
 /* ── SETTINGS ── */
 function openSettings()  { document.getElementById('settingsModal').classList.add('open'); }
@@ -749,19 +833,23 @@ function shr(txt) { if(navigator.share)navigator.share({title:'Puthi AI',text:tx
 
 function clearChat() {
   chatHistory=[];
+  const savedName = localStorage.getItem('cpai_user_name') || 'there';
   const a=document.getElementById('chatArea');
   a.innerHTML=`
-    <div class="welcome" id="welcomeScreen">
-      <div class="w-logo"><svg width="82" height="82" style="position:relative;z-index:1"><use href="#robo"/></svg></div>
-      <h1>Puthi AI</h1>
-      <p>ជំនួយការ AI ដ៏ឆ្លាតវៃរបស់អ្នក · Ask anything, generate images, translate, run code and more!</p>
-      <div class="chips">
-        <div class="chip" onclick="qa('Who is Elon Musk? Give full details')">👤 Who is Elon Musk?</div>
-        <div class="chip" onclick="switchMode('image')">🎨 Generate Image</div>
-        <div class="chip" onclick="qa('Translate Hello to Khmer')">🌐 Translate</div>
-        <div class="chip" onclick="qa('Write Python code to calculate fibonacci')">💻 Write Code</div>
-        <div class="chip" onclick="qa('What can you do?')">🤖 What can you do?</div>
-        <div class="chip" onclick="qa('Tell me a fun fact about space')">🚀 Fun Facts</div>
+    <div class="welcome-ccai" id="welcomeScreen">
+      <div class="welcome-inner">
+        <div class="wcc-avatar">👋</div>
+        <div class="wcc-title">Hello ${savedName}! I'm CP-AI 🔥 <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <p class="wcc-sub">I'm feeling chill 😎 today — let's chat!</p>
+        <div class="wcc-chips">
+          <div class="wcc-chip" onclick="qa('Who is the developer of CP-AI?')"><span class="wcc-chip-icon">👨‍💻</span> Who is the developer?</div>
+          <div class="wcc-chip" onclick="qa('Tell me a fun fact!')"><span class="wcc-chip-icon">🎉</span> Tell me a fun fact</div>
+          <div class="wcc-chip" onclick="qa('Help me study. Give me a study plan for learning programming.')"><span class="wcc-chip-icon">📚</span> Help me study</div>
+          <div class="wcc-chip" onclick="switchMode('search')"><span class="wcc-chip-icon">▶️</span> YouTube Search</div>
+          <div class="wcc-chip" onclick="switchMode('translate')"><span class="wcc-chip-icon">🌐</span> Translate</div>
+          <div class="wcc-chip" onclick="switchMode('code')"><span class="wcc-chip-icon">💻</span> Code Runner</div>
+          <div class="wcc-chip" onclick="switchMode('image')"><span class="wcc-chip-icon">🧠</span> Generate image</div>
+        </div>
       </div>
     </div>`;
   switchMode('chat');
