@@ -1,5 +1,3 @@
-bash
-
 cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="en">
@@ -328,7 +326,7 @@ body::after {
   border:1px solid rgba(255,255,255,.08);
   border-radius:12px; padding:14px 16px;
   font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.7;
-  overflow-x:auto; margin-top:8px; white-space:pre;
+  overflow-x:auto; margin-top:8px; white-space:pre-wrap;
   box-shadow:inset 0 2px 8px rgba(0,0,0,.3);
 }
 
@@ -1091,17 +1089,24 @@ function addAI(txt) {
   const a = document.getElementById('chatArea');
   const mood = getMoodEmoji(txt);
   const r = document.createElement('div'); r.className='msg-row ai';
+  
   r.innerHTML=`
     <div class="msg-av"><svg width="32" height="32"><use href="#robo"/></svg></div>
     <div class="msg-body">
       <div class="bubble">${fmt(txt)}</div>
       <div class="msg-acts">
-        <button class="act-btn" onclick="cp(this,\`${esc(txt)}\`)">📋 Copy</button>
-        <button class="act-btn" onclick="spk(\`${esc(txt)}\`)">🔊 Listen</button>
-        <button class="act-btn" onclick="shr(\`${esc(txt)}\`)">🔗 Share</button>
+        <button class="act-btn btn-copy">📋 Copy</button>
+        <button class="act-btn btn-listen">🔊 Listen</button>
+        <button class="act-btn btn-share">🔗 Share</button>
         <span style="font-size:14px;opacity:.7">${mood}</span>
       </div>
     </div>`;
+
+  // Attach programmatic events to avoid string escaping bugs
+  r.querySelector('.btn-copy').onclick = (e) => cp(e.target, txt);
+  r.querySelector('.btn-listen').onclick = () => spk(txt);
+  r.querySelector('.btn-share').onclick = () => shr(txt);
+
   a.appendChild(r); sb();
 }
 
@@ -1144,7 +1149,7 @@ async function generateImage() {
     <div class="img-card-meta">
       <div class="img-card-prompt">${sh(prompt)}</div>
       <div class="img-card-actions">
-        <div class="img-ca" id="copyPromptBtn">📋 Copy Prompt</div>
+        <div class="img-ca copy-prompt-btn">📋 Copy Prompt</div>
         <div class="img-ca" onclick="window.open('https://www.midjourney.com','_blank')">🎨 MJ</div>
         <div class="img-ca" onclick="window.open('https://openai.com/dall-e-3','_blank')">✨ DALL-E</div>
       </div>
@@ -1161,7 +1166,7 @@ async function generateImage() {
     })});
     const data=await res.json();
     const reply=getReply(data);
-    card.querySelector('#copyPromptBtn').onclick=()=>cp(card.querySelector('#copyPromptBtn'),reply);
+    card.querySelector('.copy-prompt-btn').onclick=()=>cp(card.querySelector('.copy-prompt-btn'),reply);
     card.querySelector('.img-preview').innerHTML=`
       <div class="img-preview-emoji" style="animation:wFloat 3s ease infinite">${emoji}</div>
       <div style="position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border-radius:8px;padding:6px 8px;font-size:11px;color:rgba(255,255,255,.8);line-height:1.4">${sh(selStyleVal)} · ${selSizeVal} ✅</div>`;
@@ -1245,10 +1250,19 @@ function clearChat(){
 
 /* ── FORMAT ── */
 function fmt(text) {
-  return sh(text)
+  let clean = sh(text);
+  
+  // Extract and safely protect code blocks before formatting body lines
+  let blocks = [];
+  clean = clean.replace(/```[\w]*\n?([\s\S]*?)
+```/g, function(match, code) {
+    blocks.push(`<div class="code-block">${code}</div>`);
+    return `__CODE_BLOCK_PLACEHOLDER_${blocks.length - 1}__`;
+  });
+
+  clean = clean
     .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
     .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/```[\w]*\n?([\s\S]*?)```/g,'<div class="code-block">$1</div>')
     .replace(/`([^`]+)`/g,'<code style="background:rgba(0,0,0,.3);padding:2px 7px;border-radius:5px;font-family:JetBrains Mono,monospace;font-size:12px;color:#22d3ee;border:1px solid rgba(34,211,238,.2)">$1</code>')
     .replace(/^### (.+)$/gm,'<h3>$1</h3>')
     .replace(/^## (.+)$/gm,'<h3 style="font-size:16px">$1</h3>')
@@ -1256,11 +1270,15 @@ function fmt(text) {
     .replace(/^={3,}$/gm,'<hr>').replace(/^-{4,}$/gm,'<hr>')
     .replace(/^\* (.+)$/gm,'• $1').replace(/^- (.+)$/gm,'• $1')
     .replace(/\n/g,'<br>');
+
+  // Restore protected code blocks uncorrupted by line breaks
+  blocks.forEach((html, idx) => {
+    clean = clean.replace(`__CODE_BLOCK_PLACEHOLDER_${idx}__`, html);
+  });
+
+  return clean;
 }
 function sh(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function esc(t){return String(t).replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
-
-/* ── ACTIONS ── */
 function cp(btn,txt){
   navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent='✓ Copied!';setTimeout(()=>btn.textContent=o,2000);});
 }
@@ -1271,6 +1289,3 @@ function shr(txt){if(navigator.share)navigator.share({title:'CP-AI',text:txt});e
 </html>
 HTMLEOF
 echo "Done"
-Output
-
-Done
