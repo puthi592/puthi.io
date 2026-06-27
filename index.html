@@ -1035,6 +1035,54 @@ function closeTools() {
   document.getElementById('plusBtn').classList.remove('open');
   document.getElementById('closePopupBtn').classList.remove('open');
 }
+  async function sendMsg() {
+  const ta = document.getElementById('chatInput');
+  const text = ta.value.trim();
+  
+  if (!text) return;
+
+  // --- ADD THIS BLOCK ---
+  // Custom response for your developer
+  if (text.toLowerCase().includes("who is your developer")) {
+    document.getElementById('welcomeScreen')?.remove();
+    ta.value = '';
+    ta.style.height = 'auto';
+    addUser(text);
+    addAI("🙂 My creator's name is Puthi. He is a student at TPN High School and is currently 15 years old. He's a unique individual, being both very smart and a little stupid at the same time 😊. Puthi is passionate about learning and is particularly interested in space and astronomy 🚀. He's a bit of an introvert and enjoys spending time alone, lost in his own thoughts 🤔. He is studying in Grade 10IT class, where he is learning about the latest technologies and developing his programming skills 📚💻. Despite his young age, Puthi is already showing a keen interest in artificial intelligence and machine learning, and is working hard to create innovative projects like me 🤖! 🚀");
+    return; // Stops the code from calling the API
+  }
+  // ----------------------
+
+  if (!apiKey) {
+    openSettings();
+    return;
+  }
+  
+  document.getElementById('welcomeScreen')?.remove();
+  ta.value = '';
+  ta.style.height = 'auto';
+  document.getElementById('sendBtn').disabled = true;
+  addUser(text);
+  chatHistory.push({role:'user', content:text});
+  const tid = addTyping();
+  
+  try {
+    const res = await callAPI(chatHistory);
+    const data = await res.json();
+    rmNode(tid);
+    const r = getReply(data);
+    if (data.choices) {
+      chatHistory.push({role:'assistant', content:r});
+      addAI(r);
+    } else {
+      addAI('⚠️ ' + r);
+    }
+  } catch(e) {
+    rmNode(tid);
+    addAI('⚠️ Network error: ' + e.message);
+  }
+  document.getElementById('sendBtn').disabled = false;
+}
 function injectTool(prefix) {
   closeTools();
   const ta = document.getElementById('chatInput');
