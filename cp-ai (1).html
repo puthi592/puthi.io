@@ -857,8 +857,8 @@ body::after {
     <div class="signin-notice">👋 Choose a name btw!</div>
     <div class="signin-field-lbl">YOUR NAME</div>
     <input class="signin-inp" id="signinName" placeholder="Enter your name…" autocomplete="off" maxlength="30"/>
-    <div class="signin-field-lbl">YOUR API KEY</div>
-    <input type="password" class="signin-inp" id="signinKey" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
+    <div class="signin-field-lbl">GROQ API KEY <span style="color:var(--muted);font-weight:400">(optional — for chat/code)</span></div>
+    <input type="password" class="signin-inp" id="signinKey" placeholder="gsk_… (leave blank to use image gen only)" autocomplete="off"/>
     <div class="modal-st" id="signinStatus" style="min-height:20px;width:100%;text-align:center;font-size:13px;font-weight:600;"></div>
     <button class="signin-btn" onclick="doSignIn()">✨ Sign In</button>
     <div class="signin-device">Your Device ID: <strong id="deviceId">#00000000</strong></div>
@@ -878,15 +878,16 @@ body::after {
       <div class="modal-logo-sm"><svg width="28" height="28"><use href="#robo"/></svg></div>
       API Settings — CP-AI
     </div>
-    <div class="modal-lbl">Groq API Key (ឥតគិតថ្លៃ!)</div>
-    <input type="password" class="modal-inp" id="apiKeyInput" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
+    <div class="modal-lbl">Groq API Key — Chat, Translate &amp; Code</div>
+    <input type="password" class="modal-inp" id="apiKeyInput" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx (optional for image gen)" autocomplete="off"/>
     <div class="modal-st" id="apiStatus"></div>
-    <div class="modal-lbl">របៀបទទួលបាន Groq API Key</div>
-    <div class="modal-info">
+    <div class="modal-lbl" style="color:var(--green)">✅ Image Generation — Built-in (no key needed!)</div>
+    <div class="modal-info" style="border-color:rgba(74,222,128,.2);background:rgba(74,222,128,.04)">
+      🎨 Image generation uses <strong>Cloudflare AI · Flux</strong> and is ready to use immediately — no API key required!<br><br>
+      For <strong>Chat / Translate / Code</strong> features, enter a Groq key:<br>
       1. ចូលទៅ <strong>console.groq.com</strong><br>
       2. Sign in / Sign up (<strong>ឥតគិតថ្លៃ!</strong>)<br>
       3. ចុច <strong>API Keys → Create API Key</strong><br>
-      4. Copy key ហើយ paste នៅខាងលើ<br>
       <span style="color:var(--green);font-size:12px">✅ Key ចាប់ផ្តើមដោយ <strong>gsk_</strong></span>
     </div>
     <div class="modal-row">
@@ -974,11 +975,12 @@ function doSignIn() {
   const key  = document.getElementById('signinKey').value.trim();
   const st   = document.getElementById('signinStatus');
   if (!name) { st.className='modal-st err'; st.textContent='⚠️ Please enter your name!'; return; }
-  if (!key || !key.startsWith('gsk_')) { st.className='modal-st err'; st.textContent='⚠️ Invalid API key. Must start with gsk_'; return; }
+  // Groq key is optional — image generation works without it
+  if (key && !key.startsWith('gsk_')) { st.className='modal-st err'; st.textContent='⚠️ Invalid Groq key. Must start with gsk_ (or leave blank)'; return; }
   st.className='modal-st ok'; st.textContent='✅ Signing in…';
   apiKey = key;
   localStorage.setItem('cpai_user_name', name);
-  localStorage.setItem('puthi_groq_key', key);
+  if (key) localStorage.setItem('puthi_groq_key', key);
   document.getElementById('apiKeyInput').value = key;
   document.getElementById('greetName').textContent = name;
   setTimeout(() => { document.getElementById('signInModal').style.display='none'; }, 600);
@@ -1115,14 +1117,22 @@ function addTyping() {
 function rmNode(id){document.getElementById(id)?.remove();}
 function sb(){const a=document.getElementById('chatArea');a.scrollTop=a.scrollHeight;}
 
+/* ── CLOUDFLARE AI IMAGE CONFIG ── */
+const CF_API_KEY = 'cfut_ZbrmcNYdv3a16Sm5qk6elPY5tEjxMyBiUs2AU0kb2e850fcb';
+const CF_IMG_URL = 'https://api.cloudflare.com/client/v4/accounts/ai/run/@cf/black-forest-labs/flux-1-schnell';
+
 /* ── GENERATE IMAGE ── */
 function selStyle(el) { document.querySelectorAll('.style-chip').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); selStyleVal=el.textContent.replace(/[^\w\s]/g,'').trim(); }
 function selSize(el)  { document.querySelectorAll('.size-btn').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); selSizeVal=el.dataset.s; }
 
+function getSizeDims(ratio) {
+  const map = { '1:1':'512x512', '16:9':'832x480', '9:16':'480x832', '4:3':'640x480' };
+  return map[ratio] || '512x512';
+}
+
 async function generateImage() {
   const prompt = document.getElementById('genPrompt').value.trim();
   if (!prompt) { alert('Please enter an image description!'); return; }
-  if (!apiKey) { openSettings(); return; }
   const btn = document.getElementById('genBtn');
   btn.disabled=true; btn.textContent='⏳ Generating…';
   document.getElementById('genResults').style.display='block';
@@ -1137,36 +1147,89 @@ async function generateImage() {
   ];
   let emoji='🖼️'; for(const[rx,em] of emojiMap) if(rx.test(prompt)){emoji=em;break;}
   card.innerHTML=`
-    <div class="img-preview" style="animation:none">
+    <div class="img-preview" id="imgPreview_${Date.now()}" style="animation:none;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
       <div class="img-preview-emoji" style="animation:wFloat 2s ease infinite">${emoji}</div>
-      <span style="font-size:11px;color:var(--muted)">Generating… ✨</span>
+      <span style="font-size:11px;color:var(--muted)">Generating real image… ✨</span>
     </div>
     <div class="img-card-meta">
       <div class="img-card-prompt">${sh(prompt)}</div>
       <div class="img-card-actions">
-        <div class="img-ca" id="copyPromptBtn">📋 Copy Prompt</div>
-        <div class="img-ca" onclick="window.open('https://www.midjourney.com','_blank')">🎨 MJ</div>
-        <div class="img-ca" onclick="window.open('https://openai.com/dall-e-3','_blank')">✨ DALL-E</div>
+        <div class="img-ca" id="dlBtn_${Date.now()}">⬇️ Download</div>
+        <div class="img-ca" onclick="cp(this,'${prompt.replace(/'/g,"\\'")}')">📋 Copy Prompt</div>
       </div>
     </div>`;
   grid.prepend(card);
   card.scrollIntoView({behavior:'smooth',block:'nearest'});
+
+  // Build enhanced prompt with style
+  const styleMap = {
+    'Realistic':'photorealistic, ultra detailed, 8k, professional photography',
+    'Anime':'anime style, Studio Ghibli, vibrant colors, cel shaded',
+    'Oil Painting':'oil painting, impressionist, thick brushstrokes, artistic',
+    'Sketch':'pencil sketch, hand drawn, detailed linework, graphite',
+    'Watercolor':'watercolor painting, soft edges, pastel tones, artistic',
+    'Cyberpunk':'cyberpunk, neon lights, futuristic city, sci-fi, dark atmosphere',
+    'Fantasy':'fantasy art, magical, epic, detailed, mystical lighting',
+    'Photography':'professional photography, DSLR, bokeh, golden hour, sharp focus',
+    'Pixel Art':'pixel art, 16-bit, retro game style, pixelated',
+    'Abstract':'abstract art, geometric, surreal, modern art, colorful'
+  };
+  const styleEnhance = styleMap[selStyleVal] || 'high quality, detailed';
+  const fullPrompt = `${prompt}, ${styleEnhance}`;
+
+  const dims = getSizeDims(selSizeVal).split('x');
+  const previewEl = card.querySelector('.img-preview, [id^="imgPreview_"]') || card.querySelector('div');
+
   try {
-    const res=await fetch(GROQ_URL,{method:'POST',headers:getHeaders(),body:JSON.stringify({
-      model:GROQ_MODEL,max_tokens:800,
-      messages:[
-        {role:'system',content:'You are a creative image prompt generator.'},
-        {role:'user',content:`Generate a detailed, vivid image description for: "${prompt}"\nStyle: ${selStyleVal}, Size ratio: ${selSizeVal}\n\n1. Describe the scene in rich detail (4-5 sentences)\n2. Give an optimized prompt for Midjourney (starting with /imagine)\n3. Give an optimized prompt for DALL-E 3\n4. Suggest 3 variations of this concept`}
-      ]
-    })});
-    const data=await res.json();
-    const reply=getReply(data);
-    card.querySelector('#copyPromptBtn').onclick=()=>cp(card.querySelector('#copyPromptBtn'),reply);
-    card.querySelector('.img-preview').innerHTML=`
-      <div class="img-preview-emoji" style="animation:wFloat 3s ease infinite">${emoji}</div>
-      <div style="position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border-radius:8px;padding:6px 8px;font-size:11px;color:rgba(255,255,255,.8);line-height:1.4">${sh(selStyleVal)} · ${selSizeVal} ✅</div>`;
+    const res = await fetch(CF_IMG_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + CF_API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        prompt: fullPrompt,
+        num_steps: 8,
+        width: parseInt(dims[0]),
+        height: parseInt(dims[1])
+      })
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(()=>({}));
+      throw new Error(errData?.errors?.[0]?.message || `HTTP ${res.status}`);
+    }
+
+    // Cloudflare returns raw image bytes
+    const blob = await res.blob();
+    const imgUrl = URL.createObjectURL(blob);
+
+    const imgEl = card.querySelector('.img-preview') || card.querySelector('div');
+    imgEl.style.cssText='padding:0;overflow:hidden;border-radius:12px;min-height:0;background:transparent';
+    imgEl.innerHTML=`
+      <img src="${imgUrl}" alt="${sh(prompt)}"
+        style="width:100%;border-radius:12px;display:block;cursor:pointer"
+        onclick="window.open('${imgUrl}','_blank')" />`;
+
+    // Wire up download button
+    const dlBtns = card.querySelectorAll('.img-ca');
+    if (dlBtns[0]) {
+      dlBtns[0].onclick = () => {
+        const a = document.createElement('a');
+        a.href = imgUrl;
+        a.download = 'cp-ai-image.png';
+        a.click();
+      };
+    }
+
   } catch(e) {
-    card.querySelector('.img-preview').innerHTML=`<span style="color:#f87171">⚠️ Error: ${e.message}</span>`;
+    const imgEl = card.querySelector('.img-preview') || card.querySelector('div');
+    imgEl.innerHTML=`
+      <div style="padding:20px;text-align:center">
+        <div style="font-size:32px;margin-bottom:8px">⚠️</div>
+        <div style="color:#f87171;font-size:13px">Image generation failed</div>
+        <div style="color:var(--muted);font-size:11px;margin-top:4px">${sh(e.message)}</div>
+      </div>`;
   }
   btn.disabled=false; btn.innerHTML='✨ Generate Image';
 }
