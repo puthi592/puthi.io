@@ -51,6 +51,43 @@ body::before {
   0%  { filter:brightness(1); }
   100%{ filter:brightness(1.045); }
 }
+
+/* ── BACKGROUND THEMES ── */
+body[data-bg="temple"]::before {
+  background:
+    linear-gradient(rgba(10,6,2,.55),rgba(10,6,2,.55)),
+    radial-gradient(ellipse 70% 55% at 25% 15%, #d98f3d66, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 85% 80%, #f2b25a4a, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 100%, #7a4a1e4a, transparent 60%),
+    linear-gradient(165deg,#2b1706,#20120a 45%,#160c07 75%,#100905);
+}
+body[data-bg="space"]::before {
+  background:
+    linear-gradient(rgba(3,4,10,.5),rgba(3,4,10,.5)),
+    radial-gradient(1.5px 1.5px at 15% 20%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 75% 12%, #fff, transparent),
+    radial-gradient(1px 1px at 35% 65%, #cbd5ff, transparent),
+    radial-gradient(1px 1px at 88% 55%, #cbd5ff, transparent),
+    radial-gradient(1.5px 1.5px at 55% 85%, #fff, transparent),
+    radial-gradient(ellipse 70% 55% at 70% 20%, #4c3f9e66, transparent 55%),
+    radial-gradient(ellipse 55% 55% at 15% 80%, #1c6d8c55, transparent 55%),
+    linear-gradient(165deg,#05060f,#0a0a1c 45%,#08081a 75%,#03030a);
+}
+body[data-bg="forest"]::before {
+  background:
+    linear-gradient(rgba(3,8,4,.5),rgba(3,8,4,.5)),
+    radial-gradient(ellipse 70% 55% at 20% 12%, #1f5c4066, transparent 55%),
+    radial-gradient(ellipse 60% 60% at 88% 78%, #3fbe8444, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 50% 100%, #14361f55, transparent 60%),
+    linear-gradient(165deg,#040c07,#071009 45%,#050c07 75%,#030a05);
+}
+body[data-bg="white"]::before {
+  background:
+    linear-gradient(rgba(15,20,32,.62),rgba(15,20,32,.62)),
+    radial-gradient(ellipse 70% 55% at 20% 10%, #ffffff55, transparent 55%),
+    radial-gradient(ellipse 60% 60% at 85% 85%, #dbe6f555, transparent 55%),
+    linear-gradient(165deg,#c9d3e0,#e4eaf2 45%,#eef2f7 75%,#ffffff);
+}
 body::after {
   content:'';
   position:fixed; inset:0; z-index:0;
@@ -74,11 +111,11 @@ body::after {
 
 /* ── SIDEBAR (desktop) ── */
 .sidebar {
+  display:none;
   width:64px;
   background:rgba(255,255,255,.04);
   backdrop-filter:blur(24px);
   border-right:1px solid var(--gbr);
-  display:flex;
   flex-direction:column;
   align-items:center;
   padding:14px 0 calc(18px + var(--safe-bottom));
@@ -164,9 +201,9 @@ body::after {
 }
 .ib:hover { color:var(--text); border-color:rgba(76,195,232,.32); background:rgba(76,195,232,.08); box-shadow:inset 0 1px 0 rgba(255,255,255,.12); }
 
-/* ── HAMBURGER (mobile only) ── */
+/* ── HAMBURGER (always on) ── */
 .hamburger-btn {
-  display:none;
+  display:flex;
   width:36px; height:36px; border-radius:9px;
   background:rgba(255,255,255,.07); border:1px solid var(--gbr);
   color:var(--text2); align-items:center; justify-content:center;
@@ -224,7 +261,7 @@ body::after {
 
 /* ── MODE TABS ── */
 .mode-tabs {
-  display:flex; gap:4px;
+  display:none; gap:4px;
   padding:10px 16px 0;
   background:rgba(255,255,255,.03);
   border-bottom:1px solid var(--gbr);
@@ -522,6 +559,16 @@ body::after {
 .signin-device { font-size:11px; color:var(--muted); font-family:'JetBrains Mono',monospace; text-align:center; }
 .signin-device strong { color:var(--cyan); }
 
+/* ── BG THEME SWATCHES ── */
+.bg-swatch {
+  border:1px solid var(--gbr); border-radius:14px; padding:8px;
+  cursor:pointer; transition:all .2s ease; background:rgba(255,255,255,.03);
+}
+.bg-swatch:hover { border-color:rgba(76,195,232,.35); background:rgba(76,195,232,.06); transform:translateY(-2px); }
+.bg-swatch.active { border-color:var(--cyan); box-shadow:0 0 0 2px rgba(76,195,232,.25); }
+.bg-swatch-prev { width:100%; height:64px; border-radius:10px; margin-bottom:8px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.08); }
+.bg-swatch-lbl { font-size:13px; font-weight:600; color:var(--text2); text-align:center; }
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width:3px; }
 ::-webkit-scrollbar-thumb { background:rgba(255,255,255,.12); border-radius:2px; }
@@ -555,7 +602,7 @@ body::after {
 }
 </style>
 </head>
-<body>
+<body data-bg="dark">
 <div class="blob blob1"></div><div class="blob blob2"></div>
 <div class="blob blob3"></div><div class="blob blob4"></div>
 
@@ -657,6 +704,7 @@ body::after {
         <div class="tb-sub">Powered by Groq · master·puthi-ai</div>
       </div>
       <div class="tb-right">
+        <div class="ib" onclick="openBgPicker()" title="Change Background">🖼️</div>
         <div class="online-pill"><div class="online-dot"></div>Online</div>
         <div class="ib" onclick="openSettings()" title="API Key">🔑</div>
         <div class="ib" onclick="clearChat()"    title="New Chat">✏️</div>
@@ -878,6 +926,39 @@ body::after {
   </div>
 </div>
 
+<!-- BACKGROUND THEME MODAL -->
+<div class="modal-overlay" id="bgModal" onclick="if(event.target===this)closeBgPicker()">
+  <div class="modal" style="width:400px">
+    <div class="modal-hd">
+      <div class="modal-logo-sm"><svg width="28" height="28"><use href="#robo"/></svg></div>
+      Choose Background
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px">
+      <div class="bg-swatch" data-theme="dark" onclick="setBgTheme('dark')">
+        <div class="bg-swatch-prev" style="background:linear-gradient(165deg,#111319,#0a0a16 60%,#07090f)"></div>
+        <div class="bg-swatch-lbl">🌑 Dark</div>
+      </div>
+      <div class="bg-swatch" data-theme="temple" onclick="setBgTheme('temple')">
+        <div class="bg-swatch-prev" style="background:linear-gradient(165deg,#5a3a12,#33200c 60%,#1c1108)"></div>
+        <div class="bg-swatch-lbl">🏛️ Temple</div>
+      </div>
+      <div class="bg-swatch" data-theme="space" onclick="setBgTheme('space')">
+        <div class="bg-swatch-prev" style="background:radial-gradient(circle at 60% 30%,#4c3f9e,#0a0a1c 70%)"></div>
+        <div class="bg-swatch-lbl">🌌 Space</div>
+      </div>
+      <div class="bg-swatch" data-theme="forest" onclick="setBgTheme('forest')">
+        <div class="bg-swatch-prev" style="background:linear-gradient(165deg,#1f5c40,#0a1c10 60%,#040c07)"></div>
+        <div class="bg-swatch-lbl">🌲 Forest</div>
+      </div>
+      <div class="bg-swatch" data-theme="white" onclick="setBgTheme('white')" style="grid-column:1 / -1">
+        <div class="bg-swatch-prev" style="background:linear-gradient(165deg,#ffffff,#dbe6f5 60%,#c9d3e0)"></div>
+        <div class="bg-swatch-lbl">⚪ White</div>
+      </div>
+    </div>
+    <button class="btn-cancel" style="width:100%;margin-top:16px" onclick="closeBgPicker()">Close</button>
+  </div>
+</div>
+
 <script>
 /* ── STATE ── */
 let apiKey = localStorage.getItem('puthi_groq_key') || '';
@@ -968,6 +1049,28 @@ function doSignIn() {
 }
 
 /* ── SETTINGS ── */
+/* ── BACKGROUND THEME ── */
+function openBgPicker() {
+  document.getElementById('bgModal').classList.add('open');
+  markActiveBgSwatch();
+}
+function closeBgPicker() { document.getElementById('bgModal').classList.remove('open'); }
+function setBgTheme(theme) {
+  document.body.setAttribute('data-bg', theme);
+  localStorage.setItem('cpai_bg_theme', theme);
+  markActiveBgSwatch();
+}
+function markActiveBgSwatch() {
+  const current = document.body.getAttribute('data-bg') || 'dark';
+  document.querySelectorAll('.bg-swatch').forEach(s => {
+    s.classList.toggle('active', s.dataset.theme === current);
+  });
+}
+(function initBgTheme(){
+  const saved = localStorage.getItem('cpai_bg_theme');
+  if (saved) document.body.setAttribute('data-bg', saved);
+})();
+
 function openSettings() { document.getElementById('settingsModal').classList.add('open'); }
 function closeSettings(){ document.getElementById('settingsModal').classList.remove('open'); }
 function saveApiKey() {
