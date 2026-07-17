@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>CP-AI</title>
+<meta name="theme-color" content="#080a12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 110'%3E%3Ccircle cx='50' cy='55' r='50' fill='%234CC3E8'/%3E%3C/svg%3E">
+<link id="pwaManifest" rel="manifest" href='data:application/manifest+json,{"name":"CP-AI","short_name":"CP-AI","start_url":".","display":"standalone","background_color":"%23080a12","theme_color":"%23080a12","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 110%27%3E%3Ccircle cx=%2750%27 cy=%2755%27 r=%2750%27 fill=%27%234CC3E8%27/%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}'>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ── */
@@ -600,9 +603,128 @@ body::after {
   .sidebar { width:54px; }
   .sb-btn { width:40px; height:40px; font-size:17px; }
 }
+
+/* ── SPLASH / INTRO LOGO ANIMATION ── */
+#splashScreen {
+  position:fixed; inset:0; z-index:9999;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:18px;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, rgba(76,195,232,.14), transparent 60%),
+    #080a12;
+  transition:opacity .55s ease, visibility .55s ease;
+}
+#splashScreen.hide { opacity:0; visibility:hidden; pointer-events:none; }
+.splash-ring {
+  position:relative;
+  width:112px; height:112px;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0;
+  animation:splashIn .7s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+.splash-ring::before {
+  content:''; position:absolute; inset:-14px; border-radius:50%;
+  border:1.5px solid rgba(76,195,232,.35);
+  animation:splashPulse 2.2s ease-out infinite;
+}
+.splash-ring::after {
+  content:''; position:absolute; inset:-14px; border-radius:50%;
+  border:1.5px solid rgba(139,133,240,.3);
+  animation:splashPulse 2.2s ease-out .7s infinite;
+}
+.splash-logo-wrap {
+  width:90px; height:90px; border-radius:26px;
+  background:rgba(76,195,232,.1);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(76,195,232,.35);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 40px rgba(76,195,232,.35), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.splash-word {
+  font-family:'Outfit',sans-serif; font-weight:800; font-size:22px; letter-spacing:.5px;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  opacity:0; transform:translateY(8px);
+  animation:splashWordIn .6s ease .35s forwards;
+}
+.splash-sub {
+  font-size:12px; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase;
+  opacity:0; animation:splashWordIn .6s ease .5s forwards;
+}
+@keyframes splashIn {
+  0%   { opacity:0; transform:scale(.25) rotate(-25deg); }
+  55%  { opacity:1; transform:scale(1.16) rotate(6deg); }
+  75%  { transform:scale(.95) rotate(-2deg); }
+  100% { opacity:1; transform:scale(1) rotate(0deg); }
+}
+@keyframes splashPulse {
+  0%   { transform:scale(.85); opacity:.9; }
+  100% { transform:scale(1.6); opacity:0; }
+}
+@keyframes splashWordIn { to { opacity:1; transform:translateY(0); } }
+
+/* ── INSTALL APP BANNER ── */
+.install-banner {
+  position:fixed; left:0; right:0; bottom:0; z-index:250;
+  display:none; align-items:center; gap:14px;
+  padding:14px 18px calc(14px + var(--safe-bottom));
+  background:linear-gradient(90deg,#7c6ff0,#c674c2 55%,#e879a8);
+  box-shadow:0 -8px 30px rgba(0,0,0,.35);
+  transform:translateY(100%);
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+}
+.install-banner.show { display:flex; }
+.install-banner.slide-up { transform:translateY(0); }
+.install-icon {
+  width:42px; height:42px; border-radius:12px; flex-shrink:0;
+  background:rgba(255,255,255,.16);
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px;
+}
+.install-text { flex:1; min-width:0; color:#fff; }
+.install-title { font-weight:700; font-size:14px; line-height:1.3; }
+.install-sub { font-size:12px; opacity:.85; line-height:1.3; }
+.install-btn {
+  background:#fff; color:#7c6ff0; border:none; flex-shrink:0;
+  padding:9px 18px; border-radius:20px; font-weight:700; font-size:13px;
+  cursor:pointer; transition:transform .15s ease;
+}
+.install-btn:active { transform:scale(.95); }
+.install-close {
+  width:30px; height:30px; border-radius:50%; flex-shrink:0;
+  background:rgba(255,255,255,.18); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:14px; border:none;
+}
+@media (min-width:900px) {
+  .install-banner { left:64px; }
+}
 </style>
 </head>
 <body data-bg="dark">
+
+<!-- SPLASH / LOGO INTRO -->
+<div id="splashScreen">
+  <div class="splash-ring">
+    <div class="splash-logo-wrap">
+      <svg width="52" height="52"><use href="#robo"/></svg>
+    </div>
+  </div>
+  <div class="splash-word">CP-AI</div>
+  <div class="splash-sub">Powered by Groq</div>
+</div>
+
+<!-- INSTALL APP BANNER -->
+<div class="install-banner" id="installBanner">
+  <div class="install-icon">📲</div>
+  <div class="install-text">
+    <div class="install-title">Install CP-AI</div>
+    <div class="install-sub" id="installSub">Use it like a real app on your device</div>
+  </div>
+  <button class="install-btn" id="installBtn" onclick="doInstallApp()">Install</button>
+  <button class="install-close" onclick="dismissInstallBanner()" aria-label="Dismiss">✕</button>
+</div>
+
 <div class="blob blob1"></div><div class="blob blob2"></div>
 <div class="blob blob3"></div><div class="blob blob4"></div>
 
@@ -960,6 +1082,81 @@ body::after {
 </div>
 
 <script>
+/* ── SPLASH SCREEN ── */
+(function(){
+  const MIN_SHOW = 1300; // ms the logo animation stays visible at minimum
+  const started = Date.now();
+  function hideSplash(){
+    const el = document.getElementById('splashScreen');
+    if (!el) return;
+    const elapsed = Date.now() - started;
+    const wait = Math.max(0, MIN_SHOW - elapsed);
+    setTimeout(()=>{
+      el.classList.add('hide');
+      setTimeout(()=> el.remove(), 600);
+    }, wait);
+  }
+  if (document.readyState === 'complete') hideSplash();
+  else window.addEventListener('load', hideSplash);
+})();
+
+/* ── INSTALL / DOWNLOAD APP BANNER ── */
+let deferredInstallPrompt = null;
+const INSTALL_DISMISS_KEY = 'cpai_install_dismissed_until';
+const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+function installBannerAllowed(){
+  if (isStandalone()) return false; // already installed / running as app
+  const until = parseInt(localStorage.getItem(INSTALL_DISMISS_KEY) || '0', 10);
+  return Date.now() > until;
+}
+function showInstallBanner(){
+  if (!installBannerAllowed()) return;
+  const banner = document.getElementById('installBanner');
+  if (isIOS()) {
+    document.getElementById('installSub').textContent = 'Tap Share, then "Add to Home Screen"';
+  }
+  banner.classList.add('show');
+  requestAnimationFrame(()=> requestAnimationFrame(()=> banner.classList.add('slide-up')));
+}
+function dismissInstallBanner(days){
+  const banner = document.getElementById('installBanner');
+  banner.classList.remove('slide-up');
+  setTimeout(()=> banner.classList.remove('show'), 450);
+  const untilMs = Date.now() + (days || 7) * 24 * 60 * 60 * 1000;
+  localStorage.setItem(INSTALL_DISMISS_KEY, String(untilMs));
+}
+async function doInstallApp(){
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    const choice = await deferredInstallPrompt.userChoice.catch(()=>null);
+    deferredInstallPrompt = null;
+    dismissInstallBanner(choice && choice.outcome === 'accepted' ? 3650 : 1);
+    return;
+  }
+  if (isIOS()) {
+    document.getElementById('installSub').textContent = 'Tap the Share icon, then "Add to Home Screen"';
+    return; // leave banner open with instructions, no native prompt on iOS
+  }
+  // Fallback: browser doesn't support install prompt (e.g. desktop Safari/Firefox)
+  document.getElementById('installSub').textContent = 'Use your browser menu → "Install app" / "Add to Home Screen"';
+}
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  showInstallBanner();
+});
+window.addEventListener('appinstalled', () => {
+  dismissInstallBanner(3650);
+});
+// Show banner for iOS (no beforeinstallprompt event exists there) after a short delay
+document.addEventListener('DOMContentLoaded', () => {
+  if (isIOS() && installBannerAllowed()) {
+    setTimeout(showInstallBanner, 2500);
+  }
+});
+
 /* ── STATE ── */
 let apiKey = localStorage.getItem('puthi_groq_key') || '';
 let chatHistory = [];
