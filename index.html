@@ -1196,7 +1196,14 @@ const MOOD_EMOJIS = [
   [/love|relationship|heart|romantic/i, '❤️💕'],
   [/think|believe|opinion|view/i, '🤔💬'],
 ];
-
+/* ── MY Q&A KNOWLEDGE BASE ── */
+const myQuiz = [
+  {
+    question: "did you know your developer ?",
+    answer: "ohh his name is Puthi "
+  },
+  
+  
 function getMoodEmoji(text) {
   for (const [rx, em] of MOOD_EMOJIS) {
     if (rx.test(text)) return em;
