@@ -12,7 +12,7 @@
 // knowledge.
 // ─────────────────────────────────────────────────────────────
 
-const FALLBACK_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3-32b', 'openai/gpt-oss-20b'];
+const FALLBACK_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
 const TIMEZONE = process.env.APP_TIMEZONE || 'Asia/Phnom_Penh';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const UPSTREAM_TIMEOUT_MS = 55000;
