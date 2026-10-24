@@ -2,14 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>CP-AI</title>
-<meta name="theme-color" content="#080a12">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 110'%3E%3Ccircle cx='50' cy='55' r='50' fill='%234CC3E8'/%3E%3C/svg%3E">
-<link id="pwaManifest" rel="manifest" href='data:application/manifest+json,{"name":"CP-AI","short_name":"CP-AI","start_url":".","display":"standalone","background_color":"%23080a12","theme_color":"%23080a12","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 110%27%3E%3Ccircle cx=%2750%27 cy=%2755%27 r=%2750%27 fill=%27%234CC3E8%27/%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}'>
+<meta name="theme-color" content="#02101f">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<meta name="apple-mobile-web-app-title" content="CP-AI">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ── */
@@ -1321,6 +1323,14 @@ async function doInstallApp() {
   toast(isIOS() ? 'Tap Share → "Add to Home Screen"' : 'Use browser menu → "Install app"');
 }
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstallPrompt = e; });
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  document.getElementById('installBanner')?.remove();
+  toast('CP-AI installed ✅');
+});
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+}
 
 let chatHistory = [];
 const msgStore = [];
