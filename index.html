@@ -1033,7 +1033,7 @@ body::after {
       Settings — CP-AI
     </div>
     <div class="modal-lbl">Model ID</div>
-    <input type="text" class="modal-inp" id="modelInput" placeholder="qwen/qwen3-32b" autocomplete="off" spellcheck="false"/>
+    <input type="text" class="modal-inp" id="modelInput" placeholder="llama-3.3-70b-versatile" autocomplete="off" spellcheck="false"/>
     <div class="modal-st" id="apiStatus"></div>
     <div class="modal-info">
       Your API key is securely handled on the Vercel backend server.<br>
@@ -1171,7 +1171,7 @@ let toolsOpen   = false;
 let welcomeHTML = '';
 
 const BACKEND_URL = '/api/chat';
-const DEFAULT_MODEL = 'qwen/qwen3-32b';
+const DEFAULT_MODEL = 'llama-3.3-70b-versatile'; // បានកែតម្រូវតម្លៃលំនាំដើមថ្មីនៅទីនេះ
 const getModel = () => ls('cpai_model') || DEFAULT_MODEL;
 const CHAT_SYSTEM = 'You are CP-AI, a powerful, friendly and playful AI assistant. Use emojis naturally throughout your responses to express feelings and make responses more engaging. Format with **bold**, ### headings and bullet points where helpful. Always match the language the user writes in.';
 
