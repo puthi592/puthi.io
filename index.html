@@ -1057,7 +1057,7 @@ input:checked + .slider:before { transform:translateX(20px); }
     <!-- Model ID -->
     <div style="margin-bottom:12px">
       <div class="settings-label" style="margin-bottom:4px">🔑 Model ID</div>
-      <input type="text" class="modal-inp" id="modelInput" placeholder="openai/gpt-oss-120b" autocomplete="off" spellcheck="false"/>
+      <input type="text" class="modal-inp" id="modelInput" placeholder="qwen/qwen3.6-27b" autocomplete="off" spellcheck="false"/>
     </div>
 
     <!-- Install App -->
@@ -1182,12 +1182,12 @@ let welcomeHTML = '';
 let autoSpeak   = false;
 
 const BACKEND_URL = '/api/chat';
-const DEFAULT_MODEL = 'openai/gpt-oss-120b';
-// Models Groq has shut down. If one of these is saved in the browser, fall back to the default.
-const DEAD_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'llama3-8b-8192', 'llama3-70b-8192'];
+const DEFAULT_MODEL = 'qwen/qwen3.6-27b';
+// Old or shut-down models. If one of these is saved in the browser, fall back to the default.
+const OLD_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'llama3-8b-8192', 'llama3-70b-8192', 'openai/gpt-oss-120b'];
 const getModel = () => {
   const saved = ls('cpai_model');
-  if (!saved || DEAD_MODELS.includes(saved)) return DEFAULT_MODEL;
+  if (!saved || OLD_MODELS.includes(saved)) return DEFAULT_MODEL;
   return saved;
 };
 const CHAT_SYSTEM = 'You are CP-AI, a powerful, friendly and playful AI assistant. Use emojis naturally throughout your responses to express feelings and make responses more engaging. Format with **bold**, ### headings and bullet points where helpful. Always match the language the user writes in.';
