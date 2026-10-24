@@ -1022,7 +1022,7 @@ input:checked + .slider:before { transform:translateX(20px); }
           <div style="font-size:50px; margin-bottom:10px;">👨‍💻</div>
           <div style="font-size:22px; font-weight:700; color:var(--cyan); margin-bottom:10px;">I'M PUTHI </div>
           <p style="font-size:15px; line-height:1.8; color:var(--text2);">
-            🙂 Halo everyone my name <storng>Puthi know as Dexter.Patrick </storng> . a student at TPN High School studying in Grade 10IT class i am love learning about technology space history and how machin work and artificial intelligence, rather love being alone more than in friend group
+            🙂 Halo everyone my name <strong>Puthi know as Dexter.Patrick </strong> . a student at TPN High School studying in Grade 10IT class i am love learning about technology space history and how machin work and artificial intelligence, rather love being alone more than in friend group
           </p>
         </div>
       </div>
@@ -1057,7 +1057,7 @@ input:checked + .slider:before { transform:translateX(20px); }
     <!-- Model ID -->
     <div style="margin-bottom:12px">
       <div class="settings-label" style="margin-bottom:4px">🔑 Model ID</div>
-      <input type="text" class="modal-inp" id="modelInput" placeholder="llama-3.3-70b-versatile" autocomplete="off" spellcheck="false"/>
+      <input type="text" class="modal-inp" id="modelInput" placeholder="openai/gpt-oss-120b" autocomplete="off" spellcheck="false"/>
     </div>
 
     <!-- Install App -->
@@ -1182,8 +1182,14 @@ let welcomeHTML = '';
 let autoSpeak   = false;
 
 const BACKEND_URL = '/api/chat';
-const DEFAULT_MODEL = 'llama-3.3-70b-versatile';
-const getModel = () => ls('cpai_model') || DEFAULT_MODEL;
+const DEFAULT_MODEL = 'openai/gpt-oss-120b';
+// Models Groq has shut down. If one of these is saved in the browser, fall back to the default.
+const DEAD_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'llama3-8b-8192', 'llama3-70b-8192'];
+const getModel = () => {
+  const saved = ls('cpai_model');
+  if (!saved || DEAD_MODELS.includes(saved)) return DEFAULT_MODEL;
+  return saved;
+};
 const CHAT_SYSTEM = 'You are CP-AI, a powerful, friendly and playful AI assistant. Use emojis naturally throughout your responses to express feelings and make responses more engaging. Format with **bold**, ### headings and bullet points where helpful. Always match the language the user writes in.';
 
 const DEV_RX = /who.*(developer|creator|made you|built you|created you)/i;
@@ -1475,7 +1481,7 @@ function generateImage() {
   const [w, h] = SIZES[selSizeVal] || SIZES['1:1'];
   const full = prompt + ', ' + (STYLE_HINTS[selStyleVal] || '');
   const seed = Math.floor(Math.random() * 1e9);
-  const url = '[https://image.pollinations.ai/prompt/](https://image.pollinations.ai/prompt/)' + encodeURIComponent(full) +
+  const url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(full) +
               '?width=' + w + '&height=' + h + '&seed=' + seed + '&nologo=true&model=flux';
 
   $('genResults').style.display = 'block';
