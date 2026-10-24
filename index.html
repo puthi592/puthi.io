@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -582,7 +582,7 @@ body::after {
 @media (max-width:640px) {
   .sidebar { display:none; }
   .hamburger-btn { display:flex; }
-  .mode-tabs { display:none; }  /* hidden on mobile — use drawer instead */
+  .mode-tabs { display:none; }
   .topbar { height:54px; padding:0 14px; gap:9px; }
   .tb-sub { display:none; }
   .online-pill { font-size:11px; padding:3px 9px; }
@@ -598,7 +598,6 @@ body::after {
   .wcc-avatar { width:74px; height:74px; font-size:34px; }
 }
 
-/* ── TABLET ── */
 @media (min-width:641px) and (max-width:900px) {
   .sidebar { width:54px; }
   .sb-btn { width:40px; height:40px; font-size:17px; }
@@ -1014,8 +1013,8 @@ body::after {
     <div class="signin-notice">👋 Choose a name btw!</div>
     <div class="signin-field-lbl">YOUR NAME</div>
     <input class="signin-inp" id="signinName" placeholder="Enter your name…" autocomplete="off" maxlength="30"/>
-    <div class="signin-field-lbl">GROQ API KEY <span style="color:var(--muted);font-weight:400">(optional — for chat/code)</span></div>
-    <input type="password" class="signin-inp" id="signinKey" placeholder="gsk_… (leave blank to use image gen only)" autocomplete="off"/>
+    <div class="signin-field-lbl">GROQ API KEY <span style="color:var(--muted);font-weight:400">(optional — needed for chat/translate/code)</span></div>
+    <input type="password" class="signin-inp" id="signinKey" placeholder="gsk_… (you can add it later in Settings)" autocomplete="off"/>
     <div class="modal-st" id="signinStatus" style="min-height:20px;width:100%;text-align:center;font-size:13px;font-weight:600;"></div>
     <button class="signin-btn" onclick="doSignIn()">✨ Sign In</button>
     <div class="signin-device">Your Device ID: <strong id="deviceId">#00000000</strong></div>
@@ -1035,14 +1034,18 @@ body::after {
       <div class="modal-logo-sm"><svg width="28" height="28"><use href="#robo"/></svg></div>
       API Settings — CP-AI
     </div>
-    <div class="modal-lbl">Groq API Key — Chat, Translate &amp; Code</div>
-    <input type="password" class="modal-inp" id="apiKeyInput" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx (optional for image gen)" autocomplete="off"/>
+    <div class="modal-lbl">Groq API Key — Chat, Translate, Code &amp; Search</div>
+    <input type="password" class="modal-inp" id="apiKeyInput" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off"/>
+    <div class="modal-lbl">Model ID</div>
+    <input type="text" class="modal-inp" id="modelInput" placeholder="qwen/qwen3-32b" autocomplete="off" spellcheck="false"/>
     <div class="modal-st" id="apiStatus"></div>
-    <div class="modal-lbl" style="color:var(--green)">✅ Image Generation — Built-in (no key needed!)</div>
-    <div class="modal-info" style="border-color:rgba(74,222,128,.2);background:rgba(74,222,128,.04)">
-      🎨 Image generation uses <strong>Cloudflare AI · Flux</strong> and is ready to use immediately — no API key required!<br><br>
-      For <strong>Chat / Translate / Code</strong> features, enter a Groq key:<br>
-      1. ចូលទៅ <strong>console.groq.com</strong><br>      <button class="btn-save" onclick="saveApiKey()">✓ Save &amp; Start</button>
+    <div class="modal-info">
+      Get a free key: go to <strong>console.groq.com</strong> → API Keys → Create key, then paste it above.<br>
+      The model must be an exact Groq model ID (see <strong>console.groq.com/docs/models</strong>).<br><br>
+      🎨 <strong>Image generation</strong> uses Pollinations (free, no key needed).
+    </div>
+    <div class="modal-row">
+      <button class="btn-save" onclick="saveApiKey()">✓ Save &amp; Start</button>
       <button class="btn-cancel" onclick="closeSettings()">Cancel</button>
     </div>
   </div>
@@ -1081,99 +1084,112 @@ body::after {
   </div>
 </div>
 
+<style>
+/* small additions from the fix pass */
+.chat-ta,.gen-prompt-ta,.signin-inp,.modal-inp { font-size:16px; } /* stops iOS zoom-on-focus */
+.bubble code.inl { background:rgba(0,0,0,.35); border-radius:5px; padding:1px 6px; font-family:'JetBrains Mono',monospace; font-size:12.5px; }
+.bubble { overflow-wrap:anywhere; }
+.bubble.err { border-color:rgba(232,121,168,.4) !important; color:#f5b5cf; }
+.cp-toast { position:fixed; left:50%; bottom:90px; transform:translateX(-50%); z-index:5000; background:rgba(20,24,44,.95); border:1px solid rgba(255,255,255,.16); color:#fff; padding:10px 18px; border-radius:12px; font-size:13px; box-shadow:0 8px 30px rgba(0,0,0,.4); }
+.img-card img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
+.out-note { margin-top:10px; font-size:11px; color:var(--muted); }
+</style>
+
 <script>
-/* ── SPLASH SCREEN ── */
-(function(){
-  const MIN_SHOW = 1300; // ms the logo animation stays visible at minimum
-  const started = Date.now();
-  function hideSplash(){
-    const el = document.getElementById('splashScreen');
-    if (!el) return;
-    const elapsed = Date.now() - started;
-    const wait = Math.max(0, MIN_SHOW - elapsed);
-    setTimeout(()=>{
-      el.classList.add('hide');
-      setTimeout(()=> el.remove(), 600);
-    }, wait);
+/* ═══════════ helpers ═══════════ */
+const $ = id => document.getElementById(id);
+function ls(k, v) {            // localStorage that never throws (private mode, blocked storage…)
+  try {
+    if (v === undefined) return localStorage.getItem(k);
+    if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v);
+  } catch (e) { return null; }
+}
+function onReady(fn) {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn();
+}
+function sh(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(msg) {
+  const t = document.createElement('div'); t.className = 'cp-toast'; t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2200);
+}
+function pick(el, sel) {       // select one chip inside its own group only
+  el.parentElement.querySelectorAll(sel).forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+const stripEmoji = s => s.replace(/[^\w\s#+.-]/g, '').trim();
+
+/* ═══════════ SPLASH SCREEN (never waits for fonts / window "load") ═══════════ */
+(function () {
+  const MIN_SHOW = 1300, started = Date.now();
+  let done = false;
+  function hideSplash() {
+    if (done) return; done = true;
+    const el = $('splashScreen'); if (!el) return;
+    const wait = Math.max(0, MIN_SHOW - (Date.now() - started));
+    setTimeout(() => { el.classList.add('hide'); setTimeout(() => el.remove(), 600); }, wait);
   }
-  if (document.readyState === 'complete') hideSplash();
-  else window.addEventListener('load', hideSplash);
+  onReady(hideSplash);
+  setTimeout(hideSplash, 3500);   // safety net
 })();
 
-/* ── INSTALL / DOWNLOAD APP BANNER ── */
+/* ═══════════ INSTALL APP BANNER ═══════════ */
 let deferredInstallPrompt = null;
 const INSTALL_DISMISS_KEY = 'cpai_install_dismissed_until';
-const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+const isStandalone = () => (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
-
-function installBannerAllowed(){
-  if (isStandalone()) return false; // already installed / running as app
-  const until = parseInt(localStorage.getItem(INSTALL_DISMISS_KEY) || '0', 10);
-  return Date.now() > until;
+function installBannerAllowed() {
+  if (isStandalone()) return false;
+  return Date.now() > parseInt(ls(INSTALL_DISMISS_KEY) || '0', 10);
 }
-function showInstallBanner(){
+function showInstallBanner() {
   if (!installBannerAllowed()) return;
-  const banner = document.getElementById('installBanner');
-  if (isIOS()) {
-    document.getElementById('installSub').textContent = 'Tap Share, then "Add to Home Screen"';
-  }
-  banner.classList.add('show');
-  requestAnimationFrame(()=> requestAnimationFrame(()=> banner.classList.add('slide-up')));
+  const b = $('installBanner');
+  if (isIOS()) $('installSub').textContent = 'Tap Share, then "Add to Home Screen"';
+  b.classList.add('show');
+  requestAnimationFrame(() => requestAnimationFrame(() => b.classList.add('slide-up')));
 }
-function dismissInstallBanner(days){
-  const banner = document.getElementById('installBanner');
-  banner.classList.remove('slide-up');
-  setTimeout(()=> banner.classList.remove('show'), 450);
-  const untilMs = Date.now() + (days || 7) * 24 * 60 * 60 * 1000;
-  localStorage.setItem(INSTALL_DISMISS_KEY, String(untilMs));
+function dismissInstallBanner(days) {
+  const b = $('installBanner');
+  b.classList.remove('slide-up');
+  setTimeout(() => b.classList.remove('show'), 450);
+  ls(INSTALL_DISMISS_KEY, String(Date.now() + (typeof days === 'number' ? days : 7) * 86400000));
 }
-async function doInstallApp(){
+async function doInstallApp() {
   if (deferredInstallPrompt) {
     deferredInstallPrompt.prompt();
-    const choice = await deferredInstallPrompt.userChoice.catch(()=>null);
+    const choice = await deferredInstallPrompt.userChoice.catch(() => null);
     deferredInstallPrompt = null;
     dismissInstallBanner(choice && choice.outcome === 'accepted' ? 3650 : 1);
     return;
   }
-  if (isIOS()) {
-    document.getElementById('installSub').textContent = 'Tap the Share icon, then "Add to Home Screen"';
-    return; // leave banner open with instructions, no native prompt on iOS
-  }
-  // Fallback: browser doesn't support install prompt (e.g. desktop Safari/Firefox)
-  document.getElementById('installSub').textContent = 'Use your browser menu → "Install app" / "Add to Home Screen"';
+  $('installSub').textContent = isIOS()
+    ? 'Tap the Share icon, then "Add to Home Screen"'
+    : 'Use your browser menu → "Install app" / "Add to Home Screen"';
 }
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredInstallPrompt = e;
-  showInstallBanner();
-});
-window.addEventListener('appinstalled', () => {
-  dismissInstallBanner(3650);
-});
-// Show banner for iOS (no beforeinstallprompt event exists there) after a short delay
-document.addEventListener('DOMContentLoaded', () => {
-  if (isIOS() && installBannerAllowed()) {
-    setTimeout(showInstallBanner, 2500);
-  }
-});
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstallPrompt = e; showInstallBanner(); });
+window.addEventListener('appinstalled', () => dismissInstallBanner(3650));
+onReady(() => { if (isIOS() && installBannerAllowed()) setTimeout(showInstallBanner, 2500); });
 
-/* ── STATE ── */
-let apiKey = localStorage.getItem('puthi_groq_key') || '';
+/* ═══════════ STATE & CONFIG ═══════════ */
+let apiKey = ls('puthi_groq_key') || '';
 let chatHistory = [];
-let toolsOpen = false;
+const msgStore = [];            // AI replies, referenced by index from the action buttons
 let selStyleVal = 'Realistic';
 let selSizeVal  = '1:1';
 let selLangVal  = 'Khmer';
 let selCodeVal  = 'Python';
+let toolsOpen   = false;
+let welcomeHTML = '';
 
-const GROQ_URL   = 'https://api.groq.com/openai/v1/chat/completions';
-const GROQ_MODEL = llama-3.1-8b-instant
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const DEFAULT_MODEL = 'qwen/qwen3-32b';   // change in Settings → Model ID
+const getModel = () => ls('cpai_model') || DEFAULT_MODEL;
+const CHAT_SYSTEM = 'You are CP-AI, a powerful, friendly and playful AI assistant. Use emojis naturally throughout your responses to express feelings and make responses more engaging. Format with **bold**, ### headings and bullet points where helpful. Always match the language the user writes in.';
 
-function getHeaders() {
-  return { 'Authorization': 'Bearer ' + apiKey, 'Content-Type': 'application/json' };
-}
+const DEV_RX = /who.*(developer|creator|made you|built you|created you)/i;
+const DEV_REPLY = "🙂 My creator's name is Puthi. He is a student at TPN High School and is currently 15 years old. He's a unique individual, being both very smart and a little stupid at the same time 😊. Puthi is passionate about learning and is particularly interested in space and astronomy 🚀. He's a bit of an introvert and enjoys spending time alone, lost in his own thoughts 🤔. He is studying in Grade 10IT class, where he is learning about the latest technologies and developing his programming skills 📚💻. Despite his young age, Puthi is already showing a keen interest in artificial intelligence and machine learning, and is working hard to create innovative projects like me 🤖! 🚀";
 
-/* ── EMOJI MOOD MAP for AI responses ── */
+/* ── emoji mood for AI replies ── */
 const MOOD_EMOJIS = [
   [/happy|great|amazing|love|awesome|wonderful|fantastic|excellent|joy|yay|congrat/i, '😄🎉'],
   [/sad|sorry|unfortunate|regret|disappoint|bad news/i, '😢💙'],
@@ -1185,487 +1201,378 @@ const MOOD_EMOJIS = [
   [/food|eat|recipe|cook|meal|drink/i, '🍜😋'],
   [/travel|trip|journey|visit|country|city/i, '✈️🗺️'],
   [/health|doctor|medicine|sick|feel/i, '💊🏥'],
-  [/music|song|listen|play|concert/i, '🎵🎶'],
-  [/game|play|fun|entertain/i, '🎮😄'],
+  [/music|song|listen|concert/i, '🎵🎶'],
+  [/game|fun|entertain/i, '🎮😄'],
   [/math|calculation|number|solve|equation/i, '🔢🧮'],
   [/science|research|discover|experiment/i, '🔬🧪'],
   [/art|design|creative|draw|paint/i, '🎨✨'],
   [/sport|exercise|workout|gym|run/i, '💪🏃'],
   [/question|wonder|curious|how|why|what/i, '🤔💭'],
   [/fact|history|ancient|time|year/i, '📜🏛️'],
-  [/love|relationship|heart|romantic/i, '❤️💕'],
+  [/relationship|heart|romantic/i, '❤️💕'],
   [/think|believe|opinion|view/i, '🤔💬'],
 ];
-/* ── MY Q&A KNOWLEDGE BASE ── */
-const myQuiz = {
-  "did you know your developer?": "ohh his name is Puthi",
-  "សួស្តី": "សួស្តីបាទ! ខ្ញុំជាជំនួយការ AI របស់ពុទ្ធី (Puthi)។",
-  "តើអ្នកបង្កើតរបស់អ្នកឈ្មោះអ្វី": "គាត់ឈ្មោះ ពុទ្ធី (Puthi) បាទ!"
-};
-   
-  
-  
 function getMoodEmoji(text) {
-  for (const [rx, em] of MOOD_EMOJIS) {
-    if (rx.test(text)) return em;
-  }
+  for (const [rx, em] of MOOD_EMOJIS) if (rx.test(text)) return em;
   return '🤖✨';
 }
 
-/* ── DEVICE ID ── */
+/* ═══════════ INIT ═══════════ */
 function getDeviceId() {
-  let id = localStorage.getItem('cpai_device_id');
-  if (!id) { id = '#' + Math.floor(10000000 + Math.random()*89999999); localStorage.setItem('cpai_device_id', id); }
+  let id = ls('cpai_device_id');
+  if (!id) { id = '#' + Math.floor(10000000 + Math.random() * 89999999); ls('cpai_device_id', id); }
   return id;
 }
-
-/* ── INIT ── */
-window.onload = () => {
-  document.getElementById('deviceId').textContent = getDeviceId();
-  const savedName = localStorage.getItem('cpai_user_name');
-  const savedKey  = localStorage.getItem('puthi_groq_key') || '';
-  if (savedKey) document.getElementById('signinKey').value = savedKey;
-  if (savedName && savedKey) {
-    apiKey = savedKey;
-    document.getElementById('apiKeyInput').value = savedKey;
-    document.getElementById('greetName').textContent = savedName;
-    document.getElementById('signInModal').style.display = 'none';
+onReady(() => {
+  $('deviceId').textContent = getDeviceId();
+  const w = $('welcomeScreen'); if (w) welcomeHTML = w.outerHTML;
+  const savedName = ls('cpai_user_name');
+  if (apiKey) $('signinKey').value = apiKey;
+  $('apiKeyInput').value = apiKey;
+  $('modelInput').value = getModel();
+  if (savedName) {                         // a key is optional, so only the name is required
+    $('greetName').textContent = savedName;
+    $('signInModal').style.display = 'none';
   }
-  document.getElementById('genPrompt').addEventListener('input', e => {
-    document.getElementById('promptCounter').textContent = e.target.value.length + ' / 500';
-  });
-};
+  $('genPrompt').setAttribute('maxlength', '500');
+  $('genPrompt').addEventListener('input', e => { $('promptCounter').textContent = e.target.value.length + ' / 500'; });
+  $('signinName').addEventListener('keydown', e => { if (e.key === 'Enter') doSignIn(); });
+  const bg = ls('cpai_bg_theme'); if (bg) document.body.setAttribute('data-bg', bg);
+});
 
-/* ── SIGN IN ── */
+/* ═══════════ SIGN IN ═══════════ */
 function doSignIn() {
-  const name = document.getElementById('signinName').value.trim();
-  const key  = document.getElementById('signinKey').value.trim();
-  const st   = document.getElementById('signinStatus');
-  if (!name) { st.className='modal-st err'; st.textContent='⚠️ Please enter your name!'; return; }
-  // Groq key is optional — image generation works without it
-  if (key && !key.startsWith('gsk_')) { st.className='modal-st err'; st.textContent='⚠️ Invalid Groq key. Must start with gsk_ (or leave blank)'; return; }
-  st.className='modal-st ok'; st.textContent='✅ Signing in…';
+  const name = $('signinName').value.trim();
+  const key  = $('signinKey').value.trim();
+  const st   = $('signinStatus');
+  if (!name) { st.className = 'modal-st err'; st.textContent = '⚠️ Please enter your name!'; return; }
+  if (key && !key.startsWith('gsk_')) { st.className = 'modal-st err'; st.textContent = '⚠️ Invalid Groq key. It must start with gsk_ (or leave blank)'; return; }
+  st.className = 'modal-st ok'; st.textContent = '✅ Signing in…';
   apiKey = key;
-  localStorage.setItem('cpai_user_name', name);
-  if (key) localStorage.setItem('puthi_groq_key', key);
-  document.getElementById('apiKeyInput').value = key;
-  document.getElementById('greetName').textContent = name;
-  setTimeout(() => { document.getElementById('signInModal').style.display='none'; }, 600);
+  ls('cpai_user_name', name);
+  if (key) ls('puthi_groq_key', key);
+  $('apiKeyInput').value = key;
+  $('greetName').textContent = name;
+  setTimeout(() => { $('signInModal').style.display = 'none'; }, 500);
 }
 
-/* ── SETTINGS ── */
-/* ── BACKGROUND THEME ── */
-function openBgPicker() {
-  document.getElementById('bgModal').classList.add('open');
-  markActiveBgSwatch();
-}
-function closeBgPicker() { document.getElementById('bgModal').classList.remove('open'); }
-function setBgTheme(theme) {
-  document.body.setAttribute('data-bg', theme);
-  localStorage.setItem('cpai_bg_theme', theme);
-  markActiveBgSwatch();
-}
+/* ═══════════ SETTINGS & BACKGROUND ═══════════ */
+function openBgPicker() { $('bgModal').classList.add('open'); markActiveBgSwatch(); }
+function closeBgPicker() { $('bgModal').classList.remove('open'); }
+function setBgTheme(t) { document.body.setAttribute('data-bg', t); ls('cpai_bg_theme', t); markActiveBgSwatch(); }
 function markActiveBgSwatch() {
-  const current = document.body.getAttribute('data-bg') || 'dark';
-  document.querySelectorAll('.bg-swatch').forEach(s => {
-    s.classList.toggle('active', s.dataset.theme === current);
-  });
+  const cur = document.body.getAttribute('data-bg') || 'dark';
+  document.querySelectorAll('.bg-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === cur));
 }
-(function initBgTheme(){
-  const saved = localStorage.getItem('cpai_bg_theme');
-  if (saved) document.body.setAttribute('data-bg', saved);
-})();
-
-function openSettings() { document.getElementById('settingsModal').classList.add('open'); }
-function closeSettings(){ document.getElementById('settingsModal').classList.remove('open'); }
+function openSettings() {
+  $('apiKeyInput').value = apiKey;
+  $('modelInput').value = getModel();
+  $('apiStatus').textContent = '';
+  $('settingsModal').classList.add('open');
+}
+function closeSettings() { $('settingsModal').classList.remove('open'); }
 function saveApiKey() {
-  const k = document.getElementById('apiKeyInput').value.trim();
-  const s = document.getElementById('apiStatus');
-  if (!k.startsWith('gsk_')) { s.className='modal-st err'; s.textContent='⚠️ Must start with gsk_'; return; }
-  apiKey = k; localStorage.setItem('puthi_groq_key', k);
-  s.className='modal-st ok'; s.textContent='✅ Saved!';
-  setTimeout(closeSettings, 900);
+  const k = $('apiKeyInput').value.trim();
+  const m = $('modelInput').value.trim() || DEFAULT_MODEL;
+  const s = $('apiStatus');
+  if (!k.startsWith('gsk_')) { s.className = 'modal-st err'; s.textContent = '⚠️ Key must start with gsk_'; return; }
+  apiKey = k; ls('puthi_groq_key', k); ls('cpai_model', m);
+  s.className = 'modal-st ok'; s.textContent = '✅ Saved!';
+  setTimeout(closeSettings, 700);
 }
 
-/* ── MODE SWITCHING ── */
+/* ═══════════ NAVIGATION ═══════════ */
 function switchMode(m) {
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.sb-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById('panel-'+m)?.classList.add('active');
-  document.getElementById('tab-'+m)?.classList.add('active');
-  document.getElementById('sb-'+m)?.classList.add('active');
-  document.getElementById('dnav-'+m)?.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  $('panel-' + m)?.classList.add('active');
+  $('tab-' + m)?.classList.add('active');
+  $('sb-' + m)?.classList.add('active');
+  $('dnav-' + m)?.classList.add('active');
+  closeTools();
 }
-
-/* ── DRAWER ── */
 function openDrawer() {
-  document.getElementById('navDrawer').classList.add('open');
-  document.getElementById('drawerOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
+  $('navDrawer').classList.add('open'); $('drawerOverlay').classList.add('open'); document.body.style.overflow = 'hidden';
 }
 function closeDrawer() {
-  document.getElementById('navDrawer').classList.remove('open');
-  document.getElementById('drawerOverlay').classList.remove('open');
-  document.body.style.overflow='';
+  $('navDrawer').classList.remove('open'); $('drawerOverlay').classList.remove('open'); document.body.style.overflow = '';
 }
-
-/* ── TOOLS POPUP ── */
-function toggleTools() {
-  toolsOpen = !toolsOpen;
-  document.getElementById('toolsPopup').classList.toggle('open', toolsOpen);
-  document.getElementById('plusBtn').classList.toggle('open', toolsOpen);
-  document.getElementById('closePopupBtn').classList.toggle('open', toolsOpen);
+function setToolsOpen(v) {
+  toolsOpen = v;
+  $('toolsPopup').classList.toggle('open', v);
+  $('plusBtn').classList.toggle('open', v);
+  $('closePopupBtn').classList.toggle('open', v);
 }
-function closeTools() {
-  toolsOpen = false;
-  document.getElementById('toolsPopup').classList.remove('open');
-  document.getElementById('plusBtn').classList.remove('open');
-  document.getElementById('closePopupBtn').classList.remove('open');
-}
-  async function sendMsg() {
-  const ta = document.getElementById('chatInput');
-  const text = ta.value.trim();
-  
-  if (!text) return;
-
-  // --- ADD THIS BLOCK ---
-  // Custom response for your developer
-  if (text.toLowerCase().includes("who is your developer")) {
-    document.getElementById('welcomeScreen')?.remove();
-    ta.value = '';
-    ta.style.height = 'auto';
-    addUser(text);
-    addAI("🙂 My creator's name is Puthi. He is a student at TPN High School and is currently 15 years old. He's a unique individual, being both very smart and a little stupid at the same time 😊. Puthi is passionate about learning and is particularly interested in space and astronomy 🚀. He's a bit of an introvert and enjoys spending time alone, lost in his own thoughts 🤔. He is studying in Grade 10IT class, where he is learning about the latest technologies and developing his programming skills 📚💻. Despite his young age, Puthi is already showing a keen interest in artificial intelligence and machine learning, and is working hard to create innovative projects like me 🤖! 🚀");
-    return; // Stops the code from calling the API
-  }
-  // ----------------------
-
-  if (!apiKey) {
-    openSettings();
-    return;
-  }
-  
-  document.getElementById('welcomeScreen')?.remove();
-  ta.value = '';
-  ta.style.height = 'auto';
-  document.getElementById('sendBtn').disabled = true;
-  addUser(text);
-  chatHistory.push({role:'user', content:text});
-  const tid = addTyping();
-  
-  try {
-    const res = await callAPI(chatHistory);
-    const data = await res.json();
-    rmNode(tid);
-    const r = getReply(data);
-    if (data.choices) {
-      chatHistory.push({role:'assistant', content:r});
-      addAI(r);
-    } else {
-      addAI('⚠️ ' + r);
-    }
-  } catch(e) {
-    rmNode(tid);
-    addAI('⚠️ Network error: ' + e.message);
-  }
-  document.getElementById('sendBtn').disabled = false;
-}
+function toggleTools() { setToolsOpen(!toolsOpen); }
+function closeTools() { setToolsOpen(false); }
 function injectTool(prefix) {
   closeTools();
-  const ta = document.getElementById('chatInput');
+  const ta = $('chatInput');
   ta.value = prefix; ta.focus();
-  ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight,140)+'px';
+  ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 140) + 'px';
 }
 document.addEventListener('click', e => {
   if (toolsOpen && !e.target.closest('#toolsPopup') && !e.target.closest('#plusBtn') && !e.target.closest('#closePopupBtn')) closeTools();
 });
 
-/* ── CHAT ── */
-function qa(txt) { switchMode('chat'); document.getElementById('chatInput').value = txt; sendMsg(); }
-
-function callAPI(msgs, system) {
-  const sys = system || 'You are CP-AI, a powerful, friendly and playful AI assistant. Use emojis naturally throughout your responses to express feelings and make responses more engaging. Format with **bold**, ### headings and bullet points where helpful. Always match the language the user writes in.';
-  return fetch(GROQ_URL, {
-    method:'POST', headers:getHeaders(),
-    body:JSON.stringify({ model:GROQ_MODEL, max_tokens:2048, messages:[{role:'system',content:sys},...msgs] })
+/* ═══════════ GROQ CALL ═══════════ */
+async function ask(msgs, system) {
+  // No AbortController/signal here: sandboxed previews forward fetch via postMessage,
+  // and an AbortSignal can't be cloned. A plain timeout race works everywhere.
+  let timer;
+  const timeout = new Promise((_, rej) => {
+    timer = setTimeout(() => rej(new Error('Request timed out (60s). Try again.')), 60000);
   });
+  const call = (async () => {
+    const res = await fetch(GROQ_URL, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: getModel(), max_tokens: 4096, messages: [{ role: 'system', content: system || CHAT_SYSTEM }, ...msgs] })
+    });
+    let data = null; try { data = await res.json(); } catch (e) {}
+    if (!res.ok) throw new Error(data?.error?.message || ('HTTP ' + res.status));
+    const txt = (data?.choices?.[0]?.message?.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    return txt || '(empty reply)';
+  })();
+  call.catch(() => {});            // avoid an unhandled rejection if the timeout wins
+  try { return await Promise.race([call, timeout]); }
+  finally { clearTimeout(timer); }
+}
+function needKey() {
+  if (apiKey) return false;
+  toast('Add your Groq API key first 🔑');
+  openSettings();
+  return true;
 }
 
-function getReply(data) { return data?.choices?.[0]?.message?.content || data?.error?.message || 'Error'; }
+/* ═══════════ SAFE MARKDOWN RENDER ═══════════ */
+function fmt(raw) {
+  return String(raw).split(/```/).map((p, i) => {
+    if (i % 2 === 1) return '<div class="code-block">' + sh(p.replace(/^[\w#+.-]*\n/, '').replace(/\n$/, '')) + '</div>';
+    let t = sh(p);
+    t = t.replace(/`([^`\n]+)`/g, '<code class="inl">$1</code>');
+    t = t.replace(/^#{1,4}\s+(.+)$/gm, '<h3>$1</h3>');
+    t = t.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+    t = t.replace(/^\s*[-*]\s+/gm, '• ');
+    t = t.replace(/^-{3,}$/gm, '<hr>');
+    t = t.replace(/\n/g, '<br>');
+    return t.replace(/<\/h3><br>/g, '</h3>').replace(/<hr><br>/g, '<hr>');
+  }).join('');
+}
 
+/* ═══════════ CHAT ═══════════ */
+function qa(txt) { switchMode('chat'); $('chatInput').value = txt; sendMsg(); }
+
+let sending = false;
 async function sendMsg() {
-  const ta   = document.getElementById('chatInput');
+  if (sending) return;
+  const ta = $('chatInput');
   const text = ta.value.trim();
   if (!text) return;
-  if (!apiKey) { openSettings(); return; }
-  document.getElementById('welcomeScreen')?.remove();
+
+  if (DEV_RX.test(text)) {          // built-in answer, no API key needed
+    $('welcomeScreen')?.remove();
+    ta.value = ''; ta.style.height = 'auto';
+    addUser(text); addAI(DEV_REPLY);
+    return;
+  }
+  if (needKey()) return;            // keeps the typed text
+
+  $('welcomeScreen')?.remove();
   ta.value = ''; ta.style.height = 'auto';
-  document.getElementById('sendBtn').disabled = true;
+  sending = true; $('sendBtn').disabled = true;
   addUser(text);
-  chatHistory.push({role:'user', content:text});
+  chatHistory.push({ role: 'user', content: text });
   const tid = addTyping();
   try {
-    const res  = await callAPI(chatHistory);
-    const data = await res.json();
+    const r = await ask(chatHistory.slice(-20));
     rmNode(tid);
-    const r = getReply(data);
-    if (data.choices) {
-      chatHistory.push({role:'assistant', content:r});
-      addAI(r);
-    } else { addAI('⚠️ ' + r); }
-  } catch(e) { rmNode(tid); addAI('⚠️ Network error: ' + e.message); }
-  document.getElementById('sendBtn').disabled = false;
+    chatHistory.push({ role: 'assistant', content: r });
+    addAI(r);
+  } catch (e) {
+    rmNode(tid);
+    chatHistory.pop();              // keep history consistent after a failure
+    addAI('⚠️ ' + e.message, true);
+  } finally {
+    sending = false; $('sendBtn').disabled = false; ta.focus();
+  }
 }
 
 function addUser(txt) {
-  const a = document.getElementById('chatArea');
-  const r = document.createElement('div'); r.className='msg-row user';
-  r.innerHTML=`<div class="msg-av">👤</div><div class="msg-body"><div class="bubble">${sh(txt).replace(/\n/g,'<br>')}</div></div>`;
+  const a = $('chatArea');
+  const r = document.createElement('div'); r.className = 'msg-row user';
+  r.innerHTML = '<div class="msg-av">👤</div><div class="msg-body"><div class="bubble">' + sh(txt).replace(/\n/g, '<br>') + '</div></div>';
   a.appendChild(r); sb();
 }
-
-function addAI(txt) {
-  const a = document.getElementById('chatArea');
-  const mood = getMoodEmoji(txt);
-  const r = document.createElement('div'); r.className='msg-row ai';
-  r.innerHTML=`
-    <div class="msg-av"><svg width="32" height="32"><use href="#robo"/></svg></div>
-    <div class="msg-body">
-      <div class="bubble">${fmt(txt)}</div>
-      <div class="msg-acts">
-        <button class="act-btn" onclick="cp(this,\`${esc(txt)}\`)">📋 Copy</button>
-        <button class="act-btn" onclick="spk(\`${esc(txt)}\`)">🔊 Listen</button>
-        <button class="act-btn" onclick="shr(\`${esc(txt)}\`)">🔗 Share</button>
-        <span style="font-size:14px;opacity:.7">${mood}</span>
-      </div>
-    </div>`;
+function addAI(txt, isErr) {
+  const a = $('chatArea');
+  const r = document.createElement('div'); r.className = 'msg-row ai';
+  let actions = '';
+  if (!isErr) {
+    const idx = msgStore.push(txt) - 1;
+    actions = '<div class="msg-acts">' +
+      '<button class="act-btn" onclick="cp(this,' + idx + ')">📋 Copy</button>' +
+      '<button class="act-btn" onclick="spk(' + idx + ')">🔊 Listen</button>' +
+      '<button class="act-btn" onclick="shr(' + idx + ')">🔗 Share</button>' +
+      '<span style="font-size:14px;opacity:.7">' + getMoodEmoji(txt) + '</span></div>';
+  }
+  r.innerHTML = '<div class="msg-av"><svg width="32" height="32"><use href="#robo"/></svg></div>' +
+    '<div class="msg-body"><div class="bubble' + (isErr ? ' err' : '') + '">' + (isErr ? sh(txt) : fmt(txt)) + '</div>' + actions + '</div>';
   a.appendChild(r); sb();
 }
-
-let tN=0;
+let tN = 0;
 function addTyping() {
-  const id='t'+(++tN); const a=document.getElementById('chatArea');
-  const r=document.createElement('div'); r.className='msg-row ai'; r.id=id;
-  r.innerHTML=`<div class="msg-av"><svg width="32" height="32"><use href="#robo"/></svg></div><div class="msg-body"><div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>`;
+  const id = 't' + (++tN), a = $('chatArea');
+  const r = document.createElement('div'); r.className = 'msg-row ai'; r.id = id;
+  r.innerHTML = '<div class="msg-av"><svg width="32" height="32"><use href="#robo"/></svg></div><div class="msg-body"><div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>';
   a.appendChild(r); sb(); return id;
 }
-function rmNode(id){document.getElementById(id)?.remove();}
-function sb(){const a=document.getElementById('chatArea');a.scrollTop=a.scrollHeight;}
+function rmNode(id) { $(id)?.remove(); }
+function sb() { const a = $('chatArea'); a.scrollTop = a.scrollHeight; }
 
-/* ── CLOUDFLARE AI IMAGE CONFIG ── */
-const CF_API_KEY = 'cfut_ZbrmcNYdv3a16Sm5qk6elPY5tEjxMyBiUs2AU0kb2e850fcb';
-const CF_IMG_URL = 'https://api.cloudflare.com/client/v4/accounts/ai/run/@cf/black-forest-labs/flux-1-schnell';
-
-/* ── GENERATE IMAGE ── */
-function selStyle(el) { document.querySelectorAll('.style-chip').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); selStyleVal=el.textContent.replace(/[^\w\s]/g,'').trim(); }
-function selSize(el)  { document.querySelectorAll('.size-btn').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); selSizeVal=el.dataset.s; }
-
-function getSizeDims(ratio) {
-  const map = { '1:1':'512x512', '16:9':'832x480', '9:16':'480x832', '4:3':'640x480' };
-  return map[ratio] || '512x512';
-}
-
-async function generateImage() {
-  const prompt = document.getElementById('genPrompt').value.trim();
-  if (!prompt) { alert('Please enter an image description!'); return; }
-  const btn = document.getElementById('genBtn');
-  btn.disabled=true; btn.textContent='⏳ Generating…';
-  document.getElementById('genResults').style.display='block';
-  const grid=document.getElementById('imgGrid');
-  const card=document.createElement('div'); card.className='img-card';
-  const emojiMap=[
-    [/mountain|nature|forest/i,'🏔️'],[/city|urban/i,'🏙️'],[/ocean|sea|beach/i,'🌊'],
-    [/space|galaxy|star/i,'🌌'],[/cat|dog|animal/i,'🐾'],[/flower|garden/i,'🌸'],
-    [/food|meal/i,'🍜'],[/sunset|sky/i,'🌅'],[/portrait|person/i,'👤'],
-    [/dragon|fantasy/i,'🐉'],[/robot|cyber/i,'🤖'],[/car|vehicle/i,'🚗'],
-    [/music|concert/i,'🎵'],[/sport|game/i,'⚽'],[/space|planet/i,'🪐'],
-  ];
-  let emoji='🖼️'; for(const[rx,em] of emojiMap) if(rx.test(prompt)){emoji=em;break;}
-  card.innerHTML=`
-    <div class="img-preview" id="imgPreview_${Date.now()}" style="animation:none;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
-      <div class="img-preview-emoji" style="animation:wFloat 2s ease infinite">${emoji}</div>
-      <span style="font-size:11px;color:var(--muted)">Generating real image… ✨</span>
-    </div>
-    <div class="img-card-meta">
-      <div class="img-card-prompt">${sh(prompt)}</div>
-      <div class="img-card-actions">
-        <div class="img-ca" id="dlBtn_${Date.now()}">⬇️ Download</div>
-        <div class="img-ca" onclick="cp(this,'${prompt.replace(/'/g,"\\'")}')">📋 Copy Prompt</div>
-      </div>
-    </div>`;
-  grid.prepend(card);
-  card.scrollIntoView({behavior:'smooth',block:'nearest'});
-
-  // Build enhanced prompt with style
-  const styleMap = {
-    'Realistic':'photorealistic, ultra detailed, 8k, professional photography',
-    'Anime':'anime style, Studio Ghibli, vibrant colors, cel shaded',
-    'Oil Painting':'oil painting, impressionist, thick brushstrokes, artistic',
-    'Sketch':'pencil sketch, hand drawn, detailed linework, graphite',
-    'Watercolor':'watercolor painting, soft edges, pastel tones, artistic',
-    'Cyberpunk':'cyberpunk, neon lights, futuristic city, sci-fi, dark atmosphere',
-    'Fantasy':'fantasy art, magical, epic, detailed, mystical lighting',
-    'Photography':'professional photography, DSLR, bokeh, golden hour, sharp focus',
-    'Pixel Art':'pixel art, 16-bit, retro game style, pixelated',
-    'Abstract':'abstract art, geometric, surreal, modern art, colorful'
-  };
-  const styleEnhance = styleMap[selStyleVal] || 'high quality, detailed';
-  const fullPrompt = `${prompt}, ${styleEnhance}`;
-
-  const dims = getSizeDims(selSizeVal).split('x');
-  const previewEl = card.querySelector('.img-preview, [id^="imgPreview_"]') || card.querySelector('div');
-
-  try {
-    const res = await fetch(CF_IMG_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + CF_API_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        prompt: fullPrompt,
-        num_steps: 8,
-        width: parseInt(dims[0]),
-        height: parseInt(dims[1])
-      })
-    });
-
-    if (!res.ok) {
-      const errData = await res.json().catch(()=>({}));
-      throw new Error(errData?.errors?.[0]?.message || `HTTP ${res.status}`);
-    }
-
-    // Cloudflare returns raw image bytes
-    const blob = await res.blob();
-    const imgUrl = URL.createObjectURL(blob);
-
-    const imgEl = card.querySelector('.img-preview') || card.querySelector('div');
-    imgEl.style.cssText='padding:0;overflow:hidden;border-radius:12px;min-height:0;background:transparent';
-    imgEl.innerHTML=`
-      <img src="${imgUrl}" alt="${sh(prompt)}"
-        style="width:100%;border-radius:12px;display:block;cursor:pointer"
-        onclick="window.open('${imgUrl}','_blank')" />`;
-
-    // Wire up download button
-    const dlBtns = card.querySelectorAll('.img-ca');
-    if (dlBtns[0]) {
-      dlBtns[0].onclick = () => {
-        const a = document.createElement('a');
-        a.href = imgUrl;
-        a.download = 'cp-ai-image.png';
-        a.click();
-      };
-    }
-
-  } catch(e) {
-    const imgEl = card.querySelector('.img-preview') || card.querySelector('div');
-    imgEl.innerHTML=`
-      <div style="padding:20px;text-align:center">
-        <div style="font-size:32px;margin-bottom:8px">⚠️</div>
-        <div style="color:#f87171;font-size:13px">Image generation failed</div>
-        <div style="color:var(--muted);font-size:11px;margin-top:4px">${sh(e.message)}</div>
-      </div>`;
-  }
-  btn.disabled=false; btn.innerHTML='✨ Generate Image';
-}
-
-/* ── TRANSLATE ── */
-function selLang(el){document.querySelectorAll('#panel-translate .style-chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');selLangVal=el.dataset.l;}
-async function doTranslate(){
-  const txt=document.getElementById('translateInput').value.trim();
-  if(!txt||!apiKey){if(!apiKey)openSettings();return;}
-  document.getElementById('translateResult').style.display='block';
-  document.getElementById('translateOutput').innerHTML='<span style="color:var(--muted)">Translating… 🌐</span>';
-  try{
-    const res=await fetch(GROQ_URL,{method:'POST',headers:getHeaders(),body:JSON.stringify({model:GROQ_MODEL,max_tokens:1024,
-      messages:[{role:'system',content:'You are a professional translator. Provide only the translation, no explanation.'},{role:'user',content:`Translate this text to ${selLangVal}:\n\n${txt}`}]
-    })});
-    const d=await res.json();
-    document.getElementById('translateOutput').innerHTML=fmt(getReply(d));
-  }catch(e){document.getElementById('translateOutput').textContent='⚠️ '+e.message;}
-}
-
-/* ── CODE ── */
-function selCodeLang(el){document.querySelectorAll('#panel-code .style-chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');selCodeVal=el.textContent.replace(/[^\w]/g,'').trim();}
-async function doCode(){
-  const txt=document.getElementById('codeInput').value.trim();
-  if(!txt||!apiKey){if(!apiKey)openSettings();return;}
-  document.getElementById('codeResult').style.display='block';
-  document.getElementById('codeOutput').textContent='Generating code… 💻';
-  try{
-    const res=await fetch(GROQ_URL,{method:'POST',headers:getHeaders(),body:JSON.stringify({model:GROQ_MODEL,max_tokens:2048,
-      messages:[{role:'system',content:'You are an expert programmer. Write clean, well-commented code.'},{role:'user',content:`Write ${selCodeVal} code for: ${txt}\n\nInclude comments explaining the code.`}]
-    })});
-    const d=await res.json();
-    document.getElementById('codeOutput').innerHTML=fmt(getReply(d));
-  }catch(e){document.getElementById('codeOutput').textContent='⚠️ '+e.message;}
-}
-
-/* ── SEARCH ── */
-async function doSearch(){
-  const txt=document.getElementById('searchInput').value.trim();
-  if(!txt||!apiKey){if(!apiKey)openSettings();return;}
-  document.getElementById('searchResult').style.display='block';
-  document.getElementById('searchOutput').innerHTML='<span style="color:var(--muted)">Searching… 🔍</span>';
-  try{
-    const res=await fetch(GROQ_URL,{method:'POST',headers:getHeaders(),body:JSON.stringify({model:GROQ_MODEL,max_tokens:2048,
-      messages:[{role:'system',content:'You are a helpful AI assistant. Provide comprehensive, well-formatted information with emojis.'},{role:'user',content:`Search and provide comprehensive information about: ${txt}\n\nFormat with clear headings and bullet points. Use relevant emojis.`}]
-    })});
-    const d=await res.json();
-    document.getElementById('searchOutput').innerHTML=fmt(getReply(d));
-  }catch(e){document.getElementById('searchOutput').textContent='⚠️ '+e.message;}
-}
-
-/* ── CLEAR CHAT ── */
-function clearChat(){
-  chatHistory=[];
-  const savedName=localStorage.getItem('cpai_user_name')||'there';
-  const a=document.getElementById('chatArea');
-  a.innerHTML=`
-    <div class="welcome-ccai" id="welcomeScreen">
-      <div class="welcome-inner">
-        <div class="wcc-avatar">👋</div>
-        <div class="wcc-title">Hello ${savedName}! I'm CP-AI 🔥 <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <p class="wcc-sub">I'm feeling chill 😎 today — let's chat!</p>
-        <div class="wcc-chips">
-          <div class="wcc-chip" onclick="qa('Who is the developer of CP-AI?')"><span class="wcc-chip-icon">👨‍💻</span> Who is the developer?</div>
-          <div class="wcc-chip" onclick="qa('Tell me a fun fact!')"><span class="wcc-chip-icon">🎉</span> Tell me a fun fact</div>
-          <div class="wcc-chip" onclick="qa('Help me study. Give me a study plan for learning programming.')"><span class="wcc-chip-icon">📚</span> Help me study</div>
-          <div class="wcc-chip" onclick="switchMode('search')"><span class="wcc-chip-icon">▶️</span> YouTube Search</div>
-          <div class="wcc-chip" onclick="switchMode('translate')"><span class="wcc-chip-icon">🌐</span> Translate</div>
-          <div class="wcc-chip" onclick="switchMode('code')"><span class="wcc-chip-icon">💻</span> Code Runner</div>
-          <div class="wcc-chip" onclick="switchMode('image')"><span class="wcc-chip-icon">🧠</span> Generate image</div>
-        </div>
-      </div>
-    </div>`;
+function clearChat() {
+  chatHistory = []; msgStore.length = 0;
+  const a = $('chatArea'); a.innerHTML = welcomeHTML;
+  const n = ls('cpai_user_name'); if (n && $('greetName')) $('greetName').textContent = n;
   switchMode('chat');
 }
 
-/* ── FORMAT ── */
-function fmt(text) {
-  return sh(text)
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/```[\w]*\n?([\s\S]*?)```/g,'<div class="code-block">$1</div>')
-    .replace(/`([^`]+)`/g,'<code style="background:rgba(0,0,0,.3);padding:2px 7px;border-radius:5px;font-family:JetBrains Mono,monospace;font-size:12px;color:#22d3ee;border:1px solid rgba(34,211,238,.2)">$1</code>')
-    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
-    .replace(/^## (.+)$/gm,'<h3 style="font-size:16px">$1</h3>')
-    .replace(/^# (.+)$/gm,'<h3 style="font-size:18px">$1</h3>')
-    .replace(/^={3,}$/gm,'<hr>').replace(/^-{4,}$/gm,'<hr>')
-    .replace(/^\* (.+)$/gm,'• $1').replace(/^- (.+)$/gm,'• $1')
-    .replace(/\n/g,'<br>');
+/* ── message actions ── */
+async function copyText(t) {
+  try { await navigator.clipboard.writeText(t); return true; }
+  catch (e) {
+    try {
+      const ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok;
+    } catch (e2) { return false; }
+  }
 }
-function sh(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function esc(t){return String(t).replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/'/g,"\\'").replace(/\n/g,'\\n');}
+async function cp(btn, idx) {
+  const ok = await copyText(msgStore[idx] || '');
+  const old = btn.textContent; btn.textContent = ok ? '✅ Copied' : '⚠️ Failed';
+  setTimeout(() => { btn.textContent = old; }, 1500);
+}
+function spk(idx) {
+  if (!('speechSynthesis' in window)) { toast('Speech not supported in this browser'); return; }
+  speechSynthesis.cancel();
+  const plain = (msgStore[idx] || '').replace(/```[\s\S]*?```/g, ' code block ').replace(/[*#`_>]/g, '');
+  speechSynthesis.speak(new SpeechSynthesisUtterance(plain));
+}
+async function shr(idx) {
+  const t = msgStore[idx] || '';
+  if (navigator.share) { try { await navigator.share({ title: 'CP-AI', text: t }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+  toast((await copyText(t)) ? 'Copied to clipboard 📋' : 'Could not share');
+}
 
-/* ── ACTIONS ── */
-function cp(btn,txt){
-  navigator.clipboard.writeText(txt).then(()=>{const o=btn.textContent;btn.textContent='✓ Copied!';setTimeout(()=>btn.textContent=o,2000);});
+/* ═══════════ GENERATE IMAGE (Pollinations — no key) ═══════════ */
+function selStyle(el) { pick(el, '.style-chip'); selStyleVal = stripEmoji(el.textContent); }
+function selSize(el)  { pick(el, '.size-btn');  selSizeVal = el.dataset.s; }
+
+const STYLE_HINTS = {
+  'Realistic': 'photorealistic, highly detailed, natural lighting',
+  'Anime': 'anime style, vibrant colors, clean line art',
+  'Oil Painting': 'oil painting, visible brush strokes, rich texture',
+  'Sketch': 'pencil sketch, hand drawn, monochrome',
+  'Watercolor': 'watercolor painting, soft washes, paper texture',
+  'Cyberpunk': 'cyberpunk, neon lights, futuristic, rainy night',
+  'Fantasy': 'fantasy art, magical, epic, intricate details',
+  'Photography': 'professional photography, 85mm lens, shallow depth of field',
+  'Pixel Art': 'pixel art, 16-bit, retro game style',
+  'Abstract': 'abstract art, bold shapes, expressive colors'
+};
+const SIZES = { '1:1': [1024, 1024], '16:9': [1280, 720], '9:16': [720, 1280], '4:3': [1024, 768] };
+
+function generateImage() {
+  const prompt = $('genPrompt').value.trim();
+  if (!prompt) { toast('Describe your image first ✍️'); return; }
+  const [w, h] = SIZES[selSizeVal] || SIZES['1:1'];
+  const full = prompt + ', ' + (STYLE_HINTS[selStyleVal] || '');
+  const seed = Math.floor(Math.random() * 1e9);
+  const url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(full) +
+              '?width=' + w + '&height=' + h + '&seed=' + seed + '&nologo=true&model=flux';
+
+  $('genResults').style.display = 'block';
+  const card = document.createElement('div'); card.className = 'img-card';
+  const prev = document.createElement('div'); prev.className = 'img-preview';
+  prev.innerHTML = '<div class="img-preview-emoji">🎨</div><div>Generating…</div>';
+  const meta = document.createElement('div'); meta.className = 'img-card-meta';
+  const pr = document.createElement('div'); pr.className = 'img-card-prompt'; pr.textContent = prompt; pr.title = prompt;
+  const acts = document.createElement('div'); acts.className = 'img-card-actions';
+  const openBtn = document.createElement('div'); openBtn.className = 'img-ca'; openBtn.textContent = '↗ Open';
+  openBtn.onclick = () => window.open(url, '_blank', 'noopener');
+  acts.appendChild(openBtn); meta.appendChild(pr); meta.appendChild(acts);
+  card.appendChild(prev); card.appendChild(meta);
+  $('imgGrid').prepend(card);
+
+  const btn = $('genBtn'); btn.disabled = true; btn.textContent = '⏳ Generating…';
+  const img = new Image();
+  const finish = () => { btn.disabled = false; btn.textContent = '✨ Generate Image'; };
+  img.onload = () => { card.replaceChild(img, prev); finish(); };
+  img.onerror = () => {
+    prev.innerHTML = '<div class="img-preview-emoji">⚠️</div><div>Image failed. Try again.</div>';
+    finish();
+  };
+  img.alt = prompt;
+  img.src = url;
 }
-function spk(txt){const u=new SpeechSynthesisUtterance(txt.replace(/<[^>]+>/g,''));speechSynthesis.cancel();speechSynthesis.speak(u);}
-function shr(txt){if(navigator.share)navigator.share({title:'CP-AI',text:txt});else{navigator.clipboard.writeText(txt);}}
+
+/* ═══════════ TRANSLATE ═══════════ */
+function selLang(el) { pick(el, '.style-chip'); selLangVal = el.dataset.l; }
+async function doTranslate() {
+  const text = $('translateInput').value.trim();
+  if (!text) { toast('Enter some text to translate'); return; }
+  if (needKey()) return;
+  const btn = document.querySelector('#panel-translate .gen-btn');
+  btn.disabled = true; btn.textContent = '⏳ Translating…';
+  $('translateResult').style.display = 'block';
+  $('translateOutput').textContent = '…';
+  try {
+    const r = await ask([{ role: 'user', content: text }],
+      'You are a professional translator. Translate the user\'s text into ' + selLangVal + '. Output ONLY the translation, with no explanations, notes or quotation marks.');
+    $('translateOutput').textContent = r;
+  } catch (e) { $('translateOutput').textContent = '⚠️ ' + e.message; }
+  btn.disabled = false; btn.textContent = '🌐 Translate';
+}
+
+/* ═══════════ CODE ═══════════ */
+function selCodeLang(el) { pick(el, '.style-chip'); selCodeVal = stripEmoji(el.textContent); }
+async function doCode() {
+  const text = $('codeInput').value.trim();
+  if (!text) { toast('Describe the code you want'); return; }
+  if (needKey()) return;
+  const btn = document.querySelector('#panel-code .gen-btn');
+  btn.disabled = true; btn.textContent = '⏳ Generating…';
+  const out = $('codeOutput');
+  $('codeResult').style.display = 'block';
+  out.className = ''; out.style.whiteSpace = 'normal'; out.style.fontSize = '14px'; out.style.lineHeight = '1.75';
+  out.textContent = '…';
+  try {
+    const r = await ask([{ role: 'user', content: text }],
+      'You are an expert ' + selCodeVal + ' developer. Write clean, working ' + selCodeVal + ' code for the request. Put the code in ONE fenced code block, then give a short explanation. Always match the language the user writes in.');
+    out.innerHTML = fmt(r);
+  } catch (e) { out.textContent = '⚠️ ' + e.message; }
+  btn.disabled = false; btn.textContent = '💻 Generate Code';
+}
+
+/* ═══════════ SEARCH (AI answer, not live web) ═══════════ */
+async function doSearch() {
+  const text = $('searchInput').value.trim();
+  if (!text) { toast('Type what you want to search'); return; }
+  if (needKey()) return;
+  const btn = document.querySelector('#panel-search .gen-btn');
+  btn.disabled = true; btn.textContent = '⏳ Searching…';
+  const out = $('searchOutput');
+  $('searchResult').style.display = 'block';
+  out.textContent = '…';
+  try {
+    const r = await ask([{ role: 'user', content: text }],
+      'You are a helpful search assistant. Answer the query clearly and concisely with key facts, using headings and bullet points where useful. You cannot browse the live web, so never invent URLs or claim to have live data; say when something may be out of date. Always match the language the user writes in.');
+    out.innerHTML = fmt(r) + '<div class="out-note">ℹ️ AI answer from the model\'s own knowledge, not live web results.</div>';
+  } catch (e) { out.textContent = '⚠️ ' + e.message; }
+  btn.disabled = false; btn.textContent = '🔍 Search';
+}
 </script>
 </body>
 </html>
