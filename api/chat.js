@@ -18,19 +18,19 @@ export default async function handler(req, res) {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-      model: model || 'llama-3.1-8b-instant',
-        messages,
-        temperature: 0.7
+        model: model || 'llama3-8b-8192',
+        messages: messages
       })
     });
 
     const data = await response.json();
+    
     if (!response.ok) {
-      return res.status(response.status).json({ error: data.error?.message || 'Groq API error' });
+      return res.status(response.status).json(data);
     }
 
     return res.status(200).json(data);
-  } catch (err) {
-    return res.status(500).json({ error: err.message || 'Internal server error' });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 }
