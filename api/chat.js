@@ -12,7 +12,7 @@
 // knowledge.
 // ─────────────────────────────────────────────────────────────
 
-const FALLBACK_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
+const FALLBACK_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3-32b', 'openai/gpt-oss-20b'];
 const TIMEZONE = process.env.APP_TIMEZONE || 'Asia/Phnom_Penh';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const UPSTREAM_TIMEOUT_MS = 55000;
@@ -36,6 +36,9 @@ const isModelError = (status, data) => {
 };
 
 // True when the request failed because of the search tool (not the model).
+// Temporary failures (rate limit / Groq outage): worth trying the next model.
+const isTransient = (status) => status === 429 || status >= 500;
+
 const isToolError = (status, data) =>
   status === 400 && /tool|browser_search/i.test(String(data?.error?.message || ''));
 
@@ -132,10 +135,11 @@ export default async function handler(req, res) {
       console.error(`Groq error with model "${candidate}":`, result.data);
 
       // Only move on to the next model when the problem is the model itself.
-      if (!isModelError(result.response.status, result.data)) break;
+      if (!isModelError(result.response.status, result.data) && !isTransient(result.response.status)) break;
     }
 
-    return res.status(lastStatus).json(lastData);
+    const message = lastData?.error?.message || (typeof lastData?.error === 'string' ? lastData.error : 'All AI models are unavailable right now.');
+    return res.status(lastStatus).json({ error: { message } });
   } catch (error) {
     console.error(error);
     if (error?.name === 'TimeoutError' || error?.name === 'AbortError') {
