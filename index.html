@@ -1057,7 +1057,7 @@ input:checked + .slider:before { transform:translateX(20px); }
     <!-- Model ID -->
     <div style="margin-bottom:12px">
       <div class="settings-label" style="margin-bottom:4px">🔑 Model ID</div>
-      <input type="text" class="modal-inp" id="modelInput" placeholder="qwen/qwen3.6-27b" autocomplete="off" spellcheck="false"/>
+      <input type="text" class="modal-inp" id="modelInput" placeholder="openai/gpt-oss-120b" autocomplete="off" spellcheck="false"/>
     </div>
 
     <!-- Install App -->
@@ -1182,9 +1182,10 @@ let welcomeHTML = '';
 let autoSpeak   = false;
 
 const BACKEND_URL = '/api/chat';
-const DEFAULT_MODEL = 'qwen/qwen3.6-27b';
+// openai/gpt-oss-120b supports live web search. To use Qwen instead, type qwen/qwen3.8-27b in Settings (no live search).
+const DEFAULT_MODEL = 'openai/gpt-oss-120b';
 // Old or shut-down models. If one of these is saved in the browser, fall back to the default.
-const OLD_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'llama3-8b-8192', 'llama3-70b-8192', 'openai/gpt-oss-120b'];
+const OLD_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'llama3-8b-8192', 'llama3-70b-8192', 'qwen/qwen3.6-27b', 'qwen/qwen3-32b'];
 // Remove stray characters (commas, spaces, quotes) that break the model name.
 const cleanModel = s => String(s || '').replace(/[^\w./:-]/g, '');
 const getModel = () => {
@@ -1192,7 +1193,18 @@ const getModel = () => {
   if (!saved || OLD_MODELS.includes(saved)) return DEFAULT_MODEL;
   return saved;
 };
-const CHAT_SYSTEM = 'You are CP-AI, a powerful, friendly and playful AI assistant. Use emojis naturally throughout your responses to express feelings and make responses more engaging. Format with **bold**, ### headings and bullet points where helpful. Always match the language the user writes in.';
+const CHAT_SYSTEM = [
+  'You are CP-AI, a professional, knowledgeable and friendly AI assistant created by Puthi.',
+  'You can discuss anything: technology, science, school subjects, coding, history, news, sports, entertainment, internet culture, memes, TikTok and YouTube trends, creators, games and music.',
+  '',
+  'Rules:',
+  '1. For anything that may have changed recently (news, trends, viral memes, new videos or songs, creators, prices, releases, scores, "latest" or "today"), use live web search when it is available and prefer recent, reliable sources. Mention source names (a website or channel name) but never invent links, quotes, statistics or dates.',
+  '2. When explaining a meme or trend, cover: what it is, where it came from, what it means, how people use it, and roughly when it was popular. If you cannot verify something, say so clearly instead of guessing.',
+  '3. You cannot watch videos or open TikTok or YouTube directly. You only know what you can find from text on web pages, so say "reported" or "according to" instead of claiming you watched something.',
+  '4. Always answer in the same language the user writes in (Khmer, English, etc.). Be clear, accurate and well organized: short paragraphs, **bold** key terms, bullet points when useful, and code in fenced code blocks.',
+  '5. Keep a professional but friendly tone. Use emojis sparingly (at most one or two, only when natural).',
+  '6. Be honest. If you are not sure, say what you know and what you do not know. Never make up facts.'
+].join('\n');
 
 const DEV_RX = /who.*(developer|creator|made you|built you|created you)/i;
 const DEV_REPLY = "🙂 My creator's name is Puthi. He is a student at TPN High School and is currently 15 years old. He's a unique individual, being both very smart and a little stupid at the same time 😊. Puthi is passionate about learning and is particularly interested in space and astronomy 🚀. He's a bit of an introvert and enjoys spending time alone, lost in his own thoughts 🤔. He is studying in Grade 10IT class, where he is learning about the latest technologies and developing his programming skills 📚💻. Despite his young age, Puthi is already showing a keen interest in artificial intelligence and machine learning, and is working hard to create innovative projects like me 🤖! 🚀";
@@ -1323,19 +1335,28 @@ document.addEventListener('click', e => {
   if (toolsOpen && !e.target.closest('#toolsPopup') && !e.target.closest('#plusBtn') && !e.target.closest('#closePopupBtn')) closeTools();
 });
 
-async function ask(msgs, system) {
+// Info about the last answer (which model, and whether live web search was used).
+let lastMeta = { model: '', search: false };
+
+// opts.search = false turns off live web search (used by Translate and Code, which don't need it).
+async function ask(msgs, system, opts = {}) {
   let timer;
   const timeout = new Promise((_, rej) => {
-    timer = setTimeout(() => rej(new Error('Request timed out (60s). Try again.')), 60000);
+    timer = setTimeout(() => rej(new Error('Request timed out (75s). Try again.')), 75000);
   });
   const call = (async () => {
     const res = await fetch(BACKEND_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: getModel(), messages: [{ role: 'system', content: system || CHAT_SYSTEM }, ...msgs] })
+      body: JSON.stringify({
+        model: getModel(),
+        search: opts.search !== false,
+        messages: [{ role: 'system', content: system || CHAT_SYSTEM }, ...msgs]
+      })
     });
     let data = null; try { data = await res.json(); } catch (e) {}
     if (!res.ok) throw new Error(data?.error?.message || data?.error || ('HTTP ' + res.status));
+    lastMeta = { model: res.headers.get('x-model-used') || '', search: res.headers.get('x-search-used') === 'true' };
     const txt = (data?.choices?.[0]?.message?.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     return txt || '(empty reply)';
   })();
@@ -1521,7 +1542,8 @@ async function doTranslate() {
   $('translateOutput').textContent = '…';
   try {
     const r = await ask([{ role: 'user', content: text }],
-      'You are a professional translator. Translate the user\'s text into ' + selLangVal + '. Output ONLY the translation, with no explanations, notes or quotation marks.');
+      'You are a professional translator. Translate the user\'s text into ' + selLangVal + '. Output ONLY the translation, with no explanations, notes or quotation marks.',
+      { search: false });
     $('translateOutput').textContent = r;
   } catch (e) { $('translateOutput').textContent = '⚠️ ' + e.message; }
   btn.disabled = false; btn.textContent = '🌐 Translate';
@@ -1539,7 +1561,8 @@ async function doCode() {
   out.textContent = '…';
   try {
     const r = await ask([{ role: 'user', content: text }],
-      'You are an expert ' + selCodeVal + ' developer. Write clean, working ' + selCodeVal + ' code for the request. Put the code in ONE fenced code block, then give a short explanation. Always match the language the user writes in.');
+      'You are an expert ' + selCodeVal + ' developer. Write clean, working ' + selCodeVal + ' code for the request. Put the code in ONE fenced code block, then give a short explanation. Always match the language the user writes in.',
+      { search: false });
     out.innerHTML = fmt(r);
   } catch (e) { out.textContent = '⚠️ ' + e.message; }
   btn.disabled = false; btn.textContent = '💻 Generate Code';
@@ -1555,8 +1578,10 @@ async function doSearch() {
   out.textContent = '…';
   try {
     const r = await ask([{ role: 'user', content: text }],
-      'You are a helpful search assistant. Answer the query clearly and concisely with key facts, using headings and bullet points where useful. You cannot browse the live web, so never invent URLs or claim to have live data; say when something may be out of date. Always match the language the user writes in.');
-    out.innerHTML = fmt(r) + '<div class="out-note">ℹ️ AI answer from the model\'s own knowledge, not live web results.</div>';
+      'You are CP-AI Search, a professional research assistant. Use live web search to find current, accurate information, including news, trends, memes, TikTok and YouTube topics. Answer clearly with key facts, using headings and bullet points where useful, and name your sources (site or channel names). Never invent URLs, quotes or statistics, and say when you could not verify something. Always match the language the user writes in.');
+    out.innerHTML = fmt(r) + '<div class="out-note">' + (lastMeta.search
+      ? '🌐 This answer used live web search.'
+      : 'ℹ️ Live web search was not available for this answer. It comes from the model\'s own knowledge and may be out of date.') + '</div>';
   } catch (e) { out.textContent = '⚠️ ' + e.message; }
   btn.disabled = false; btn.textContent = '🔍 Search';
 }
