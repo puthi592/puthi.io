@@ -56,7 +56,7 @@ body::before {
 }
 
 /* ── BACKGROUND THEMES ── */
-body[data-bg="temple"]::before {
+body[data-bg="angkor"]::before {
   background:
     linear-gradient(rgba(10,6,2,.55),rgba(10,6,2,.55)),
     radial-gradient(ellipse 70% 55% at 25% 15%, #d98f3d66, transparent 60%),
@@ -64,32 +64,40 @@ body[data-bg="temple"]::before {
     radial-gradient(ellipse 50% 50% at 50% 100%, #7a4a1e4a, transparent 60%),
     linear-gradient(165deg,#2b1706,#20120a 45%,#160c07 75%,#100905);
 }
-body[data-bg="space"]::before {
+body[data-bg="ocean"]::before {
   background:
-    linear-gradient(rgba(3,4,10,.5),rgba(3,4,10,.5)),
-    radial-gradient(1.5px 1.5px at 15% 20%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 75% 12%, #fff, transparent),
-    radial-gradient(1px 1px at 35% 65%, #cbd5ff, transparent),
-    radial-gradient(1px 1px at 88% 55%, #cbd5ff, transparent),
-    radial-gradient(1.5px 1.5px at 55% 85%, #fff, transparent),
-    radial-gradient(ellipse 70% 55% at 70% 20%, #4c3f9e66, transparent 55%),
-    radial-gradient(ellipse 55% 55% at 15% 80%, #1c6d8c55, transparent 55%),
-    linear-gradient(165deg,#05060f,#0a0a1c 45%,#08081a 75%,#03030a);
+    linear-gradient(rgba(4,10,18,.55),rgba(4,10,18,.55)),
+    radial-gradient(ellipse 70% 55% at 20% 15%, #22d3ee55, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 85% 80%, #3b82f644, transparent 55%),
+    linear-gradient(165deg,#061a2b,#08121e 45%,#050c14 75%,#03070a);
 }
 body[data-bg="forest"]::before {
   background:
     linear-gradient(rgba(3,8,4,.5),rgba(3,8,4,.5)),
     radial-gradient(ellipse 70% 55% at 20% 12%, #1f5c4066, transparent 55%),
     radial-gradient(ellipse 60% 60% at 88% 78%, #3fbe8444, transparent 55%),
-    radial-gradient(ellipse 50% 50% at 50% 100%, #14361f55, transparent 60%),
     linear-gradient(165deg,#040c07,#071009 45%,#050c07 75%,#030a05);
 }
-body[data-bg="white"]::before {
+body[data-bg="sunset"]::before {
   background:
-    linear-gradient(rgba(15,20,32,.62),rgba(15,20,32,.62)),
-    radial-gradient(ellipse 70% 55% at 20% 10%, #ffffff55, transparent 55%),
-    radial-gradient(ellipse 60% 60% at 85% 85%, #dbe6f555, transparent 55%),
-    linear-gradient(165deg,#c9d3e0,#e4eaf2 45%,#eef2f7 75%,#ffffff);
+    linear-gradient(rgba(18,6,10,.55),rgba(18,6,10,.55)),
+    radial-gradient(ellipse 70% 55% at 20% 15%, #f43f5e66, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 85% 80%, #fb923c4a, transparent 55%),
+    linear-gradient(165deg,#2b0c16,#1e0810 45%,#14050a 75%,#0c0306);
+}
+body[data-bg="galaxy"]::before {
+  background:
+    linear-gradient(rgba(3,4,10,.5),rgba(3,4,10,.5)),
+    radial-gradient(1.5px 1.5px at 15% 20%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 75% 12%, #fff, transparent),
+    radial-gradient(1px 1px at 35% 65%, #cbd5ff, transparent),
+    radial-gradient(ellipse 70% 55% at 70% 20%, #4c3f9e66, transparent 55%),
+    linear-gradient(165deg,#05060f,#0a0a1c 45%,#08081a 75%,#03030a);
+}
+body[data-bg="minimal"]::before {
+  background:
+    linear-gradient(rgba(15,20,32,.8),rgba(15,20,32,.8)),
+    linear-gradient(165deg,#111827,#0f172a 45%,#0b0f19 75%,#070a10);
 }
 body::after {
   content:'';
@@ -204,7 +212,7 @@ body::after {
 }
 .ib:hover { color:var(--text); border-color:rgba(76,195,232,.32); background:rgba(76,195,232,.08); box-shadow:inset 0 1px 0 rgba(255,255,255,.12); }
 
-/* ── HAMBURGER (always on) ── */
+/* ── HAMBURGER ── */
 .hamburger-btn {
   display:flex;
   width:36px; height:36px; border-radius:9px;
@@ -517,26 +525,39 @@ body::after {
 .img-ca { flex:1; padding:5px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:7px; font-size:11px; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s; text-align:center; font-family:'Outfit',sans-serif; }
 .img-ca:hover { color:var(--pink); border-color:rgba(244,114,182,.3); }
 
-/* ── MODALS ── */
+/* ── SETTINGS MODAL STYLING ── */
 .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); backdrop-filter:blur(14px); z-index:200; display:none; align-items:center; justify-content:center; padding:20px; }
 .modal-overlay.open { display:flex; }
-.modal { background:rgba(10,12,30,.8); backdrop-filter:blur(34px); border:1px solid rgba(255,255,255,.16); border-radius:24px; padding:30px; width:470px; max-width:100%; animation:modalIn .3s cubic-bezier(.16,1,.3,1); box-shadow:0 24px 64px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.15); max-height:90dvh; overflow-y:auto; }
+.modal { background:rgba(12,15,35,.88); backdrop-filter:blur(34px); border:1px solid rgba(255,255,255,.16); border-radius:22px; padding:24px; width:440px; max-width:100%; animation:modalIn .3s cubic-bezier(.16,1,.3,1); box-shadow:0 24px 64px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.15); max-height:90dvh; overflow-y:auto; }
 @keyframes modalIn{from{opacity:0;transform:scale(.93) translateY(-16px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal-hd { font-size:18px; font-weight:700; margin-bottom:20px; display:flex; align-items:center; gap:12px; }
-.modal-logo-sm { width:36px; height:36px; background:rgba(76,195,232,.12); backdrop-filter:blur(8px); border:1px solid rgba(76,195,232,.3); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 10px rgba(76,195,232,.24),inset 0 1px 0 rgba(255,255,255,.18); overflow:hidden; flex-shrink:0; }
-.modal-lbl { font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:7px; }
-.modal-inp { width:100%; background:rgba(0,0,0,.28); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.1); border-radius:11px; padding:12px 16px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#3FBE84; outline:none; transition:all .2s; margin-bottom:6px; box-shadow:inset 0 2px 6px rgba(0,0,0,.22); }
-.modal-inp:focus { border-color:rgba(76,195,232,.45); box-shadow:0 0 0 3px rgba(76,195,232,.08); }
-.modal-inp::placeholder { color:rgba(238,241,248,.2); font-family:'Outfit',sans-serif; }
-.modal-st { font-size:12px; min-height:16px; margin-bottom:14px; }
-.modal-st.ok { color:#3FBE84; } .modal-st.err { color:#e57272; }
-.modal-info { font-size:13px; color:var(--text2); line-height:1.8; margin-bottom:18px; background:rgba(255,255,255,.035); padding:13px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.07); }
-.modal-info strong { color:var(--cyan); }
-.modal-row { display:flex; gap:10px; }
-.btn-save { flex:1; background:linear-gradient(135deg,rgba(76,195,232,.7),rgba(139,133,240,.7)); backdrop-filter:blur(8px); color:#fff; border:1px solid rgba(76,195,232,.3); border-radius:11px; padding:12px; font-family:'Outfit',sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:all .2s; }
-.btn-save:hover { opacity:.92; }
-.btn-cancel { background:rgba(255,255,255,.05); color:var(--muted); border:1px solid rgba(255,255,255,.1); border-radius:11px; padding:12px 20px; font-family:'Outfit',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; }
-.btn-cancel:hover { color:var(--text); }
+.modal-hd { font-size:17px; font-weight:700; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; color:var(--text); }
+.modal-hd-left { display:flex; align-items:center; gap:10px; }
+.modal-close-x { background:transparent; border:none; color:var(--muted); font-size:18px; cursor:pointer; transition:color .2s; }
+.modal-close-x:hover { color:var(--text); }
+.settings-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.06); gap:12px; }
+.settings-row:last-child { border-bottom:none; }
+.settings-label { display:flex; align-items:center; gap:10px; font-size:14px; font-weight:500; color:var(--text2); flex:1; }
+.settings-btn { padding:6px 14px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); border-radius:10px; font-size:12px; font-weight:600; color:var(--text); cursor:pointer; transition:all .2s; }
+.settings-btn:hover { background:rgba(76,195,232,.15); border-color:rgba(76,195,232,.3); color:var(--cyan); }
+/* Toggle Switch */
+.switch { position:relative; display:inline-block; width:44px; height:24px; flex-shrink:0; }
+.switch input { opacity:0; width:0; height:0; }
+.slider { position:absolute; cursor:pointer; inset:0; background:rgba(255,255,255,.15); transition:.3s; border-radius:24px; }
+.slider:before { position:absolute; content:""; height:18px; width:18px; left:3px; bottom:3px; background:white; transition:.3s; border-radius:50%; }
+input:checked + .slider { background:var(--purple); }
+input:checked + .slider:before { transform:translateX(20px); }
+/* BG Chips inside settings */
+.settings-bg-grid { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; margin-bottom:12px; }
+.settings-bg-chip { display:flex; align-items:center; gap:5px; padding:6px 10px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:10px; font-size:11px; font-weight:600; color:var(--muted); cursor:pointer; transition:all .2s; }
+.settings-bg-chip:hover,.settings-bg-chip.sel { background:rgba(76,195,232,.12); border-color:rgba(76,195,232,.35); color:var(--cyan); }
+/* Clear Chat button inside settings */
+.settings-clear-btn { width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25); border-radius:12px; color:#f87171; font-family:'Outfit',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; margin-top:8px; }
+.settings-clear-btn:hover { background:rgba(239,68,68,.2); }
+.modal-inp { width:100%; background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.1); border-radius:11px; padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#3FBE84; outline:none; transition:all .2s; margin-top:6px; }
+.modal-inp:focus { border-color:rgba(76,195,232,.45); }
+.modal-st { font-size:12px; margin-top:6px; }
+.modal-st.ok { color:#3FBE84; }
+.modal-st.err { color:#e57272; }
 
 /* ── SIGN-IN CARD ── */
 .signin-card {
@@ -561,16 +582,6 @@ body::after {
 .signin-btn:hover { box-shadow:0 0 26px rgba(139,133,240,.36); }
 .signin-device { font-size:11px; color:var(--muted); font-family:'JetBrains Mono',monospace; text-align:center; }
 .signin-device strong { color:var(--cyan); }
-
-/* ── BG THEME SWATCHES ── */
-.bg-swatch {
-  border:1px solid var(--gbr); border-radius:14px; padding:8px;
-  cursor:pointer; transition:all .2s ease; background:rgba(255,255,255,.03);
-}
-.bg-swatch:hover { border-color:rgba(76,195,232,.35); background:rgba(76,195,232,.06); transform:translateY(-2px); }
-.bg-swatch.active { border-color:var(--cyan); box-shadow:0 0 0 2px rgba(76,195,232,.25); }
-.bg-swatch-prev { width:100%; height:64px; border-radius:10px; margin-bottom:8px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.08); }
-.bg-swatch-lbl { font-size:13px; font-weight:600; color:var(--text2); text-align:center; }
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width:3px; }
@@ -700,7 +711,7 @@ body::after {
 }
 </style>
 </head>
-<body data-bg="dark">
+<body data-bg="galaxy">
 
 <!-- SPLASH / LOGO INTRO -->
 <div id="splashScreen">
@@ -790,6 +801,7 @@ body::after {
   <div class="nav-item"        id="dnav-translate" onclick="switchMode('translate');closeDrawer()"><span class="nav-item-icon">🌐</span> Translate</div>
   <div class="nav-item"        id="dnav-code"      onclick="switchMode('code');closeDrawer()"><span class="nav-item-icon">💻</span> Code Runner</div>
   <div class="nav-item"        id="dnav-search"    onclick="switchMode('search');closeDrawer()"><span class="nav-item-icon">🔍</span> Search</div>
+  <div class="nav-item"        id="dnav-creator"   onclick="switchMode('creator');closeDrawer()"><span class="nav-item-icon">👨‍💻</span> Creator</div>
   <div class="nav-spacer"></div>
   <div class="nav-footer">
     <div class="nav-item" onclick="clearChat();closeDrawer()"><span class="nav-item-icon">🗑️</span> New Chat</div>
@@ -809,6 +821,7 @@ body::after {
     <button class="sb-btn"        id="sb-translate" onclick="switchMode('translate')" title="Translate">🌐</button>
     <button class="sb-btn"        id="sb-code"      onclick="switchMode('code')"      title="Code">💻</button>
     <button class="sb-btn"        id="sb-search"    onclick="switchMode('search')"    title="Search">🔍</button>
+    <button class="sb-btn"        id="sb-creator"   onclick="switchMode('creator')"   title="Creator">👨‍💻</button>
     <div class="sb-spacer"></div>
     <button class="sb-btn" onclick="clearChat()"  title="New Chat">🗑️</button>
     <button class="sb-btn" onclick="openSettings()" title="Settings">⚙️</button>
@@ -825,9 +838,8 @@ body::after {
         <div class="tb-sub">Powered by Groq · master·puthi-ai</div>
       </div>
       <div class="tb-right">
-        <div class="ib" onclick="openBgPicker()" title="Change Background">🖼️</div>
         <div class="online-pill"><div class="online-dot"></div>Online</div>
-        <div class="ib" onclick="openSettings()" title="API Key">🔑</div>
+        <div class="ib" onclick="openSettings()" title="Settings">⚙️</div>
         <div class="ib" onclick="clearChat()"    title="New Chat">✏️</div>
       </div>
     </div>
@@ -839,6 +851,7 @@ body::after {
       <button class="mode-tab"        id="tab-translate" onclick="switchMode('translate')">🌐 Translate</button>
       <button class="mode-tab"        id="tab-code"      onclick="switchMode('code')">💻 Code</button>
       <button class="mode-tab"        id="tab-search"    onclick="switchMode('search')">🔍 Search</button>
+      <button class="mode-tab"        id="tab-creator"   onclick="switchMode('creator')">👨‍💻 Creator</button>
     </div>
 
     <!-- ── CHAT PANEL ── -->
@@ -1001,6 +1014,20 @@ body::after {
         </div>
       </div>
     </div>
+
+    <!-- ── CREATOR PANEL ── -->
+    <div class="panel" id="panel-creator">
+      <div class="gen-panel" style="align-items:center; text-align:center; justify-content:center;">
+        <div class="gen-prompt-wrap" style="max-width:600px; width:100%; padding:30px;">
+          <div style="font-size:50px; margin-bottom:10px;">👨‍💻</div>
+          <div style="font-size:22px; font-weight:700; color:var(--cyan); margin-bottom:10px;">About the Creator</div>
+          <p style="font-size:15px; line-height:1.8; color:var(--text2);">
+            🙂 My creator's name is <strong>Puthi</strong>. He is a student at TPN High School and is currently 15 years old. He's passionate about space, astronomy, and artificial intelligence, studying in Grade 10IT class where he builds cool projects like CP-AI! 🚀🤖
+          </p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1016,66 +1043,67 @@ body::after {
     <div class="modal-st" id="signinStatus" style="min-height:20px;width:100%;text-align:center;font-size:13px;font-weight:600;"></div>
     <button class="signin-btn" onclick="doSignIn()">✨ Sign In</button>
     <div class="signin-device">Your Device ID: <strong id="deviceId">#00000000</strong></div>
-    <div style="display:flex;gap:16px;justify-content:center;margin-top:10px;font-size:11px;color:var(--muted)">
-      <span>🔒 Secure &amp; Private</span>
-      <span style="cursor:pointer;text-decoration:underline">About</span>
-      <span style="cursor:pointer;text-decoration:underline">Privacy</span>
-      <span style="cursor:pointer;text-decoration:underline">Terms</span>
-    </div>
   </div>
 </div>
 
-<!-- SETTINGS MODAL -->
+<!-- SETTINGS MODAL (WITH MODEL ID & API KEY) -->
 <div class="modal-overlay" id="settingsModal" onclick="if(event.target===this)closeSettings()">
   <div class="modal">
     <div class="modal-hd">
-      <div class="modal-logo-sm"><svg width="28" height="28"><use href="#robo"/></svg></div>
-      Settings — CP-AI
+      <div class="modal-hd-left">⚙️ Settings</div>
+      <button class="modal-close-x" onclick="closeSettings()">✕</button>
     </div>
-    <div class="modal-lbl">Model ID</div>
-    <input type="text" class="modal-inp" id="modelInput" placeholder="llama-3.3-70b-versatile" autocomplete="off" spellcheck="false"/>
-    <div class="modal-st" id="apiStatus"></div>
-    <div class="modal-info">
-      Your API key is securely handled on the Vercel backend server.<br>
-      🎨 <strong>Image generation</strong> uses Pollinations (free, no key needed).
-    </div>
-    <div class="modal-row">
-      <button class="btn-save" onclick="saveSettings()">✓ Save &amp; Start</button>
-      <button class="btn-cancel" onclick="closeSettings()">Cancel</button>
-    </div>
-  </div>
-</div>
 
-<!-- BACKGROUND THEME MODAL -->
-<div class="modal-overlay" id="bgModal" onclick="if(event.target===this)closeBgPicker()">
-  <div class="modal" style="width:400px">
-    <div class="modal-hd">
-      <div class="modal-logo-sm"><svg width="28" height="28"><use href="#robo"/></svg></div>
-      Choose Background
+    <!-- Model ID -->
+    <div style="margin-bottom:12px">
+      <div class="settings-label" style="margin-bottom:4px">🔑 Model ID</div>
+      <input type="text" class="modal-inp" id="modelInput" placeholder="llama-3.3-70b-versatile" autocomplete="off" spellcheck="false"/>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px">
-      <div class="bg-swatch" data-theme="dark" onclick="setBgTheme('dark')">
-        <div class="bg-swatch-prev" style="background:linear-gradient(165deg,#111319,#0a0a16 60%,#07090f)"></div>
-        <div class="bg-swatch-lbl">🌑 Dark</div>
-      </div>
-      <div class="bg-swatch" data-theme="temple" onclick="setBgTheme('temple')">
-        <div class="bg-swatch-prev" style="background:linear-gradient(165deg,#5a3a12,#33200c 60%,#1c1108)"></div>
-        <div class="bg-swatch-lbl">🏛️ Temple</div>
-      </div>
-      <div class="bg-swatch" data-theme="space" onclick="setBgTheme('space')">
-        <div class="bg-swatch-prev" style="background:radial-gradient(circle at 60% 30%,#4c3f9e,#0a0a1c 70%)"></div>
-        <div class="bg-swatch-lbl">🌌 Space</div>
-      </div>
-      <div class="bg-swatch" data-theme="forest" onclick="setBgTheme('forest')">
-        <div class="bg-swatch-prev" style="background:linear-gradient(165deg,#1f5c40,#0a1c10 60%,#040c07)"></div>
-        <div class="bg-swatch-lbl">🌲 Forest</div>
-      </div>
-      <div class="bg-swatch" data-theme="white" onclick="setBgTheme('white')" style="grid-column:1 / -1">
-        <div class="bg-swatch-prev" style="background:linear-gradient(165deg,#ffffff,#dbe6f5 60%,#c9d3e0)"></div>
-        <div class="bg-swatch-lbl">⚪ White</div>
+
+    <!-- Install App -->
+    <div class="settings-row">
+      <div class="settings-label">📱 Install App</div>
+      <button class="settings-btn" onclick="doInstallApp()">Install</button>
+    </div>
+
+    <!-- Dark Mode toggle -->
+    <div class="settings-row">
+      <div class="settings-label">🌙 Dark mode</div>
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle" checked onchange="toggleDarkMode(this)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Background Selection -->
+    <div style="padding:10px 0 4px 0">
+      <div class="settings-label" style="margin-bottom:6px">🎨 Background</div>
+      <div class="settings-bg-grid">
+        <div class="settings-bg-chip" data-bg="angkor" onclick="setBgTheme('angkor')">🏛️ Angkor</div>
+        <div class="settings-bg-chip" data-bg="ocean" onclick="setBgTheme('ocean')">🌊 Ocean</div>
+        <div class="settings-bg-chip" data-bg="forest" onclick="setBgTheme('forest')">🌲 Forest</div>
+        <div class="settings-bg-chip" data-bg="sunset" onclick="setBgTheme('sunset')">🌅 Sunset</div>
+        <div class="settings-bg-chip" data-bg="galaxy" onclick="setBgTheme('galaxy')">🌌 Galaxy</div>
+        <div class="settings-bg-chip" data-bg="minimal" onclick="setBgTheme('minimal')">⬛ Minimal</div>
       </div>
     </div>
-    <button class="btn-cancel" style="width:100%;margin-top:16px" onclick="closeBgPicker()">Close</button>
+
+    <!-- Auto speak replies toggle -->
+    <div class="settings-row">
+      <div class="settings-label">🔊 Auto speak replies</div>
+      <label class="switch">
+        <input type="checkbox" id="autoSpeakToggle" onchange="toggleAutoSpeak(this)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Save Settings Button -->
+    <button class="settings-btn" style="width:100%;margin-top:10px;background:linear-gradient(135deg,rgba(76,195,232,.7),rgba(139,133,240,.7));color:#fff;border:none;padding:11px;font-weight:700;" onclick="saveSettings()">✓ Save Settings</button>
+
+    <!-- Clear chat history -->
+    <button class="settings-clear-btn" onclick="clearChat(); closeSettings();">
+      🗑️ Clear all chat history
+    </button>
   </div>
 </div>
 
@@ -1132,34 +1160,16 @@ function installBannerAllowed() {
   if (isStandalone()) return false;
   return Date.now() > parseInt(ls(INSTALL_DISMISS_KEY) || '0', 10);
 }
-function showInstallBanner() {
-  if (!installBannerAllowed()) return;
-  const b = $('installBanner');
-  if (isIOS()) $('installSub').textContent = 'Tap Share, then "Add to Home Screen"';
-  b.classList.add('show');
-  requestAnimationFrame(() => requestAnimationFrame(() => b.classList.add('slide-up')));
-}
-function dismissInstallBanner(days) {
-  const b = $('installBanner');
-  b.classList.remove('slide-up');
-  setTimeout(() => b.classList.remove('show'), 450);
-  ls(INSTALL_DISMISS_KEY, String(Date.now() + (typeof days === 'number' ? days : 7) * 86400000));
-}
 async function doInstallApp() {
   if (deferredInstallPrompt) {
     deferredInstallPrompt.prompt();
     const choice = await deferredInstallPrompt.userChoice.catch(() => null);
     deferredInstallPrompt = null;
-    dismissInstallBanner(choice && choice.outcome === 'accepted' ? 3650 : 1);
     return;
   }
-  $('installSub').textContent = isIOS()
-    ? 'Tap the Share icon, then "Add to Home Screen"'
-    : 'Use your browser menu → "Install app" / "Add to Home Screen"';
+  toast(isIOS() ? 'Tap Share → "Add to Home Screen"' : 'Use browser menu → "Install app"');
 }
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstallPrompt = e; showInstallBanner(); });
-window.addEventListener('appinstalled', () => dismissInstallBanner(3650));
-onReady(() => { if (isIOS() && installBannerAllowed()) setTimeout(showInstallBanner, 2500); });
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstallPrompt = e; });
 
 let chatHistory = [];
 const msgStore = [];
@@ -1169,9 +1179,10 @@ let selLangVal  = 'Khmer';
 let selCodeVal  = 'Python';
 let toolsOpen   = false;
 let welcomeHTML = '';
+let autoSpeak   = false;
 
 const BACKEND_URL = '/api/chat';
-const DEFAULT_MODEL = 'llama-3.3-70b-versatile'; // បានកែតម្រូវតម្លៃលំនាំដើមថ្មីនៅទីនេះ
+const DEFAULT_MODEL = 'llama-3.3-70b-versatile';
 const getModel = () => ls('cpai_model') || DEFAULT_MODEL;
 const CHAT_SYSTEM = 'You are CP-AI, a powerful, friendly and playful AI assistant. Use emojis naturally throughout your responses to express feelings and make responses more engaging. Format with **bold**, ### headings and bullet points where helpful. Always match the language the user writes in.';
 
@@ -1214,15 +1225,20 @@ onReady(() => {
   $('deviceId').textContent = getDeviceId();
   const w = $('welcomeScreen'); if (w) welcomeHTML = w.outerHTML;
   const savedName = ls('cpai_user_name');
-  $('modelInput').value = getModel();
   if (savedName) {
     $('greetName').textContent = savedName;
     $('signInModal').style.display = 'none';
   }
+  $('modelInput').value = getModel();
   $('genPrompt').setAttribute('maxlength', '500');
   $('genPrompt').addEventListener('input', e => { $('promptCounter').textContent = e.target.value.length + ' / 500'; });
   $('signinName').addEventListener('keydown', e => { if (e.key === 'Enter') doSignIn(); });
-  const bg = ls('cpai_bg_theme'); if (bg) document.body.setAttribute('data-bg', bg);
+
+  const bg = ls('cpai_bg_theme') || 'galaxy';
+  setBgTheme(bg, false);
+
+  const spkPref = ls('cpai_auto_speak');
+  if (spkPref === 'true') { autoSpeak = true; $('autoSpeakToggle').checked = true; }
 });
 
 function doSignIn() {
@@ -1235,25 +1251,33 @@ function doSignIn() {
   setTimeout(() => { $('signInModal').style.display = 'none'; }, 500);
 }
 
-function openBgPicker() { $('bgModal').classList.add('open'); markActiveBgSwatch(); }
-function closeBgPicker() { $('bgModal').classList.remove('open'); }
-function setBgTheme(t) { document.body.setAttribute('data-bg', t); ls('cpai_bg_theme', t); markActiveBgSwatch(); }
-function markActiveBgSwatch() {
-  const cur = document.body.getAttribute('data-bg') || 'dark';
-  document.querySelectorAll('.bg-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === cur));
+function setBgTheme(t, save = true) {
+  document.body.setAttribute('data-bg', t);
+  if (save) ls('cpai_bg_theme', t);
+  document.querySelectorAll('.settings-bg-chip').forEach(c => c.classList.toggle('sel', c.dataset.bg === t));
 }
+function toggleDarkMode(cb) {
+  if (!cb.checked) {
+    setBgTheme('minimal');
+  } else {
+    setBgTheme(ls('cpai_bg_theme') || 'galaxy');
+  }
+}
+function toggleAutoSpeak(cb) {
+  autoSpeak = cb.checked;
+  ls('cpai_auto_speak', autoSpeak ? 'true' : 'false');
+}
+
 function openSettings() {
   $('modelInput').value = getModel();
-  $('apiStatus').textContent = '';
   $('settingsModal').classList.add('open');
 }
 function closeSettings() { $('settingsModal').classList.remove('open'); }
 function saveSettings() {
   const m = $('modelInput').value.trim() || DEFAULT_MODEL;
-  const s = $('apiStatus');
   ls('cpai_model', m);
-  s.className = 'modal-st ok'; s.textContent = '✅ Saved!';
-  setTimeout(closeSettings, 700);
+  toast('✅ Settings saved!');
+  closeSettings();
 }
 
 function switchMode(m) {
@@ -1353,6 +1377,7 @@ async function sendMsg() {
     rmNode(tid);
     chatHistory.push({ role: 'assistant', content: r });
     addAI(r);
+    if (autoSpeak) spk(msgStore.length - 1);
   } catch (e) {
     rmNode(tid);
     chatHistory.pop();
