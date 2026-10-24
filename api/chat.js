@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: model || process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
+        model: model || process.env.GROQ_MODEL || 'qwen/qwen3.6-27b',
         messages: messages
       })
     });
