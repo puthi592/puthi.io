@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#080a12">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 110'%3E%3Ccircle cx='50' cy='55' r='50' fill='%234CC3E8'/%3E%3C/svg%3E">
 <link id="pwaManifest" rel="manifest" href='data:application/manifest+json,{"name":"CP-AI","short_name":"CP-AI","start_url":".","display":"standalone","background_color":"%23080a12","theme_color":"%23080a12","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 110%27%3E%3Ccircle cx=%2750%27 cy=%2755%27 r=%2750%27 fill=%27%234CC3E8%27/%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}'>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ── */
 :root {
@@ -709,6 +709,148 @@ input:checked + .slider:before { transform:translateX(20px); }
 @media (min-width:900px) {
   .install-banner { left:64px; }
 }
+.typing::after{content:'▍';margin-left:2px;color:var(--cyan);animation:cpCaret 1s steps(2) infinite}
+@keyframes cpCaret{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.typing::after{animation:none}}
+
+/* ═══ PRO REDESIGN (SaaS look) ═══ */
+:root{--accent:#5b8cff;--accent2:#4a78ee;--navy:#06142b;--panel:rgba(255,255,255,.035);--line:rgba(255,255,255,.08);}
+body{font-family:'Inter','Outfit',system-ui,sans-serif;}
+body[data-bg="galaxy"]::before{background:radial-gradient(ellipse 90% 70% at 60% 110%,#0a3a6e 0%,transparent 60%),linear-gradient(180deg,#02101f,#061a36 55%,#06284f);animation:none;}
+body::after,.blob{display:none!important;}
+.sidebar,.mode-tabs{display:none!important;}
+.side{display:none;width:272px;flex-shrink:0;flex-direction:column;background:rgba(2,12,28,.72);border-right:1px solid var(--line);padding:16px 12px 0;z-index:20;overflow-y:auto;}
+.side-brand{display:flex;align-items:center;gap:12px;padding:2px 6px 16px;font-size:22px;font-weight:800;letter-spacing:-.3px;}
+.side-logo{width:42px;height:42px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.side-new{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border:none;border-radius:14px;background:var(--accent);color:#fff;font:600 16px inherit;font-family:inherit;cursor:pointer;margin-bottom:14px;box-shadow:0 6px 20px rgba(91,140,255,.28);transition:transform .15s,background .2s;}
+.side-new:hover{background:var(--accent2);transform:translateY(-1px);}
+.side .sb-btn{width:100%;height:auto;justify-content:flex-start;gap:14px;padding:12px 14px;border-radius:12px;font:500 16px inherit;font-family:inherit;color:rgba(238,241,248,.82);border:1px solid transparent;}
+.side .sb-btn:hover{background:rgba(255,255,255,.06);color:#fff;}
+.side .sb-btn.active{background:rgba(91,140,255,.18);color:#7fa6ff;border-color:transparent;}
+.side .sb-btn svg{width:20px;height:20px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.side .sub{padding-left:22px}.side .sub.sb-btn{font-size:15px;padding:10px 14px;}
+.side-group{display:none;flex-direction:column;gap:2px}.side-group.open{display:flex}
+.side-caret{margin-left:auto;transition:transform .2s}.open-caret .side-caret{transform:rotate(180deg)}
+.side-spacer{flex:1;min-height:12px}
+.side-user{display:flex;align-items:center;gap:12px;padding:14px 8px;margin:0 -12px;border-top:1px solid var(--line);position:sticky;bottom:0;background:rgba(2,12,28,.9);}
+.side-av{width:40px;height:40px;border-radius:50%;background:#1b2a63;display:flex;align-items:center;justify-content:center;font-weight:700;text-transform:uppercase;}
+.side-uname{font-weight:600;font-size:15px}.side-usub{font-size:12px;color:var(--muted)}
+.topbar{height:68px;background:rgba(2,12,28,.4);border-bottom:1px solid var(--line);padding:0 24px;backdrop-filter:blur(12px);}
+.tb-logo,.tb-info .tb-name,.tb-sub{display:none!important}
+.tb-t{font-size:20px;font-weight:700;letter-spacing:-.2px}.tb-s{font-size:14px;color:var(--text2);margin-top:2px}
+.tb-right .ib{width:38px;height:38px;border-radius:10px;font-size:20px;display:flex;align-items:center;justify-content:center}
+.chat-area{padding:28px 24px;}
+.wcc-avatar{width:96px;height:96px;background:#fff;font-size:44px;box-shadow:0 0 0 10px rgba(255,255,255,.08);}
+.wcc-title{font-size:34px;font-weight:800;letter-spacing:-.5px}
+.wcc-sub{font-size:17px;color:var(--text2)}
+.wcc-chip{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:11px 20px;font-size:15px;color:var(--text)}
+.wcc-chip:hover{background:rgba(91,140,255,.14);border-color:rgba(91,140,255,.45);box-shadow:none}
+.msg-row.ai .bubble{background:var(--panel);border:1px solid var(--line);border-radius:6px 18px 18px 18px;backdrop-filter:none}
+.msg-row.user .bubble{background:var(--accent);border:none;color:#fff;border-radius:18px 6px 18px 18px;backdrop-filter:none}
+.bubble h3{color:#8fb0ff}.bubble strong{color:#fff}
+.bottom-area{background:transparent;border-top:1px solid var(--line);padding:18px 24px 12px}
+.input-row{background:rgba(2,12,28,.6);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 8px 8px 12px;backdrop-filter:none}
+.input-row:focus-within{border-color:var(--accent);background:rgba(2,12,28,.8);box-shadow:0 0 0 3px rgba(91,140,255,.15)}
+.plus-btn{background:transparent;border:none;color:var(--text2);width:40px;height:40px}
+.plus-btn:hover,.plus-btn.open{background:rgba(255,255,255,.08);color:#fff;border:none}
+.send-btn{width:52px;height:46px;border-radius:14px;background:var(--accent);box-shadow:none;display:flex;align-items:center;justify-content:center}
+.send-btn:hover{background:var(--accent2);box-shadow:none}
+.send-btn svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.inp-hint{display:flex;gap:6px;justify-content:center;font-size:12.5px;color:var(--muted);margin-top:10px}
+.gen-prompt-wrap,.img-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.gen-btn,.signin-btn{background:var(--accent)!important;border:none;border-radius:12px}
+.style-chip.sel,.size-btn.sel{background:rgba(91,140,255,.2);border-color:var(--accent);color:#9db9ff}
+.hamburger-btn{display:flex}
+@media (min-width:900px){.side{display:flex}.hamburger-btn{display:none}.install-banner{left:272px}}
+@media (max-width:640px){.topbar{padding:0 12px;height:60px}.tb-t{font-size:17px}.tb-s{font-size:12.5px}.wcc-title{font-size:24px}.bottom-area{padding:10px 12px calc(10px + var(--safe-bottom))}}
+
+.side-new{font-size:16px;font-weight:600;line-height:1;height:50px;padding:0 14px;flex-shrink:0}
+.side-new svg,.plus-btn svg{width:20px;height:20px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.plus-btn{color:var(--text2);font-size:0}
+.side .sb-btn{font-size:16px;font-weight:500}.side .sub.sb-btn{font-size:15px}
+
+.welcome-ccai{justify-content:safe center;min-height:0}
+.chat-area{overflow-y:auto}
+@media (max-width:640px){.inp-hint span:nth-child(n+2){display:none}.wcc-chips{gap:8px}.wcc-chip{padding:9px 14px;font-size:14px}.wcc-avatar{width:76px;height:76px;font-size:36px}}
+
+/* ═══ SIDEBAR TOGGLE ═══ */
+.hamburger-btn{display:flex!important;width:42px;height:42px;border-radius:12px;align-items:center;justify-content:center;flex-shrink:0;margin-right:6px}
+.nav-drawer,.nav-drawer-overlay{display:none!important}
+.side-x{display:none;margin-left:auto;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);font-size:16px;cursor:pointer}
+.side-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:190;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.side-ov.open{opacity:1;visibility:visible}
+@media (max-width:899px){
+  .side{display:flex!important;position:fixed;top:0;bottom:0;left:0;width:290px;max-width:86vw;transform:translateX(-102%);transition:transform .27s cubic-bezier(.4,0,.2,1);z-index:200;background:#020c1c;padding-top:calc(16px + var(--safe-top));box-shadow:none}
+  .side.open{transform:none;box-shadow:12px 0 40px rgba(0,0,0,.5)}
+  .side-x{display:block}
+}
+@media (min-width:900px){
+  .side{transition:margin-left .25s}
+  .side.collapsed{margin-left:-272px}
+  .install-banner{left:0!important}
+}
+
+/* ═══ SETTINGS + SIGN-IN (same design language) ═══ */
+.modal-overlay{background:rgba(1,8,20,.7);backdrop-filter:blur(8px)}
+.modal{background:#04132b;border:1px solid var(--line);border-radius:20px;padding:22px;width:460px;box-shadow:0 24px 70px rgba(0,0,0,.55);max-height:92dvh;overflow-y:auto}
+.modal-hd{font-size:20px;font-weight:700;letter-spacing:-.2px;margin-bottom:12px}
+.modal-hd-left{gap:12px}
+.si{width:20px;height:20px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-4px}
+.settings-label{font-size:15px;font-weight:500;color:var(--text);gap:12px}
+.settings-label .si{color:var(--text2)}
+.modal-close-x{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text2);font-size:15px}
+.modal-close-x:hover{background:rgba(255,255,255,.09)}
+.settings-row{padding:14px 2px;border-bottom:1px solid var(--line)}
+.modal-inp{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:#cfe0ff;font-size:14px;margin-top:8px}
+.modal-inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(91,140,255,.15);outline:none}
+.settings-btn{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600}
+.settings-btn:hover{background:rgba(91,140,255,.16);border-color:rgba(91,140,255,.45);color:#9db9ff}
+.slider{background:rgba(255,255,255,.14)}
+.switch input:checked + .slider{background:var(--accent)}
+.settings-bg-grid{gap:8px;margin:10px 0 6px}
+.settings-bg-chip{padding:9px 14px;border-radius:999px;font-size:13px;font-weight:500;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text2);gap:8px}
+.settings-bg-chip::before{content:'';width:12px;height:12px;border-radius:50%;background:var(--d,#5b8cff);box-shadow:0 0 0 2px rgba(255,255,255,.12)}
+.settings-bg-chip[data-bg=angkor]{--d:#e0985a}.settings-bg-chip[data-bg=ocean]{--d:#22d3ee}.settings-bg-chip[data-bg=forest]{--d:#3FBE84}
+.settings-bg-chip[data-bg=sunset]{--d:#f43f5e}.settings-bg-chip[data-bg=galaxy]{--d:#5b8cff}.settings-bg-chip[data-bg=minimal]{--d:#94a3b8}
+.settings-bg-chip:hover,.settings-bg-chip.sel{background:rgba(91,140,255,.16);border-color:var(--accent);color:#9db9ff}
+#settingsModal .settings-btn[onclick*=saveSettings]{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--accent)!important;border:none!important;color:#fff!important;border-radius:12px!important;padding:14px!important;font-size:15px!important;margin-top:16px!important;box-shadow:0 6px 20px rgba(91,140,255,.25)}
+#settingsModal .settings-btn[onclick*=saveSettings]:hover{background:var(--accent2)!important}
+.settings-clear-btn{border-radius:12px;padding:13px;font-size:14px;font-weight:600;margin-top:10px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);color:#ff8a8a}
+.settings-clear-btn:hover{background:rgba(239,68,68,.16)}
+.signin-card{background:#04132b!important;border:1px solid var(--line)!important;border-radius:20px!important;box-shadow:0 24px 70px rgba(0,0,0,.55)!important}
+.signin-avatar{box-shadow:0 0 0 8px rgba(255,255,255,.08)}
+.signin-notice{background:rgba(91,140,255,.12);border-color:rgba(91,140,255,.3);color:#b6c9ff}
+.signin-inp{border-radius:12px;background:rgba(255,255,255,.04);border-color:var(--line)}
+.signin-inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(91,140,255,.15)}
+.signin-btn{background:var(--accent)!important;border-radius:12px!important;box-shadow:0 6px 20px rgba(91,140,255,.25)}
+.signin-btn:hover{background:var(--accent2)!important;box-shadow:0 6px 20px rgba(91,140,255,.35)}
+.signin-device strong{color:#9db9ff}
+
+/* ═══ WHOLE-APP CONSISTENCY ═══ */
+.wcc-title{display:block;text-align:center}.wcc-title svg{display:inline;vertical-align:-2px;margin-left:6px}
+.chat-area>.msg-row{width:100%;max-width:820px;margin-left:auto;margin-right:auto}
+.msg-body{max-width:88%}
+.msg-row.ai .msg-av{background:#fff;border:none;box-shadow:none}
+.msg-row.user .msg-av{background:#1b2a63;border:none;color:#fff;font-weight:700;font-size:14px}
+.bubble{font-size:15px;line-height:1.7}
+.msg-acts{gap:6px}
+.act-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:9px;font-size:12.5px;font-weight:500;background:transparent;border:1px solid var(--line);color:var(--text2);cursor:pointer;transition:background .2s,color .2s}
+.act-btn:hover{background:rgba(255,255,255,.07);color:#fff}
+.act-btn svg.ai{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.typing-dots span:nth-child(n){background:var(--accent)}
+.code-block{background:#020c1c!important;border:1px solid var(--line)!important;border-radius:12px!important}
+.gen-panel{max-width:860px;width:100%;margin:0 auto;padding:28px 24px}
+.gen-section-title{font-size:15px;font-weight:600;color:var(--text);text-transform:none;letter-spacing:0;margin-bottom:10px}
+.gen-prompt-ta{color:var(--text)}
+.style-chip,.size-btn{padding:9px 16px;border-radius:999px;font-size:14px;font-weight:500;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text2)}
+.style-chip:hover,.size-btn:hover{background:rgba(255,255,255,.08);color:#fff}
+.gen-btn{font-weight:600;font-size:15px;padding:12px 22px;box-shadow:0 6px 20px rgba(91,140,255,.25)}
+.gen-btn:disabled{opacity:.6;box-shadow:none}
+.cr-av{width:96px;height:96px;margin:0 auto 14px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 10px rgba(255,255,255,.08)}
+#panel-creator .gen-prompt-wrap div[style*="--cyan"]{color:#fff!important;font-size:24px!important;letter-spacing:-.3px}
+.cp-toast{background:#04132b!important;border:1px solid var(--line)!important;border-radius:12px!important;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.out-note{border-top:1px solid var(--line);padding-top:10px}
+@media (max-width:640px){.gen-panel{padding:18px 14px}.msg-body{max-width:90%}}
 </style>
 </head>
 <body data-bg="galaxy">
@@ -810,7 +952,24 @@ input:checked + .slider:before { transform:translateX(20px); }
 </div>
 
 <div class="app-shell">
-  <!-- SIDEBAR (desktop) -->
+  <div class="side-ov" id="sideOv" onclick="closeSide()"></div>
+  <div class="side">
+    <div class="side-brand"><div class="side-logo"><svg width="34" height="34"><use href="#robo"/></svg></div>CP-AI<button class="side-x" onclick="closeSide()" aria-label="Close">✕</button></div>
+    <button class="side-new" onclick="clearChat()"><svg class="" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> New Chat</button>
+    <button class="sb-btn active" id="sb-chat" onclick="switchMode('chat')"><svg class="" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg> Chats</button>
+    <button class="sb-btn" onclick="openSettings()"><svg class="" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.3 3h-4l-.4 2.7a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.7h4l.4-2.7a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/></svg> Settings</button>
+    <button class="sb-btn open-caret" id="toolsToggle" onclick="this.classList.toggle('open-caret');$('toolsGroup').classList.toggle('open')"><svg class="" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg> Tools <svg class="side-caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="side-group open" id="toolsGroup">
+      <button class="sb-btn sub" id="sb-search" onclick="switchMode('search')"><svg class="" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9l5 3-5 3z"/></svg> YouTube search</button>
+      <button class="sb-btn sub" id="sb-translate" onclick="switchMode('translate')"><svg class="" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg> Translate</button>
+      <button class="sb-btn sub" id="sb-code" onclick="switchMode('code')"><svg class="" viewBox="0 0 24 24"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg> Code runner</button>
+      <button class="sb-btn sub" id="sb-image" onclick="switchMode('image')"><svg class="" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 9"/></svg> Generate image</button>
+      <button class="sb-btn sub" id="sb-creator" onclick="switchMode('creator')"><svg class="" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg> About CP-AI</button>
+    </div>
+    <div class="side-spacer"></div>
+    <div class="side-user"><div class="side-av" id="sideAv">?</div><div><div class="side-uname" id="sideName">Guest</div><div class="side-usub">Free plan</div></div></div>
+  </div>
+  <!-- OLD SIDEBAR (hidden) -->
   <div class="sidebar">
     <div class="sb-logo" onclick="openSettings()" title="CP-AI">
       <svg width="40" height="40"><use href="#robo"/></svg>
@@ -831,26 +990,18 @@ input:checked + .slider:before { transform:translateX(20px); }
   <div class="main">
     <!-- TOPBAR -->
     <div class="topbar">
-      <button class="hamburger-btn" onclick="openDrawer()" aria-label="Menu">☰</button>
-      <div class="tb-logo"><svg width="30" height="30"><use href="#robo"/></svg></div>
-      <div class="tb-info">
-        <div class="tb-name">CP-AI <svg width="13" height="13" viewBox="0 0 24 24" fill="#4ade80" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="tb-sub">Powered by Groq · master·puthi-ai</div>
-      </div>
-      <div class="tb-right">
-        <div class="online-pill"><div class="online-dot"></div>Online</div>
-        <div class="ib" onclick="openSettings()" title="Settings">⚙️</div>
-        <div class="ib" onclick="clearChat()"    title="New Chat">✏️</div>
-      </div>
+      <button class="hamburger-btn" onclick="toggleSide()" aria-label="Toggle menu">☰</button>
+      <div class="tb-info"><div class="tb-t" id="tbTitle">New chat</div><div class="tb-s" id="tbSub">Ask anything to get started</div></div>
+      <div class="tb-right"><div class="online-pill"><div class="online-dot"></div>Online</div><div class="ib" onclick="openSettings()" title="Settings" style="font-size:22px">⋮</div></div>
     </div>
 
     <!-- MODE TABS (desktop) -->
     <div class="mode-tabs">
       <button class="mode-tab active" id="tab-chat"      onclick="switchMode('chat')">💬 Chat</button>
       <button class="mode-tab"        id="tab-image"     onclick="switchMode('image')">🎨 Generate Photo</button>
-      <button class="mode-tab"        id="tab-translate" onclick="switchMode('translate')">🌐 Translate</button>
+      <button class="mode-tab"        id="tab-translate" onclick="switchMode('translate')">Translate</button>
       <button class="mode-tab"        id="tab-code"      onclick="switchMode('code')">💻 Code</button>
-      <button class="mode-tab"        id="tab-search"    onclick="switchMode('search')">🔍 Search</button>
+      <button class="mode-tab"        id="tab-search"    onclick="switchMode('search')">Search</button>
       <button class="mode-tab"        id="tab-creator"   onclick="switchMode('creator')">👨‍💻 Creator</button>
     </div>
 
@@ -860,8 +1011,8 @@ input:checked + .slider:before { transform:translateX(20px); }
         <div class="welcome-ccai" id="welcomeScreen">
           <div class="welcome-inner">
             <div class="wcc-avatar">👋</div>
-            <div class="wcc-title">Hello <span id="greetName">there</span>! I'm CP-AI 🔥 <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <p class="wcc-sub">I'm feeling chill 😎 today — let's chat!</p>
+            <div class="wcc-title">Hello <span id="greetName">there</span>! I'm CP-AI <svg width="20" height="20" viewBox="0 0 24 24" fill="#4ade80" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <p class="wcc-sub">Ask me anything. I can chat, search, translate and write code.</p>
             <div class="wcc-chips">
               <div class="wcc-chip" onclick="qa('Who is the developer of CP-AI?')"><span class="wcc-chip-icon">👨‍💻</span> Who is the developer?</div>
               <div class="wcc-chip" onclick="qa('Tell me a fun fact!')"><span class="wcc-chip-icon">🎉</span> Tell me a fun fact</div>
@@ -886,13 +1037,13 @@ input:checked + .slider:before { transform:translateX(20px); }
           </div>
           <button class="close-popup-btn" id="closePopupBtn" onclick="closeTools()">✕</button>
           <div class="input-row">
-            <button class="plus-btn" id="plusBtn" onclick="toggleTools()">+</button>
-            <textarea class="chat-ta" id="chatInput" placeholder="Ask me anything…" rows="1"
+            <button class="plus-btn" id="plusBtn" onclick="toggleTools()" aria-label="Tools"><svg class="" viewBox="0 0 24 24"><path d="M21 11l-9 9a5 5 0 0 1-7-7l9-9a3.5 3.5 0 0 1 5 5l-9 9a2 2 0 0 1-3-3l8-8"/></svg></button>
+            <textarea class="chat-ta" id="chatInput" placeholder="Type a message…" rows="1"
               onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"
               oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,140)+'px'"></textarea>
-            <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
+            <button class="send-btn" id="sendBtn" onclick="sendMsg()" aria-label="Send"><svg class="" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
           </div>
-          <div class="inp-hint">Press Enter to send · Shift+Enter for new line</div>
+          <div class="inp-hint"><span>🔒 Secure &amp; private</span><span>·</span><span>Enter to send</span><span>·</span><span>Shift+Enter for new line</span></div>
         </div>
       </div>
     </div>
@@ -901,32 +1052,32 @@ input:checked + .slider:before { transform:translateX(20px); }
     <div class="panel" id="panel-image">
       <div class="gen-panel" id="genPanel">
         <div>
-          <div class="gen-section-title">✍️ Describe your image</div>
+          <div class="gen-section-title">Describe your image</div>
           <div class="gen-prompt-wrap">
             <textarea class="gen-prompt-ta" id="genPrompt" placeholder="e.g. A futuristic city at sunset, cyberpunk style, ultra detailed, 4K…" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
             <div class="gen-prompt-footer">
               <span style="font-size:11px;color:var(--muted)" id="promptCounter">0 / 500</span>
-              <button class="gen-btn" id="genBtn" onclick="generateImage()">✨ Generate Image</button>
+              <button class="gen-btn" id="genBtn" onclick="generateImage()">Generate Image</button>
             </div>
           </div>
         </div>
         <div>
-          <div class="gen-section-title">🎨 Art Style</div>
+          <div class="gen-section-title">Art Style</div>
           <div class="style-grid" id="styleGrid">
-            <div class="style-chip sel" onclick="selStyle(this)">🖼️ Realistic</div>
-            <div class="style-chip" onclick="selStyle(this)">🎌 Anime</div>
-            <div class="style-chip" onclick="selStyle(this)">🖌️ Oil Painting</div>
-            <div class="style-chip" onclick="selStyle(this)">✏️ Sketch</div>
-            <div class="style-chip" onclick="selStyle(this)">🌈 Watercolor</div>
-            <div class="style-chip" onclick="selStyle(this)">🤖 Cyberpunk</div>
-            <div class="style-chip" onclick="selStyle(this)">🌿 Fantasy</div>
-            <div class="style-chip" onclick="selStyle(this)">📷 Photography</div>
-            <div class="style-chip" onclick="selStyle(this)">🎮 Pixel Art</div>
-            <div class="style-chip" onclick="selStyle(this)">🌀 Abstract</div>
+            <div class="style-chip sel" onclick="selStyle(this)">Realistic</div>
+            <div class="style-chip" onclick="selStyle(this)">Anime</div>
+            <div class="style-chip" onclick="selStyle(this)">Oil Painting</div>
+            <div class="style-chip" onclick="selStyle(this)">Sketch</div>
+            <div class="style-chip" onclick="selStyle(this)">Watercolor</div>
+            <div class="style-chip" onclick="selStyle(this)">Cyberpunk</div>
+            <div class="style-chip" onclick="selStyle(this)">Fantasy</div>
+            <div class="style-chip" onclick="selStyle(this)">Photography</div>
+            <div class="style-chip" onclick="selStyle(this)">Pixel Art</div>
+            <div class="style-chip" onclick="selStyle(this)">Abstract</div>
           </div>
         </div>
         <div>
-          <div class="gen-section-title">📐 Image Size</div>
+          <div class="gen-section-title">Image Size</div>
           <div class="size-grid">
             <div class="size-btn sel" onclick="selSize(this)" data-s="1:1">1:1 Square</div>
             <div class="size-btn"     onclick="selSize(this)" data-s="16:9">16:9 Wide</div>
@@ -935,7 +1086,7 @@ input:checked + .slider:before { transform:translateX(20px); }
           </div>
         </div>
         <div id="genResults" style="display:none">
-          <div class="gen-section-title">🖼️ Generated Images</div>
+          <div class="gen-section-title">Generated Images</div>
           <div class="img-grid" id="imgGrid"></div>
         </div>
       </div>
@@ -944,7 +1095,7 @@ input:checked + .slider:before { transform:translateX(20px); }
     <!-- ── TRANSLATE PANEL ── -->
     <div class="panel" id="panel-translate">
       <div class="gen-panel">
-        <div class="gen-section-title">🌐 Translate Text</div>
+        <div class="gen-section-title">Translate Text</div>
         <div class="gen-prompt-wrap" style="margin-bottom:14px">
           <textarea class="gen-prompt-ta" id="translateInput" placeholder="Enter text to translate…" style="min-height:100px"></textarea>
           <div class="gen-prompt-footer">
@@ -956,11 +1107,11 @@ input:checked + .slider:before { transform:translateX(20px); }
               <div class="style-chip"     onclick="selLang(this)" data-l="French">🇫🇷 French</div>
               <div class="style-chip"     onclick="selLang(this)" data-l="Thai">🇹🇭 Thai</div>
             </div>
-            <button class="gen-btn" onclick="doTranslate()">🌐 Translate</button>
+            <button class="gen-btn" onclick="doTranslate()">Translate</button>
           </div>
         </div>
         <div id="translateResult" style="display:none">
-          <div class="gen-section-title">📄 Result</div>
+          <div class="gen-section-title">Result</div>
           <div class="gen-prompt-wrap">
             <div id="translateOutput" style="font-size:15px;line-height:1.8;color:var(--text);min-height:60px"></div>
           </div>
@@ -971,23 +1122,23 @@ input:checked + .slider:before { transform:translateX(20px); }
     <!-- ── CODE PANEL ── -->
     <div class="panel" id="panel-code">
       <div class="gen-panel">
-        <div class="gen-section-title">💻 Code Generator</div>
+        <div class="gen-section-title">Code Generator</div>
         <div class="gen-prompt-wrap" style="margin-bottom:14px">
           <textarea class="gen-prompt-ta" id="codeInput" placeholder="Describe what code you want… e.g. Python function to sort a list" style="min-height:90px"></textarea>
           <div class="gen-prompt-footer">
             <div class="style-grid">
-              <div class="style-chip sel" onclick="selCodeLang(this)">🐍 Python</div>
-              <div class="style-chip"     onclick="selCodeLang(this)">🌐 JavaScript</div>
-              <div class="style-chip"     onclick="selCodeLang(this)">☕ Java</div>
-              <div class="style-chip"     onclick="selCodeLang(this)">🦀 Rust</div>
-              <div class="style-chip"     onclick="selCodeLang(this)">💙 TypeScript</div>
-              <div class="style-chip"     onclick="selCodeLang(this)">🐘 PHP</div>
+              <div class="style-chip sel" onclick="selCodeLang(this)">Python</div>
+              <div class="style-chip"     onclick="selCodeLang(this)">JavaScript</div>
+              <div class="style-chip"     onclick="selCodeLang(this)">Java</div>
+              <div class="style-chip"     onclick="selCodeLang(this)">Rust</div>
+              <div class="style-chip"     onclick="selCodeLang(this)">TypeScript</div>
+              <div class="style-chip"     onclick="selCodeLang(this)">PHP</div>
             </div>
-            <button class="gen-btn" style="background:linear-gradient(135deg,rgba(167,139,250,.8),rgba(34,211,238,.8))" onclick="doCode()">💻 Generate Code</button>
+            <button class="gen-btn" style="background:linear-gradient(135deg,rgba(167,139,250,.8),rgba(34,211,238,.8))" onclick="doCode()">Generate Code</button>
           </div>
         </div>
         <div id="codeResult" style="display:none">
-          <div class="gen-section-title">📄 Result</div>
+          <div class="gen-section-title">Result</div>
           <div class="gen-prompt-wrap">
             <div id="codeOutput" class="code-block" style="min-height:60px;margin-top:0"></div>
           </div>
@@ -998,16 +1149,16 @@ input:checked + .slider:before { transform:translateX(20px); }
     <!-- ── SEARCH PANEL ── -->
     <div class="panel" id="panel-search">
       <div class="gen-panel">
-        <div class="gen-section-title">🔍 AI Web Search</div>
+        <div class="gen-section-title">AI Web Search</div>
         <div class="gen-prompt-wrap" style="margin-bottom:14px">
           <textarea class="gen-prompt-ta" id="searchInput" placeholder="What do you want to search for?" style="min-height:70px"></textarea>
           <div class="gen-prompt-footer">
             <span></span>
-            <button class="gen-btn" style="background:linear-gradient(135deg,rgba(96,165,250,.8),rgba(34,211,238,.8))" onclick="doSearch()">🔍 Search</button>
+            <button class="gen-btn" style="background:linear-gradient(135deg,rgba(96,165,250,.8),rgba(34,211,238,.8))" onclick="doSearch()">Search</button>
           </div>
         </div>
         <div id="searchResult" style="display:none">
-          <div class="gen-section-title">📄 Result</div>
+          <div class="gen-section-title">Result</div>
           <div class="gen-prompt-wrap">
             <div id="searchOutput" style="font-size:14px;line-height:1.8;color:var(--text);min-height:60px"></div>
           </div>
@@ -1019,10 +1170,10 @@ input:checked + .slider:before { transform:translateX(20px); }
     <div class="panel" id="panel-creator">
       <div class="gen-panel" style="align-items:center; text-align:center; justify-content:center;">
         <div class="gen-prompt-wrap" style="max-width:600px; width:100%; padding:30px;">
-          <div style="font-size:50px; margin-bottom:10px;">👨‍💻</div>
+          <div class="cr-av"><svg width="64" height="64"><use href="#robo"/></svg></div>
           <div style="font-size:22px; font-weight:700; color:var(--cyan); margin-bottom:10px;">I'M PUTHI </div>
           <p style="font-size:15px; line-height:1.8; color:var(--text2);">
-            🙂 Halo everyone my name <strong>Puthi know as Dexter.Patrick </strong> . a student at TPN High School studying in Grade 10IT class i am love learning about technology space history and how machin work and artificial intelligence, rather love being alone more than in friend group
+            Halo everyone my name <strong>Puthi know as Dexter.Patrick </strong> . a student at TPN High School studying in Grade 10IT class i am love learning about technology space history and how machin work and artificial intelligence, rather love being alone more than in friend group
           </p>
         </div>
       </div>
@@ -1050,25 +1201,25 @@ input:checked + .slider:before { transform:translateX(20px); }
 <div class="modal-overlay" id="settingsModal" onclick="if(event.target===this)closeSettings()">
   <div class="modal">
     <div class="modal-hd">
-      <div class="modal-hd-left">⚙️ Settings</div>
+      <div class="modal-hd-left"><svg class="si" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.3 3h-4l-.4 2.7a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.7h4l.4-2.7a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/></svg> Settings</div>
       <button class="modal-close-x" onclick="closeSettings()">✕</button>
     </div>
 
     <!-- Model ID -->
     <div style="margin-bottom:12px">
-      <div class="settings-label" style="margin-bottom:4px">🔑 Model ID</div>
+      <div class="settings-label" style="margin-bottom:4px"><svg class="si" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/></svg> Model ID</div>
       <input type="text" class="modal-inp" id="modelInput" placeholder="openai/gpt-oss-120b" autocomplete="off" spellcheck="false"/>
     </div>
 
     <!-- Install App -->
     <div class="settings-row">
-      <div class="settings-label">📱 Install App</div>
+      <div class="settings-label"><svg class="si" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg> Install App</div>
       <button class="settings-btn" onclick="doInstallApp()">Install</button>
     </div>
 
     <!-- Dark Mode toggle -->
     <div class="settings-row">
-      <div class="settings-label">🌙 Dark mode</div>
+      <div class="settings-label"><svg class="si" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg> Dark mode</div>
       <label class="switch">
         <input type="checkbox" id="darkModeToggle" checked onchange="toggleDarkMode(this)">
         <span class="slider"></span>
@@ -1077,20 +1228,20 @@ input:checked + .slider:before { transform:translateX(20px); }
 
     <!-- Background Selection -->
     <div style="padding:10px 0 4px 0">
-      <div class="settings-label" style="margin-bottom:6px">🎨 Background</div>
+      <div class="settings-label" style="margin-bottom:6px"><svg class="si" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a4 4 0 0 0 4-4c0-5-5-10-9-10z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg> Background</div>
       <div class="settings-bg-grid">
-        <div class="settings-bg-chip" data-bg="angkor" onclick="setBgTheme('angkor')">🏛️ Angkor</div>
-        <div class="settings-bg-chip" data-bg="ocean" onclick="setBgTheme('ocean')">🌊 Ocean</div>
-        <div class="settings-bg-chip" data-bg="forest" onclick="setBgTheme('forest')">🌲 Forest</div>
-        <div class="settings-bg-chip" data-bg="sunset" onclick="setBgTheme('sunset')">🌅 Sunset</div>
-        <div class="settings-bg-chip" data-bg="galaxy" onclick="setBgTheme('galaxy')">🌌 Galaxy</div>
-        <div class="settings-bg-chip" data-bg="minimal" onclick="setBgTheme('minimal')">⬛ Minimal</div>
+        <div class="settings-bg-chip" data-bg="angkor" onclick="setBgTheme('angkor')">Angkor</div>
+        <div class="settings-bg-chip" data-bg="ocean" onclick="setBgTheme('ocean')">Ocean</div>
+        <div class="settings-bg-chip" data-bg="forest" onclick="setBgTheme('forest')">Forest</div>
+        <div class="settings-bg-chip" data-bg="sunset" onclick="setBgTheme('sunset')">Sunset</div>
+        <div class="settings-bg-chip" data-bg="galaxy" onclick="setBgTheme('galaxy')">Galaxy</div>
+        <div class="settings-bg-chip" data-bg="minimal" onclick="setBgTheme('minimal')">Minimal</div>
       </div>
     </div>
 
     <!-- Auto speak replies toggle -->
     <div class="settings-row">
-      <div class="settings-label">🔊 Auto speak replies</div>
+      <div class="settings-label"><svg class="si" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4zM16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg> Auto speak replies</div>
       <label class="switch">
         <input type="checkbox" id="autoSpeakToggle" onchange="toggleAutoSpeak(this)">
         <span class="slider"></span>
@@ -1098,11 +1249,11 @@ input:checked + .slider:before { transform:translateX(20px); }
     </div>
 
     <!-- Save Settings Button -->
-    <button class="settings-btn" style="width:100%;margin-top:10px;background:linear-gradient(135deg,rgba(76,195,232,.7),rgba(139,133,240,.7));color:#fff;border:none;padding:11px;font-weight:700;" onclick="saveSettings()">✓ Save Settings</button>
+    <button class="settings-btn" style="width:100%;margin-top:10px;background:linear-gradient(135deg,rgba(76,195,232,.7),rgba(139,133,240,.7));color:#fff;border:none;padding:11px;font-weight:700;" onclick="saveSettings()"><svg class="si" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg> Save Settings</button>
 
     <!-- Clear chat history -->
     <button class="settings-clear-btn" onclick="clearChat(); closeSettings();">
-      🗑️ Clear all chat history
+      <svg class="si" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg> Clear all chat history
     </button>
   </div>
 </div>
@@ -1244,6 +1395,7 @@ function getDeviceId() {
 onReady(() => {
   $('deviceId').textContent = getDeviceId();
   const w = $('welcomeScreen'); if (w) welcomeHTML = w.outerHTML;
+  paintUser();
   const savedName = ls('cpai_user_name');
   if (savedName) {
     $('greetName').textContent = savedName;
@@ -1266,7 +1418,7 @@ function doSignIn() {
   const st   = $('signinStatus');
   if (!name) { st.className = 'modal-st err'; st.textContent = '⚠️ Please enter your name!'; return; }
   st.className = 'modal-st ok'; st.textContent = '✅ Signing in…';
-  ls('cpai_user_name', name);
+  ls('cpai_user_name', name); paintUser();
   $('greetName').textContent = name;
   setTimeout(() => { $('signInModal').style.display = 'none'; }, 500);
 }
@@ -1300,7 +1452,23 @@ function saveSettings() {
   closeSettings();
 }
 
+const isMobileNav = () => window.innerWidth < 900;
+function toggleSide() {
+  const s = document.querySelector('.side');
+  if (isMobileNav()) { const o = s.classList.toggle('open'); $('sideOv').classList.toggle('open', o); document.body.style.overflow = o ? 'hidden' : ''; }
+  else s.classList.toggle('collapsed');
+}
+function closeSide() { document.querySelector('.side').classList.remove('open'); $('sideOv').classList.remove('open'); document.body.style.overflow = ''; }
+document.addEventListener('click', e => {
+  const b = e.target.closest('.side button');
+  if (b && b.id !== 'toolsToggle' && !b.classList.contains('side-x') && isMobileNav()) closeSide();
+});
+window.addEventListener('resize', () => { if (!isMobileNav()) closeSide(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSide(); });
+const MODE_T = { chat:['New chat','Ask anything to get started'], image:['Generate image','Turn your ideas into pictures'], translate:['Translate','Translate text between languages'], code:['Code runner','Generate code in any language'], search:['YouTube & web search','Live answers from the web'], creator:['About CP-AI','Meet the creator'] };
+function paintUser() { const n = ls('cpai_user_name') || 'Guest'; if ($('sideName')) { $('sideName').textContent = n; $('sideAv').textContent = n.trim().charAt(0) || '?'; } }
 function switchMode(m) {
+  if ($('tbTitle') && MODE_T[m]) { $('tbTitle').textContent = MODE_T[m][0]; $('tbSub').textContent = MODE_T[m][1]; }
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.sb-btn').forEach(b => b.classList.remove('active'));
@@ -1335,6 +1503,23 @@ document.addEventListener('click', e => {
   if (toolsOpen && !e.target.closest('#toolsPopup') && !e.target.closest('#plusBtn') && !e.target.closest('#closePopupBtn')) closeTools();
 });
 
+const DOTS = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Typewriter: reveals `raw` progressively, re-rendering with `render` each frame (keeps markdown/code blocks intact).
+function typeInto(el, raw, render, done) {
+  render = render || fmt; raw = String(raw || '');
+  if (REDUCED || !raw) { el.innerHTML = render(raw); if (done) done(); return; }
+  let i = 0; const step = Math.max(2, Math.ceil(raw.length / 150)); // always finishes in ~2.5s
+  el.classList.add('typing');
+  (function tick() {
+    i = Math.min(raw.length, i + step);
+    el.innerHTML = render(raw.slice(0, i)); sb();
+    if (i < raw.length) requestAnimationFrame(tick);
+    else { el.classList.remove('typing'); if (done) done(); }
+  })();
+}
+const fetchSafe = (u, o) => fetch(u, o).catch(() => { throw new Error('Cannot reach the server. Check your internet connection and try again.'); });
+
 // Info about the last answer (which model, and whether live web search was used).
 let lastMeta = { model: '', search: false };
 
@@ -1345,7 +1530,7 @@ async function ask(msgs, system, opts = {}) {
     timer = setTimeout(() => rej(new Error('Request timed out (75s). Try again.')), 75000);
   });
   const call = (async () => {
-    const res = await fetch(BACKEND_URL, {
+    const res = await fetchSafe(BACKEND_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1355,7 +1540,11 @@ async function ask(msgs, system, opts = {}) {
       })
     });
     let data = null; try { data = await res.json(); } catch (e) {}
-    if (!res.ok) throw new Error(data?.error?.message || data?.error || ('HTTP ' + res.status));
+    if (!res.ok) {
+      if (res.status === 429) throw new Error('The AI is busy right now. Please wait a moment and try again.');
+      if (res.status >= 500 && !data) throw new Error('The server had a problem (HTTP ' + res.status + '). Please try again.');
+      throw new Error(data?.error?.message || data?.error || ('HTTP ' + res.status));
+    }
     lastMeta = { model: res.headers.get('x-model-used') || '', search: res.headers.get('x-search-used') === 'true' };
     const txt = (data?.choices?.[0]?.message?.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
     return txt || '(empty reply)';
@@ -1416,10 +1605,11 @@ async function sendMsg() {
   }
 }
 
+function userInitial() { return ((ls('cpai_user_name') || 'U').trim().charAt(0) || 'U').toUpperCase(); }
 function addUser(txt) {
   const a = $('chatArea');
   const r = document.createElement('div'); r.className = 'msg-row user';
-  r.innerHTML = '<div class="msg-av">👤</div><div class="msg-body"><div class="bubble">' + sh(txt).replace(/\n/g, '<br>') + '</div></div>';
+  r.innerHTML = '<div class="msg-av">' + userInitial() + '</div><div class="msg-body"><div class="bubble">' + sh(txt).replace(/\n/g, '<br>') + '</div></div>';
   a.appendChild(r); sb();
 }
 function addAI(txt, isErr) {
@@ -1429,14 +1619,18 @@ function addAI(txt, isErr) {
   if (!isErr) {
     const idx = msgStore.push(txt) - 1;
     actions = '<div class="msg-acts">' +
-      '<button class="act-btn" onclick="cp(this,' + idx + ')">📋 Copy</button>' +
-      '<button class="act-btn" onclick="spk(' + idx + ')">🔊 Listen</button>' +
-      '<button class="act-btn" onclick="shr(' + idx + ')">🔗 Share</button>' +
-      '<span style="font-size:14px;opacity:.7">' + getMoodEmoji(txt) + '</span></div>';
+      '<button class="act-btn" onclick="cp(this,' + idx + ')"><svg class="ai" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg> Copy</button>' +
+      '<button class="act-btn" onclick="spk(' + idx + ')"><svg class="ai" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4zM16 9a4 4 0 0 1 0 6"/></svg> Listen</button>' +
+      '<button class="act-btn" onclick="shr(' + idx + ')"><svg class="ai" viewBox="0 0 24 24"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/></svg> Share</button>' +
+      '</div>';
   }
   r.innerHTML = '<div class="msg-av"><svg width="32" height="32"><use href="#robo"/></svg></div>' +
-    '<div class="msg-body"><div class="bubble' + (isErr ? ' err' : '') + '">' + (isErr ? sh(txt) : fmt(txt)) + '</div>' + actions + '</div>';
+    '<div class="msg-body"><div class="bubble' + (isErr ? ' err' : '') + '"></div>' + actions + '</div>';
   a.appendChild(r); sb();
+  const bub = r.querySelector('.bubble'), acts = r.querySelector('.msg-acts');
+  if (isErr) { bub.innerHTML = sh(txt); return; }
+  if (acts) acts.style.visibility = 'hidden';
+  typeInto(bub, txt, fmt, () => { if (acts) acts.style.visibility = ''; });
 }
 let tN = 0;
 function addTyping() {
@@ -1466,8 +1660,8 @@ async function copyText(t) {
 }
 async function cp(btn, idx) {
   const ok = await copyText(msgStore[idx] || '');
-  const old = btn.textContent; btn.textContent = ok ? '✅ Copied' : '⚠️ Failed';
-  setTimeout(() => { btn.textContent = old; }, 1500);
+  const old = btn.innerHTML; btn.textContent = ok ? 'Copied' : 'Failed';
+  setTimeout(() => { btn.innerHTML = old; }, 1500);
 }
 function spk(idx) {
   if (!('speechSynthesis' in window)) { toast('Speech not supported in this browser'); return; }
@@ -1520,9 +1714,9 @@ function generateImage() {
   card.appendChild(prev); card.appendChild(meta);
   $('imgGrid').prepend(card);
 
-  const btn = $('genBtn'); btn.disabled = true; btn.textContent = '⏳ Generating…';
+  const btn = $('genBtn'); btn.disabled = true; btn.textContent = 'Generating…';
   const img = new Image();
-  const finish = () => { btn.disabled = false; btn.textContent = '✨ Generate Image'; };
+  const finish = () => { btn.disabled = false; btn.textContent = 'Generate Image'; };
   img.onload = () => { card.replaceChild(img, prev); finish(); };
   img.onerror = () => {
     prev.innerHTML = '<div class="img-preview-emoji">⚠️</div><div>Image failed. Try again.</div>';
@@ -1537,16 +1731,16 @@ async function doTranslate() {
   const text = $('translateInput').value.trim();
   if (!text) { toast('Enter some text to translate'); return; }
   const btn = document.querySelector('#panel-translate .gen-btn');
-  btn.disabled = true; btn.textContent = '⏳ Translating…';
+  btn.disabled = true; btn.textContent = 'Translating…';
   $('translateResult').style.display = 'block';
-  $('translateOutput').textContent = '…';
+  $('translateOutput').innerHTML = DOTS;
   try {
     const r = await ask([{ role: 'user', content: text }],
       'You are a professional translator. Translate the user\'s text into ' + selLangVal + '. Output ONLY the translation, with no explanations, notes or quotation marks.',
       { search: false });
-    $('translateOutput').textContent = r;
+    typeInto($('translateOutput'), r, sh);
   } catch (e) { $('translateOutput').textContent = '⚠️ ' + e.message; }
-  btn.disabled = false; btn.textContent = '🌐 Translate';
+  btn.disabled = false; btn.textContent = 'Translate';
 }
 
 function selCodeLang(el) { pick(el, '.style-chip'); selCodeVal = stripEmoji(el.textContent); }
@@ -1554,36 +1748,37 @@ async function doCode() {
   const text = $('codeInput').value.trim();
   if (!text) { toast('Describe the code you want'); return; }
   const btn = document.querySelector('#panel-code .gen-btn');
-  btn.disabled = true; btn.textContent = '⏳ Generating…';
+  btn.disabled = true; btn.textContent = 'Generating…';
   const out = $('codeOutput');
   $('codeResult').style.display = 'block';
   out.className = ''; out.style.whiteSpace = 'normal'; out.style.fontSize = '14px'; out.style.lineHeight = '1.75';
-  out.textContent = '…';
+  out.innerHTML = DOTS;
   try {
     const r = await ask([{ role: 'user', content: text }],
       'You are an expert ' + selCodeVal + ' developer. Write clean, working ' + selCodeVal + ' code for the request. Put the code in ONE fenced code block, then give a short explanation. Always match the language the user writes in.',
       { search: false });
-    out.innerHTML = fmt(r);
+    typeInto(out, r, fmt);
   } catch (e) { out.textContent = '⚠️ ' + e.message; }
-  btn.disabled = false; btn.textContent = '💻 Generate Code';
+  btn.disabled = false; btn.textContent = 'Generate Code';
 }
 
 async function doSearch() {
   const text = $('searchInput').value.trim();
   if (!text) { toast('Type what you want to search'); return; }
   const btn = document.querySelector('#panel-search .gen-btn');
-  btn.disabled = true; btn.textContent = '⏳ Searching…';
+  btn.disabled = true; btn.textContent = 'Searching…';
   const out = $('searchOutput');
   $('searchResult').style.display = 'block';
-  out.textContent = '…';
+  out.innerHTML = DOTS;
   try {
     const r = await ask([{ role: 'user', content: text }],
       'You are CP-AI Search, a professional research assistant. Use live web search to find current, accurate information, including news, trends, memes, TikTok and YouTube topics. Answer clearly with key facts, using headings and bullet points where useful, and name your sources (site or channel names). Never invent URLs, quotes or statistics, and say when you could not verify something. Always match the language the user writes in.');
-    out.innerHTML = fmt(r) + '<div class="out-note">' + (lastMeta.search
+    const note = '<div class="out-note">' + (lastMeta.search
       ? '🌐 This answer used live web search.'
       : 'ℹ️ Live web search was not available for this answer. It comes from the model\'s own knowledge and may be out of date.') + '</div>';
+    typeInto(out, r, fmt, () => out.insertAdjacentHTML('beforeend', note));
   } catch (e) { out.textContent = '⚠️ ' + e.message; }
-  btn.disabled = false; btn.textContent = '🔍 Search';
+  btn.disabled = false; btn.textContent = 'Search';
 }
 </script>
 </body>
