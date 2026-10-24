@@ -1185,8 +1185,10 @@ const BACKEND_URL = '/api/chat';
 const DEFAULT_MODEL = 'qwen/qwen3.6-27b';
 // Old or shut-down models. If one of these is saved in the browser, fall back to the default.
 const OLD_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'llama3-8b-8192', 'llama3-70b-8192', 'openai/gpt-oss-120b'];
+// Remove stray characters (commas, spaces, quotes) that break the model name.
+const cleanModel = s => String(s || '').replace(/[^\w./:-]/g, '');
 const getModel = () => {
-  const saved = ls('cpai_model');
+  const saved = cleanModel(ls('cpai_model'));
   if (!saved || OLD_MODELS.includes(saved)) return DEFAULT_MODEL;
   return saved;
 };
@@ -1280,7 +1282,7 @@ function openSettings() {
 }
 function closeSettings() { $('settingsModal').classList.remove('open'); }
 function saveSettings() {
-  const m = $('modelInput').value.trim() || DEFAULT_MODEL;
+  const m = cleanModel($('modelInput').value) || DEFAULT_MODEL;
   ls('cpai_model', m);
   toast('✅ Settings saved!');
   closeSettings();
