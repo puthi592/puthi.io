@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
 <meta name="apple-mobile-web-app-title" content="CP-AI">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@400;500&family=Kantumruy+Pro:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ── */
 :root {
@@ -30,7 +30,7 @@
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html { height:100%; -webkit-text-size-adjust:100%; }
 body {
-  font-family:'Outfit',sans-serif;
+  font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif;
   color:var(--text);
   background:#080a12;
   height:100dvh;
@@ -347,7 +347,7 @@ body::after {
   background:rgba(255,255,255,.06); backdrop-filter:blur(8px);
   border:1px solid rgba(255,255,255,.11); border-radius:8px;
   font-size:11px; font-weight:500; color:var(--muted);
-  cursor:pointer; transition:all .2s; font-family:'Outfit',sans-serif;
+  cursor:pointer; transition:all .2s; font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif;
 }
 .act-btn:hover { color:var(--cyan); border-color:rgba(76,195,232,.3); background:rgba(76,195,232,.07); }
 
@@ -364,7 +364,7 @@ body::after {
   background:rgba(0,0,0,.35); backdrop-filter:blur(10px);
   border:1px solid rgba(255,255,255,.08);
   border-radius:12px; padding:14px 16px;
-  font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.7;
+  font-family:'JetBrains Mono','Noto Sans Khmer',monospace; font-size:12px; line-height:1.7;
   overflow-x:auto; margin-top:8px; white-space:pre;
   box-shadow:inset 0 2px 8px rgba(0,0,0,.3);
 }
@@ -472,12 +472,12 @@ body::after {
   display:flex; align-items:center; justify-content:center;
   cursor:pointer; font-size:22px; flex-shrink:0;
   transition:all .2s ease;
-  font-family:'Outfit',sans-serif;
+  font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif;
 }
 .plus-btn:hover,.plus-btn.open { background:rgba(76,195,232,.14); border-color:rgba(76,195,232,.35); color:var(--cyan); transform:rotate(45deg); }
 .chat-ta {
   flex:1; background:transparent; border:none; outline:none;
-  color:var(--text); font-family:'Outfit',sans-serif;
+  color:var(--text); font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif;
   font-size:14px; resize:none;
   min-height:38px; max-height:140px;
   line-height:1.6; padding:7px 0;
@@ -504,7 +504,7 @@ body::after {
 .gen-section-title { font-size:11.5px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:9px; }
 .gen-prompt-wrap { background:rgba(255,255,255,.06); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,.14); border-radius:18px; padding:16px; box-shadow:inset 0 1px 0 rgba(255,255,255,.1); }
 .gen-prompt-wrap:focus-within { border-color:rgba(244,114,182,.4); box-shadow:0 0 0 3px rgba(244,114,182,.08); }
-.gen-prompt-ta { width:100%; background:transparent; border:none; outline:none; color:var(--text); font-family:'Outfit',sans-serif; font-size:14px; resize:none; min-height:80px; max-height:160px; line-height:1.6; }
+.gen-prompt-ta { width:100%; background:transparent; border:none; outline:none; color:var(--text); font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif; font-size:14px; resize:none; min-height:80px; max-height:160px; line-height:1.6; }
 .gen-prompt-ta::placeholder { color:rgba(240,244,255,.25); }
 .gen-prompt-footer { display:flex; align-items:center; justify-content:space-between; margin-top:10px; gap:10px; flex-wrap:wrap; }
 .style-grid { display:flex; flex-wrap:wrap; gap:7px; }
@@ -513,7 +513,7 @@ body::after {
 .size-grid { display:flex; gap:7px; flex-wrap:wrap; }
 .size-btn { padding:8px 14px; background:rgba(255,255,255,.06); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.12); border-radius:10px; font-size:12px; font-weight:600; color:var(--text2); cursor:pointer; transition:all .2s; }
 .size-btn:hover,.size-btn.sel { background:rgba(76,195,232,.13); border-color:rgba(76,195,232,.35); color:var(--cyan); }
-.gen-btn { display:flex; align-items:center; justify-content:center; gap:9px; padding:13px 24px; background:linear-gradient(135deg,rgba(232,121,168,.75),rgba(139,133,240,.75)); backdrop-filter:blur(8px); border:1px solid rgba(232,121,168,.35); border-radius:14px; font-family:'Outfit',sans-serif; font-size:14px; font-weight:700; color:#fff; cursor:pointer; transition:all .2s ease; box-shadow:0 0 16px rgba(232,121,168,.2),inset 0 1px 0 rgba(255,255,255,.2); white-space:nowrap; }
+.gen-btn { display:flex; align-items:center; justify-content:center; gap:9px; padding:13px 24px; background:linear-gradient(135deg,rgba(232,121,168,.75),rgba(139,133,240,.75)); backdrop-filter:blur(8px); border:1px solid rgba(232,121,168,.35); border-radius:14px; font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif; font-size:14px; font-weight:700; color:#fff; cursor:pointer; transition:all .2s ease; box-shadow:0 0 16px rgba(232,121,168,.2),inset 0 1px 0 rgba(255,255,255,.2); white-space:nowrap; }
 .gen-btn:hover { transform:translateY(-1px); box-shadow:0 0 24px rgba(232,121,168,.3),inset 0 1px 0 rgba(255,255,255,.22); }
 .gen-btn:disabled { opacity:.4; cursor:not-allowed; transform:none; }
 .img-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
@@ -524,7 +524,7 @@ body::after {
 .img-card-meta { padding:10px 12px; }
 .img-card-prompt { font-size:12px; color:var(--text2); line-height:1.4; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .img-card-actions { display:flex; gap:6px; margin-top:8px; }
-.img-ca { flex:1; padding:5px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:7px; font-size:11px; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s; text-align:center; font-family:'Outfit',sans-serif; }
+.img-ca { flex:1; padding:5px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:7px; font-size:11px; font-weight:600; color:var(--muted); cursor:pointer; transition:all .15s; text-align:center; font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif; }
 .img-ca:hover { color:var(--pink); border-color:rgba(244,114,182,.3); }
 
 /* ── SETTINGS MODAL STYLING ── */
@@ -553,9 +553,9 @@ input:checked + .slider:before { transform:translateX(20px); }
 .settings-bg-chip { display:flex; align-items:center; gap:5px; padding:6px 10px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:10px; font-size:11px; font-weight:600; color:var(--muted); cursor:pointer; transition:all .2s; }
 .settings-bg-chip:hover,.settings-bg-chip.sel { background:rgba(76,195,232,.12); border-color:rgba(76,195,232,.35); color:var(--cyan); }
 /* Clear Chat button inside settings */
-.settings-clear-btn { width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25); border-radius:12px; color:#f87171; font-family:'Outfit',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; margin-top:8px; }
+.settings-clear-btn { width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:11px; background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.25); border-radius:12px; color:#f87171; font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; margin-top:8px; }
 .settings-clear-btn:hover { background:rgba(239,68,68,.2); }
-.modal-inp { width:100%; background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.1); border-radius:11px; padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#3FBE84; outline:none; transition:all .2s; margin-top:6px; }
+.modal-inp { width:100%; background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.1); border-radius:11px; padding:10px 14px; font-family:'JetBrains Mono','Noto Sans Khmer',monospace; font-size:13px; color:#3FBE84; outline:none; transition:all .2s; margin-top:6px; }
 .modal-inp:focus { border-color:rgba(76,195,232,.45); }
 .modal-st { font-size:12px; margin-top:6px; }
 .modal-st.ok { color:#3FBE84; }
@@ -577,12 +577,12 @@ input:checked + .slider:before { transform:translateX(20px); }
 .signin-sub { font-size:13px; color:var(--muted); margin:0; text-align:center; }
 .signin-notice { width:100%; background:rgba(139,133,240,.14); border:1px solid rgba(139,133,240,.26); border-radius:12px; padding:10px 14px; font-size:13px; color:#c9c6f5; text-align:center; line-height:1.5; }
 .signin-field-lbl { width:100%; font-size:10px; font-weight:700; letter-spacing:1.4px; color:var(--muted); text-transform:uppercase; margin-bottom:-4px; }
-.signin-inp { width:100%; background:rgba(255,255,255,.05); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 16px; font-family:'Outfit',sans-serif; font-size:14px; color:var(--text); outline:none; transition:all .2s; }
+.signin-inp { width:100%; background:rgba(255,255,255,.05); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 16px; font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif; font-size:14px; color:var(--text); outline:none; transition:all .2s; }
 .signin-inp:focus { border-color:rgba(76,195,232,.45); box-shadow:0 0 0 3px rgba(76,195,232,.08); }
 .signin-inp::placeholder { color:rgba(238,241,248,.2); }
-.signin-btn { width:100%; background:linear-gradient(135deg,rgba(139,133,240,.85),rgba(232,121,168,.85)); border:none; border-radius:14px; padding:14px; font-family:'Outfit',sans-serif; font-size:15px; font-weight:700; color:#fff; cursor:pointer; transition:all .2s ease; box-shadow:0 0 18px rgba(139,133,240,.28),inset 0 1px 0 rgba(255,255,255,.2); }
+.signin-btn { width:100%; background:linear-gradient(135deg,rgba(139,133,240,.85),rgba(232,121,168,.85)); border:none; border-radius:14px; padding:14px; font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif; font-size:15px; font-weight:700; color:#fff; cursor:pointer; transition:all .2s ease; box-shadow:0 0 18px rgba(139,133,240,.28),inset 0 1px 0 rgba(255,255,255,.2); }
 .signin-btn:hover { box-shadow:0 0 26px rgba(139,133,240,.36); }
-.signin-device { font-size:11px; color:var(--muted); font-family:'JetBrains Mono',monospace; text-align:center; }
+.signin-device { font-size:11px; color:var(--muted); font-family:'JetBrains Mono','Noto Sans Khmer',monospace; text-align:center; }
 .signin-device strong { color:var(--cyan); }
 
 /* ── SCROLLBAR ── */
@@ -653,7 +653,7 @@ input:checked + .slider:before { transform:translateX(20px); }
   box-shadow:0 0 40px rgba(76,195,232,.35), inset 0 1px 0 rgba(255,255,255,.2);
 }
 .splash-word {
-  font-family:'Outfit',sans-serif; font-weight:800; font-size:22px; letter-spacing:.5px;
+  font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif; font-weight:800; font-size:22px; letter-spacing:.5px;
   background:linear-gradient(90deg,var(--cyan),var(--purple));
   -webkit-background-clip:text; background-clip:text; color:transparent;
   opacity:0; transform:translateY(8px);
@@ -717,7 +717,7 @@ input:checked + .slider:before { transform:translateX(20px); }
 
 /* ═══ PRO REDESIGN (SaaS look) ═══ */
 :root{--accent:#5b8cff;--accent2:#4a78ee;--navy:#06142b;--panel:rgba(255,255,255,.035);--line:rgba(255,255,255,.08);}
-body{font-family:'Inter','Outfit',system-ui,sans-serif;}
+body{font-family:'Inter','Outfit','Kantumruy Pro','Noto Sans Khmer',system-ui,sans-serif;}
 body[data-bg="galaxy"]::before{background:radial-gradient(ellipse 90% 70% at 60% 110%,#0a3a6e 0%,transparent 60%),linear-gradient(180deg,#02101f,#061a36 55%,#06284f);animation:none;}
 body::after,.blob{display:none!important;}
 .sidebar,.mode-tabs{display:none!important;}
@@ -853,6 +853,27 @@ body::after,.blob{display:none!important;}
 .cp-toast{background:#04132b!important;border:1px solid var(--line)!important;border-radius:12px!important;box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .out-note{border-top:1px solid var(--line);padding-top:10px}
 @media (max-width:640px){.gen-panel{padding:18px 14px}.msg-body{max-width:90%}}
+
+/* ── LANGUAGE SWITCH + KHMER TYPOGRAPHY ── */
+.lang-switch{display:inline-flex;align-items:center;padding:3px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);flex-shrink:0}
+.lang-switch button{border:0;background:transparent;color:var(--text2,#b6bfd2);padding:5px 13px;border-radius:999px;font-family:'Inter','Kantumruy Pro','Noto Sans Khmer',sans-serif;font-size:12.5px;font-weight:600;line-height:1.4;cursor:pointer;transition:all .2s}
+.lang-switch button:hover{color:#fff}
+.lang-switch button.on{background:var(--accent,#4c8dff);color:#fff;box-shadow:0 2px 10px rgba(76,141,255,.4)}
+.signin-card .lang-switch{margin-bottom:12px}
+html[lang="km"] body{line-height:1.7;letter-spacing:0;word-break:normal;overflow-wrap:break-word}
+html[lang="km"] .bubble{line-height:1.95}
+html[lang="km"] .wcc-title,html[lang="km"] .signin-title{line-height:1.5}
+html[lang="km"] .wcc-sub,html[lang="km"] .signin-sub,html[lang="km"] .tb-t,html[lang="km"] .tb-s,
+html[lang="km"] .gen-section-title,html[lang="km"] .style-chip,html[lang="km"] .mode-tab,html[lang="km"] .sb-btn,
+html[lang="km"] .side-new,html[lang="km"] .gen-btn,html[lang="km"] .tool-item,html[lang="km"] .nav-item,
+html[lang="km"] .wcc-chip,html[lang="km"] .settings-label,html[lang="km"] .inp-hint{line-height:1.7}
+@media (max-width:520px){.lang-switch button{padding:4px 10px;font-size:12px}}
+@media (max-width:420px){.tb-right .online-pill{display:none}}
+
+/* ── MOOD BADGE ── */
+.mood-tag{display:flex;width:fit-content;align-items:center;gap:6px;margin-top:5px;padding:3px 11px;border-radius:999px;font-size:11.5px;font-weight:600;line-height:1.6;color:var(--text2,#b6bfd2);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);animation:popIn .3s cubic-bezier(.16,1,.3,1)}
+.mood-tag .mood-em{font-size:14px;line-height:1}
+.msg-row.user .mood-tag{margin-left:auto}
 </style>
 </head>
 <body data-bg="galaxy">
@@ -994,7 +1015,7 @@ body::after,.blob{display:none!important;}
     <div class="topbar">
       <button class="hamburger-btn" onclick="toggleSide()" aria-label="Toggle menu">☰</button>
       <div class="tb-info"><div class="tb-t" id="tbTitle">New chat</div><div class="tb-s" id="tbSub">Ask anything to get started</div></div>
-      <div class="tb-right"><div class="online-pill"><div class="online-dot"></div>Online</div><div class="ib" onclick="openSettings()" title="Settings" style="font-size:22px">⋮</div></div>
+      <div class="tb-right"><div class="lang-switch" role="group" aria-label="Language"><button type="button" data-ul="en" onclick="setUiLang('en')">EN</button><button type="button" data-ul="km" onclick="setUiLang('km')">ខ្មែរ</button></div><div class="online-pill"><div class="online-dot"></div>Online</div><div class="ib" onclick="openSettings()" title="Settings" style="font-size:22px">⋮</div></div>
     </div>
 
     <!-- MODE TABS (desktop) -->
@@ -1140,6 +1161,15 @@ body::after,.blob{display:none!important;}
             <button class="gen-btn" style="background:linear-gradient(135deg,rgba(167,139,250,.8),rgba(34,211,238,.8))" onclick="doCode()">Generate Code</button>
           </div>
         </div>
+        <div class="gen-section-title">Write or paste your own code</div>
+        <div class="gen-prompt-wrap" style="margin-bottom:14px">
+          <textarea class="gen-prompt-ta" id="manualCode" spellcheck="false" style="min-height:130px;font-family:'JetBrains Mono','Noto Sans Khmer',monospace;font-size:13px">&lt;h1 style="color:#4CC3E8"&gt;Hello preview!&lt;/h1&gt;
+&lt;button onclick="this.textContent='It works'"&gt;Click me&lt;/button&gt;</textarea>
+          <div class="gen-prompt-footer">
+            <span class="run-tag">HTML is detected automatically. Otherwise the language chip above is used.</span>
+            <button class="run-btn" onclick="runManual()">▶ Run this code</button>
+          </div>
+        </div>
         <div id="codeResult" style="display:none">
           <div class="gen-section-title">Result</div>
           <div class="run-split" id="runSplit">
@@ -1206,6 +1236,7 @@ body::after,.blob{display:none!important;}
 <div class="modal-overlay" id="signInModal" style="display:flex;background:rgba(0,0,0,.6);backdrop-filter:blur(16px);z-index:300;">
   <div class="signin-card">
     <div class="signin-avatar">👋</div>
+    <div class="lang-switch" role="group" aria-label="Language"><button type="button" data-ul="en" onclick="setUiLang('en')">EN</button><button type="button" data-ul="km" onclick="setUiLang('km')">ខ្មែរ</button></div>
     <h2 class="signin-title">Welcome to CP-AI</h2>
     <p class="signin-sub">Sign in to get started to play with me ✨</p>
     <div class="signin-notice">👋 Choose a name btw!</div>
@@ -1235,6 +1266,12 @@ body::after,.blob{display:none!important;}
     <div class="settings-row">
       <div class="settings-label"><svg class="si" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg> Install App</div>
       <button class="settings-btn" onclick="doInstallApp()">Install</button>
+    </div>
+
+    <!-- Language -->
+    <div class="settings-row">
+      <div class="settings-label"><svg class="si" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg> Language</div>
+      <div class="lang-switch" role="group" aria-label="Language"><button type="button" data-ul="en" onclick="setUiLang('en')">EN</button><button type="button" data-ul="km" onclick="setUiLang('km')">ខ្មែរ</button></div>
     </div>
 
     <!-- Dark Mode toggle -->
@@ -1280,7 +1317,7 @@ body::after,.blob{display:none!important;}
 
 <style>
 .chat-ta,.gen-prompt-ta,.signin-inp,.modal-inp { font-size:16px; }
-.bubble code.inl { background:rgba(0,0,0,.35); border-radius:5px; padding:1px 6px; font-family:'JetBrains Mono',monospace; font-size:12.5px; }
+.bubble code.inl { background:rgba(0,0,0,.35); border-radius:5px; padding:1px 6px; font-family:'JetBrains Mono','Noto Sans Khmer',monospace; font-size:12.5px; }
 .bubble { overflow-wrap:anywhere; }
 .bubble.err { border-color:rgba(232,121,168,.4) !important; color:#f5b5cf; }
 .cp-toast { position:fixed; left:50%; bottom:90px; transform:translateX(-50%); z-index:5000; background:rgba(20,24,44,.95); border:1px solid rgba(255,255,255,.16); color:#fff; padding:10px 18px; border-radius:12px; font-size:13px; box-shadow:0 8px 30px rgba(0,0,0,.4); }
@@ -1293,7 +1330,7 @@ body::after,.blob{display:none!important;}
 .run-code-col{flex:1 1 0;min-width:0}
 .run-bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .run-tag{font-size:12px;font-weight:600;color:var(--muted);padding:4px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px}
-.run-btn,.run-mini{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text2)}
+.run-btn,.run-mini{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:10px;font-family:'Outfit','Kantumruy Pro','Noto Sans Khmer',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--text2)}
 .run-btn{background:linear-gradient(135deg,rgba(63,190,132,.85),rgba(76,195,232,.85));border-color:rgba(63,190,132,.45);color:#fff;box-shadow:0 0 14px rgba(63,190,132,.25)}
 .run-btn:hover{transform:translateY(-1px);box-shadow:0 0 20px rgba(63,190,132,.4)}
 .run-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
@@ -1402,11 +1439,11 @@ const CHAT_SYSTEM = [
   '2. When explaining a meme or trend, cover: what it is, where it came from, what it means, how people use it, and roughly when it was popular. If you cannot verify something, say so clearly instead of guessing.',
   '3. You cannot watch videos or open TikTok or YouTube directly. You only know what you can find from text on web pages, so say "reported" or "according to" instead of claiming you watched something.',
   '4. Always answer in the same language the user writes in (Khmer, English, etc.). Be clear, accurate and well organized: short paragraphs, **bold** key terms, bullet points when useful, and code in fenced code blocks.',
-  '5. Keep a professional but friendly tone. Use emojis sparingly (at most one or two, only when natural).',
+  '5. Keep a professional but warm, friendly tone. Pay attention to how the user feels (happy, excited, sad, lonely, angry, stressed, tired, confused, scared, grateful, bored...). Begin your reply with ONE emoji that matches their feeling, and when they express an emotion add one short, caring sentence that acknowledges it before helping. Use 1 to 3 emojis in total, placed naturally. For sad, serious or sensitive topics use gentle emojis (🤗 💙 🌱) and never joke. For neutral questions a light emoji such as 🙂 or 💡 is enough.',
   '6. Be honest. If you are not sure, say what you know and what you do not know. Never make up facts.'
 ].join('\n');
 
-const DEV_RX = /who.*(developer|creator|made you|built you|created you)/i;
+const DEV_RX = /who.*(developer|creator|made you|built you|created you)|អ្នក(បង្កើត|អភិវឌ្ឍ)|បង្កើតអ្នក/i;
 const DEV_REPLY = "🙂 My creator's name is Puthi. He is a student at TPN High School and is currently 15 years old. He's a unique individual, being both very smart and a little stupid at the same time 😊. Puthi is passionate about learning and is particularly interested in space and astronomy 🚀. He's a bit of an introvert and enjoys spending time alone, lost in his own thoughts 🤔. He is studying in Grade 10IT class, where he is learning about the latest technologies and developing his programming skills 📚💻. Despite his young age, Puthi is already showing a keen interest in artificial intelligence and machine learning, and is working hard to create innovative projects like me 🤖! 🚀";
 
 const MOOD_EMOJIS = [
@@ -1545,7 +1582,7 @@ function closeTools() { setToolsOpen(false); }
 function injectTool(prefix) {
   closeTools();
   const ta = $('chatInput');
-  ta.value = prefix; ta.focus();
+  ta.value = UI(prefix); ta.focus();
   ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 140) + 'px';
 }
 document.addEventListener('click', e => {
@@ -1585,7 +1622,7 @@ async function ask(msgs, system, opts = {}) {
       body: JSON.stringify({
         model: getModel(),
         search: opts.search !== false,
-        messages: [{ role: 'system', content: system || CHAT_SYSTEM }, ...msgs]
+        messages: [{ role: 'system', content: system || (CHAT_SYSTEM + uiLangNote() + moodNote()) }, ...msgs]
       })
     });
     let data = null; try { data = await res.json(); } catch (e) {}
@@ -1617,7 +1654,7 @@ function fmt(raw) {
   }).join('');
 }
 
-function qa(txt) { switchMode('chat'); $('chatInput').value = txt; sendMsg(); }
+function qa(txt) { switchMode('chat'); $('chatInput').value = UI(txt); sendMsg(); }
 
 let sending = false;
 async function sendMsg() {
@@ -1629,7 +1666,7 @@ async function sendMsg() {
   if (DEV_RX.test(text)) {
     $('welcomeScreen')?.remove();
     ta.value = ''; ta.style.height = 'auto';
-    addUser(text); addAI(DEV_REPLY);
+    addUser(text); addAI(LANG === 'km' ? DEV_REPLY_KM : DEV_REPLY);
     return;
   }
 
@@ -1637,6 +1674,7 @@ async function sendMsg() {
   ta.value = ''; ta.style.height = 'auto';
   sending = true; $('sendBtn').disabled = true;
   addUser(text);
+  currentMood = detectMood(text); tagMood(currentMood);
   chatHistory.push({ role: 'user', content: text });
   const tid = addTyping();
   try {
@@ -1650,7 +1688,7 @@ async function sendMsg() {
     chatHistory.pop();
     addAI('⚠️ ' + e.message, true);
   } finally {
-    sending = false; $('sendBtn').disabled = false; ta.focus();
+    sending = false; currentMood = null; $('sendBtn').disabled = false; ta.focus();
   }
 }
 
@@ -1724,7 +1762,7 @@ async function shr(idx) {
   toast((await copyText(t)) ? 'Copied to clipboard 📋' : 'Could not share');
 }
 
-function selStyle(el) { pick(el, '.style-chip'); selStyleVal = stripEmoji(el.textContent); }
+function selStyle(el) { pick(el, '.style-chip'); selStyleVal = el.dataset.en || stripEmoji(el.textContent); }
 function selSize(el)  { pick(el, '.size-btn');  selSizeVal = el.dataset.s; }
 
 const STYLE_HINTS = {
@@ -1796,8 +1834,14 @@ async function doTranslate() {
 /* ── CODE RUNNER: run the generated code and show it in the side preview ── */
 let lastCode = null;
 function extractCode(raw) {
-  const m = String(raw).match(/```([\w#+.-]*)[ \t]*\n([\s\S]*?)```/);
-  return m ? { lang: (m[1] || '').toLowerCase(), code: m[2].replace(/\n$/, '') } : null;
+  const re = /```([\w#+.-]*)[ \t]*\n([\s\S]*?)```/g, blocks = []; let m;
+  while ((m = re.exec(String(raw)))) blocks.push({ lang: (m[1] || '').toLowerCase(), code: m[2].replace(/\n$/, '') });
+  if (!blocks.length) return null;
+  // main file = first HTML block if there is one, otherwise the first block
+  const main = blocks.find(x => detectKind(x.lang, x.code) === 'html' && !/^css$/.test(x.lang)) || blocks[0];
+  main.css = blocks.filter(x => x.lang === 'css').map(x => x.code).join('\n');
+  main.js  = blocks.filter(x => /^(js|javascript)$/.test(x.lang)).map(x => x.code).join('\n');
+  return main;
 }
 function detectKind(lang, code) {
   if (/^(html|htm|xml|svg|css)$/.test(lang)) return 'html';
@@ -1832,9 +1876,22 @@ const PREVIEW_LOGGER = 'const out=document.getElementById("out");' +
 function safeScript(code) { return String(code).replace(/<\/script/gi, '<\\/script'); }
 function buildSrcdoc(kind, code) {
   if (kind === 'html') {
-    return /<\s*(html|body|head)\b/i.test(code) || /<!doctype/i.test(code)
+    let h = /<\s*(html|body|head)\b/i.test(code) || /<!doctype/i.test(code)
       ? code
       : '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>' + code + '</body></html>';
+    const css = (lastCode && lastCode.css) || '', js = (lastCode && lastCode.js) || '';
+    // a separate styles.css / script.js is not available inside the preview, so inline the generated blocks
+    if (css) {
+      const tag = '<style>\n' + css + '\n</style>';
+      const link = /<link[^>]+rel=["']?stylesheet["']?[^>]*>/i;
+      h = link.test(h) ? h.replace(link, tag) : (/<\/head>/i.test(h) ? h.replace(/<\/head>/i, tag + '</head>') : tag + h);
+    }
+    if (js) {
+      const tag = '<script>\n' + safeScript(js) + '\n<\/script>';
+      const sc = /<script[^>]+src=["'](?!https?:)[^"']+["'][^>]*>\s*<\/script>/i;
+      h = sc.test(h) ? h.replace(sc, tag) : (/<\/body>/i.test(h) ? h.replace(/<\/body>/i, tag + '</body>') : h + tag);
+    }
+    return h;
   }
   if (kind === 'js') {
     return '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>' + PREVIEW_STYLE + '</style></head><body><div id="out"></div>' +
@@ -1862,6 +1919,17 @@ function runCode() {
   $('runPreview').classList.add('open');               // open the preview next to the code
   if (window.innerWidth <= 820) $('runPreview').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
+function runManual() {
+  const code = $('manualCode').value.trim();
+  if (!code) { toast('Write some code first'); return; }
+  const raw = '```\n' + code + '\n```';
+  const out = $('codeOutput');
+  $('codeResult').style.display = 'block';
+  out.className = ''; out.style.whiteSpace = 'normal'; out.style.fontSize = '14px'; out.style.lineHeight = '1.75';
+  out.innerHTML = fmt(raw);
+  setupRunner(raw);
+  runCode();
+}
 function closePreview() {
   const pv = $('runPreview'); if (!pv) return;
   pv.classList.remove('open');
@@ -1873,7 +1941,7 @@ function copyCode() {
     .then(() => toast('Code copied'), () => toast('Copy failed'));
 }
 
-function selCodeLang(el) { pick(el, '.style-chip'); selCodeVal = stripEmoji(el.textContent); }
+function selCodeLang(el) { pick(el, '.style-chip'); selCodeVal = el.dataset.en || stripEmoji(el.textContent); }
 async function doCode() {
   const text = $('codeInput').value.trim();
   if (!text) { toast('Describe the code you want'); return; }
@@ -1912,6 +1980,193 @@ async function doSearch() {
     typeInto(out, r, fmt, () => out.insertAdjacentHTML('beforeend', note));
   } catch (e) { out.textContent = '⚠️ ' + e.message; }
   btn.disabled = false; btn.textContent = 'Search';
+}
+
+/* ══════════ LANGUAGE: English / Khmer ══════════ */
+const DEV_REPLY_KM = "🙂 អ្នកបង្កើតរបស់ខ្ញុំឈ្មោះ Puthi។ គាត់ជាសិស្សនៅវិទ្យាល័យ TPN ហើយបច្ចុប្បន្នមានអាយុ ១៥ឆ្នាំ។ គាត់ជាមនុស្សពិសេសម្នាក់ ដែលទាំងឆ្លាតខ្លាំង ហើយក៏ល្ងង់បន្តិចក្នុងពេលតែមួយ 😊។ Puthi ចូលចិត្តរៀនសូត្រខ្លាំង ហើយចាប់អារម្មណ៍ជាពិសេសលើលំហអវកាស និងតារាសាស្ត្រ 🚀។ គាត់ជាមនុស្សចូលចិត្តភាពស្ងប់ស្ងាត់បន្តិច ហើយចូលចិត្តនៅម្នាក់ឯង លង់ក្នុងគំនិតរបស់ខ្លួន 🤔។ គាត់កំពុងរៀនថ្នាក់ទី១០ IT ដែលគាត់រៀនអំពីបច្ចេកវិទ្យាទំនើបៗ និងអភិវឌ្ឍជំនាញសរសេរកម្មវិធី 📚💻។ ទោះបីនៅវ័យក្មេង Puthi បានបង្ហាញចំណាប់អារម្មណ៍យ៉ាងខ្លាំងលើបញ្ញាសិប្បនិម្មិត និងម៉ាស៊ីនរៀន ហើយកំពុងខំប្រឹងបង្កើតគម្រោងថ្មីៗដូចជាខ្ញុំ 🤖! 🚀";
+
+const KM = {
+  /* navigation */
+  "Powered by Groq":"ដំណើរការដោយ Groq","Install CP-AI":"ដំឡើង CP-AI","Use it like a real app on your device":"ប្រើដូចកម្មវិធីពិតប្រាកដនៅលើឧបករណ៍របស់អ្នក",
+  "Install":"ដំឡើង","Main":"ម៉ឺនុយមេ","Chat":"ជជែក","Generate Photo":"បង្កើតរូបភាព","Translate":"បកប្រែ","Code Runner":"កម្មវិធីរត់កូដ",
+  "Search":"ស្វែងរក","Creator":"អ្នកបង្កើត","Code":"កូដ","New Chat":"ជជែកថ្មី","Settings":"ការកំណត់","Chats":"ការជជែក","Tools":"ឧបករណ៍",
+  "YouTube search":"ស្វែងរក YouTube","YouTube Search":"ស្វែងរក YouTube","Code runner":"កម្មវិធីរត់កូដ","Generate image":"បង្កើតរូបភាព",
+  "About CP-AI":"អំពី CP-AI","Guest":"ភ្ញៀវ","Free plan":"គម្រោងឥតគិតថ្លៃ","New chat":"ជជែកថ្មី","Ask anything to get started":"សួរអ្វីក៏បាន ដើម្បីចាប់ផ្តើម",
+  "Online":"អនឡាញ","Language":"ភាសា",
+  "Happy":"សប្បាយចិត្ត","Excited":"រំភើប","Sad":"ក្រៀមក្រំ","Lonely":"ឯកា","Angry":"ខឹង","Stressed":"តានតឹង","Tired":"នឿយហត់","Confused":"ងឿងឆ្ងល់","Scared":"ភ័យខ្លាច","Grateful":"ដឹងគុណ","Love":"ស្រលាញ់","Bored":"ធុញទ្រាន់","Laughing":"សើច",
+  "Turn your ideas into pictures":"ប្តូរគំនិតរបស់អ្នកទៅជារូបភាព","Translate text between languages":"បកប្រែអត្ថបទរវាងភាសានានា",
+  "Generate code in any language":"បង្កើតកូដជាភាសាសរសេរកម្មវិធីណាក៏បាន","YouTube & web search":"ស្វែងរក YouTube និងអ៊ីនធឺណិត",
+  "Live answers from the web":"ចម្លើយផ្ទាល់ពីអ៊ីនធឺណិត","Meet the creator":"ស្គាល់អ្នកបង្កើត",
+  /* welcome */
+  "Hello":"សួស្តី","there":"មិត្តភក្តិ","! I'm CP-AI":"! ខ្ញុំគឺ CP-AI",
+  "Ask me anything. I can chat, search, translate and write code.":"សួរខ្ញុំបានគ្រប់យ៉ាង។ ខ្ញុំអាចជជែក ស្វែងរក បកប្រែ និងសរសេរកូដ។",
+  "Who is the developer?":"តើអ្នកណាជាអ្នកបង្កើត?","Tell me a fun fact":"ប្រាប់ការពិតគួរឱ្យចាប់អារម្មណ៍","Help me study":"ជួយខ្ញុំរៀន",
+  "Summarize":"សង្ខេប","Explain Simply":"ពន្យល់ឱ្យងាយយល់","Generate Image →":"បង្កើតរូបភាព →","Web Search":"ស្វែងរកតាមអ៊ីនធឺណិត",
+  "Secure & private":"សុវត្ថិភាព និងឯកជន","Enter to send":"ចុច Enter ដើម្បីផ្ញើ","Shift+Enter for new line":"Shift+Enter ដើម្បីចុះបន្ទាត់",
+  /* image */
+  "Describe your image":"ពណ៌នារូបភាពរបស់អ្នក","Generate Image":"បង្កើតរូបភាព","Art Style":"ស្ទីលសិល្បៈ","Realistic":"ជាក់ស្តែង","Anime":"អ្នីមេ",
+  "Oil Painting":"គំនូរប្រេង","Sketch":"គំនូរព្រាង","Watercolor":"ពណ៌ទឹក","Cyberpunk":"ស៊ីបឺផាង","Fantasy":"ស្រមើស្រមៃ","Photography":"ការថតរូប",
+  "Pixel Art":"ភីកសែលអាត","Abstract":"អរូបី","Image Size":"ទំហំរូបភាព","1:1 Square":"1:1 ការ៉េ","16:9 Wide":"16:9 ទទឹង","9:16 Portrait":"9:16 បញ្ឈរ",
+  "4:3 Classic":"4:3 បុរាណ","Generated Images":"រូបភាពដែលបានបង្កើត",
+  /* translate */
+  "Translate Text":"បកប្រែអត្ថបទ","Khmer":"ខ្មែរ","English":"អង់គ្លេស","Chinese":"ចិន","Japanese":"ជប៉ុន","French":"បារាំង","Thai":"ថៃ","Result":"លទ្ធផល",
+  /* code */
+  "Code Generator":"កម្មវិធីបង្កើតកូដ","Generate Code":"បង្កើតកូដ","Write or paste your own code":"សរសេរ ឬបិទភ្ជាប់កូដរបស់អ្នក",
+  "HTML is detected automatically. Otherwise the language chip above is used.":"HTML ត្រូវបានស្គាល់ដោយស្វ័យប្រវត្តិ។ បើមិនមែនទេ នឹងប្រើភាសាដែលបានជ្រើសខាងលើ។",
+  "Run this code":"រត់កូដនេះ","Run":"រត់","Copy code":"ចម្លងកូដ","Preview":"មើលជាមុន",
+  /* search */
+  "AI Web Search":"ការស្វែងរកតាមអ៊ីនធឺណិតជាមួយ AI",
+  /* creator */
+  "I'M PUTHI":"ខ្ញុំគឺ PUTHI","Halo everyone my name":"សួស្តីអ្នកទាំងអស់គ្នា ខ្ញុំឈ្មោះ","Puthi know as Dexter.Patrick":"Puthi ដែលគេស្គាល់ថា Dexter.Patrick",
+  ". a student at TPN High School studying in Grade 10IT class i am love learning about technology space history and how machin work and artificial intelligence, rather love being alone more than in friend group":
+  "ជាសិស្សនៅវិទ្យាល័យ TPN កំពុងរៀនថ្នាក់ទី១០ IT។ ខ្ញុំចូលចិត្តរៀនអំពីបច្ចេកវិទ្យា លំហអវកាស ប្រវត្តិសាស្ត្រ របៀបដែលម៉ាស៊ីនដំណើរការ និងបញ្ញាសិប្បនិម្មិត ហើយចូលចិត្តនៅម្នាក់ឯងជាងនៅក្នុងក្រុមមិត្តភក្តិ",
+  /* sign in */
+  "Welcome to CP-AI":"សូមស្វាគមន៍មកកាន់ CP-AI","Sign in to get started to play with me ✨":"ចូលគណនីដើម្បីចាប់ផ្តើមលេងជាមួយខ្ញុំ ✨",
+  "Choose a name btw!":"ជ្រើសរើសឈ្មោះមួយសិនណា!","YOUR NAME":"ឈ្មោះរបស់អ្នក","Sign In":"ចូលគណនី","Your Device ID:":"លេខសម្គាល់ឧបករណ៍របស់អ្នក៖",
+  /* settings */
+  "Model ID":"លេខសម្គាល់ម៉ូដែល","Install App":"ដំឡើងកម្មវិធី","Dark mode":"ផ្ទៃងងឹត","Background":"ផ្ទៃខាងក្រោយ","Angkor":"អង្គរ","Ocean":"មហាសមុទ្រ",
+  "Forest":"ព្រៃឈើ","Sunset":"ថ្ងៃលិច","Galaxy":"កាឡាក់ស៊ី","Minimal":"សាមញ្ញ","Auto speak replies":"អានចម្លើយដោយស្វ័យប្រវត្តិ",
+  "Save Settings":"រក្សាទុកការកំណត់","Clear all chat history":"លុបប្រវត្តិជជែកទាំងអស់",
+  /* attributes */
+  "Dismiss":"បិទ","Close":"បិទ","Profile":"ប្រូហ្វាល់","Toggle menu":"បើក/បិទម៉ឺនុយ","Type a message…":"វាយសារ…","Send":"ផ្ញើ",
+  "e.g. A futuristic city at sunset, cyberpunk style, ultra detailed, 4K…":"ឧ. ទីក្រុងអនាគតពេលថ្ងៃលិច ស្ទីលស៊ីបឺផាង លម្អិតខ្លាំង 4K…",
+  "Enter text to translate…":"បញ្ចូលអត្ថបទដែលចង់បកប្រែ…","Describe what code you want… e.g. Python function to sort a list":"ពណ៌នាកូដដែលអ្នកចង់បាន… ឧ. អនុគមន៍ Python សម្រាប់តម្រៀបបញ្ជី",
+  "Run again":"រត់ម្តងទៀត","Code preview":"មើលកូដជាមុន","What do you want to search for?":"តើអ្នកចង់ស្វែងរកអ្វី?","Enter your name…":"បញ្ចូលឈ្មោះរបស់អ្នក…",
+  /* toasts / status / errors */
+  "Tap Share → \"Add to Home Screen\"":"ចុច Share → \"Add to Home Screen\"","Use browser menu → \"Install app\"":"ប្រើម៉ឺនុយកម្មវិធីរុករក → \"Install app\"",
+  "CP-AI installed ✅":"បានដំឡើង CP-AI ✅","Settings saved!":"បានរក្សាទុកការកំណត់!","Speech not supported in this browser":"កម្មវិធីរុករកនេះមិនគាំទ្រការអានជាសំឡេងទេ",
+  "Copied to clipboard 📋":"បានចម្លងទៅ Clipboard 📋","Could not share":"មិនអាចចែករំលែកបានទេ","Describe your image first ✍️":"សូមពណ៌នារូបភាពរបស់អ្នកជាមុនសិន ✍️",
+  "Enter some text to translate":"សូមបញ្ចូលអត្ថបទដើម្បីបកប្រែ","This language cannot run in the browser":"ភាសានេះមិនអាចរត់ក្នុងកម្មវិធីរុករកបានទេ",
+  "Write some code first":"សូមសរសេរកូដមួយចំនួនជាមុនសិន","Code copied":"បានចម្លងកូដ","Copy failed":"ចម្លងមិនបានសម្រេច","Describe the code you want":"សូមពណ៌នាកូដដែលអ្នកចង់បាន",
+  "Type what you want to search":"សូមវាយអ្វីដែលអ្នកចង់ស្វែងរក","Generating…":"កំពុងបង្កើត…","Translating…":"កំពុងបកប្រែ…","Searching…":"កំពុងស្វែងរក…",
+  "Cannot reach the server. Check your internet connection and try again.":"មិនអាចភ្ជាប់ទៅម៉ាស៊ីនមេបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត ហើយព្យាយាមម្តងទៀត។",
+  "Request timed out (75s). Try again.":"អស់ពេលរង់ចាំ (៧៥វិនាទី)។ សូមព្យាយាមម្តងទៀត។","The AI is busy right now. Please wait a moment and try again.":"AI កំពុងជាប់រវល់។ សូមរង់ចាំបន្តិច ហើយព្យាយាមម្តងទៀត។",
+  /* prompts sent to the AI when a shortcut is used in Khmer mode */
+  "Who is the developer of CP-AI?":"តើអ្នកណាជាអ្នកបង្កើត CP-AI?","Tell me a fun fact!":"សូមប្រាប់ការពិតគួរឱ្យចាប់អារម្មណ៍មួយ!",
+  "Help me study. Give me a study plan for learning programming.":"ជួយខ្ញុំរៀន។ សូមផ្តល់ផែនការសិក្សាសម្រាប់រៀនសរសេរកម្មវិធី។",
+  "Translate this to Khmer: ":"បកប្រែអត្ថបទនេះទៅជាភាសាខ្មែរ៖ ","Write and explain code for: ":"សរសេរ និងពន្យល់កូដសម្រាប់៖ ","Summarize this topic: ":"សង្ខេបប្រធានបទនេះ៖ ",
+  "Explain like I am 5: ":"ពន្យល់ដូចខ្ញុំអាយុ ៥ ឆ្នាំ៖ ","Search and explain: ":"ស្វែងរក និងពន្យល់៖ "
+};
+
+let LANG = 'en';
+const hasKM = k => Object.prototype.hasOwnProperty.call(KM, k);
+const UI = s => (LANG === 'km' && hasKM(s)) ? KM[s] : s;
+function uiLangNote() {
+  return LANG === 'km'
+    ? '\n7. The app interface is set to Khmer. When the user\'s language is unclear or mixed, reply in natural, professional Khmer (ភាសាខ្មែរ). Keep code, product names and technical terms in English.'
+    : '';
+}
+const I18N_ATTRS = ['placeholder', 'title', 'aria-label'];
+function i18nLookup(raw) {
+  const core = raw.trim();
+  if (!core || !/[A-Za-z]/.test(core)) return null;
+  let t = hasKM(core) ? KM[core] : undefined;
+  if (t === undefined) {                           // allow a leading emoji / symbol: "💬 Chat", "▶ Run"
+    const m = core.match(/^([^\p{L}]+)([\s\S]+)$/u);
+    if (m && hasKM(m[2])) t = m[1] + KM[m[2]];
+  }
+  if (t === undefined) return null;
+  return raw.match(/^\s*/)[0] + t + raw.match(/\s*$/)[0];
+}
+function i18nSkip(n) {
+  const p = n.parentElement;
+  return !p || !!p.closest('script,style,textarea,pre,code,.bubble,.no-i18n');
+}
+function trNode(n) {
+  if (i18nSkip(n)) return;
+  const v = n.nodeValue;
+  if (LANG === 'km') {
+    if (n.__tr === v) return;
+    const t = i18nLookup(v);
+    if (t !== null) { n.__en = v; n.__tr = t; n.nodeValue = t; }
+  } else if (n.__tr !== undefined && n.__tr === v) {
+    n.nodeValue = n.__en; n.__tr = undefined;
+  }
+}
+function trAttrs(el) {
+  if (!el.hasAttribute) return;
+  for (const a of I18N_ATTRS) {
+    if (!el.hasAttribute(a)) continue;
+    const v = el.getAttribute(a); el.__t = el.__t || {};
+    if (LANG === 'km') {
+      if (el.__t[a] && el.__t[a].tr === v) continue;
+      const t = i18nLookup(v);
+      if (t !== null) { el.__t[a] = { en: v, tr: t }; el.setAttribute(a, t); }
+    } else if (el.__t[a] && el.__t[a].tr === v) {
+      el.setAttribute(a, el.__t[a].en); delete el.__t[a];
+    }
+  }
+}
+function i18nWalk(root) {
+  if (!root) return;
+  if (root.nodeType === 3) { trNode(root); return; }
+  if (root.nodeType !== 1) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = []; while (w.nextNode()) nodes.push(w.currentNode);
+  nodes.forEach(trNode);
+  trAttrs(root);
+  root.querySelectorAll('[placeholder],[title],[aria-label]').forEach(trAttrs);
+}
+function applyLang(l) {
+  LANG = l === 'km' ? 'km' : 'en';
+  document.documentElement.lang = LANG;
+  ls('cpai_ui_lang', LANG);
+  i18nWalk(document.body);
+  document.querySelectorAll('.lang-switch [data-ul]').forEach(b => b.classList.toggle('on', b.dataset.ul === LANG));
+}
+function setUiLang(l) { applyLang(l); }
+(function initLang() {
+  let saved = null; try { saved = ls('cpai_ui_lang'); } catch (e) {}
+  const start = saved || (/^km/i.test(navigator.language || '') ? 'km' : 'en');
+  const go = () => {
+    document.querySelectorAll('.style-chip').forEach(c => { if (!c.dataset.en) c.dataset.en = stripEmoji(c.textContent); });
+    applyLang(start);
+    new MutationObserver(ms => {
+      if (LANG !== 'km') return;
+      for (const m of ms) {
+        if (m.type === 'characterData') trNode(m.target);
+        else if (m.type === 'attributes') trAttrs(m.target);
+        else m.addedNodes.forEach(i18nWalk);
+      }
+    }).observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: I18N_ATTRS });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
+})();
+
+/* ══════════ MOOD: understand how the user feels ══════════ */
+let currentMood = null;
+const MOODS = [
+  { id:'sad',      emoji:'😢', label:'Sad',      rx:/\b(sad|cry|crying|depress\w*|heartbroken|hurt|miss(ing)? (him|her|you|them)|unhappy|down today|lost someone|grief)\b|😢|😭|💔|សោកសៅ|ក្រៀមក្រំ|កើតទុក្ខ|ទុក្ខ|យំ|ឈឺចាប់|សោកស្តាយ|អស់សង្ឃឹម/i },
+  { id:'lonely',   emoji:'🥺', label:'Lonely',   rx:/\b(lonely|alone|no one cares|nobody cares|no friends?)\b|🥺|ឯកា|ឯកាកាយ|គ្មានមិត្ត|ឯកកោ/i },
+  { id:'angry',    emoji:'😠', label:'Angry',    rx:/\b(angry|mad at|furious|annoyed|hate|pissed|so annoying|irritated)\b|😡|🤬|😠|ខឹង|ឆ្អែតចិត្ត|ស្អប់|ទាស់ចិត្ត/i },
+  { id:'scared',   emoji:'😨', label:'Scared',   rx:/\b(scared|afraid|fear|nervous|anxious|anxiety|worried|worry|panic)\b|😨|😰|😱|ភ័យ|ខ្លាច|បារម្ភ|ព្រួយ/i },
+  { id:'stressed', emoji:'😣', label:'Stressed', rx:/\b(stress\w*|overwhelm\w*|pressure|burn(ed|t)? out|deadline|exam tomorrow|too much work|can'?t handle)\b|😫|😣|តានតឹង|ស្ត្រេស|ហត់ចិត្ត|សម្ពាធ/i },
+  { id:'tired',    emoji:'😴', label:'Tired',    rx:/\b(tired|exhausted|sleepy|no sleep|need sleep|drained)\b|😴|🥱|នឿយ|ហត់|ងងុយ|អស់កម្លាំង/i },
+  { id:'confused', emoji:'🤔', label:'Confused', rx:/\b(confus\w*|don'?t understand|do not understand|don'?t get it|no idea|lost|what does .* mean|stuck)\b|🤔|😕|ងឿង|មិនយល់|ច្រឡំ|មិនដឹង|ជាប់គាំង/i },
+  { id:'bored',    emoji:'😐', label:'Bored',    rx:/\b(bored|boring|nothing to do)\b|ធុញ|ធុញទ្រាន់|គ្មានអ្វីធ្វើ/i },
+  { id:'grateful', emoji:'🙏', label:'Grateful', rx:/\b(thanks?|thank you|thx|appreciate\w*|grateful)\b|🙏|អរគុណ|សូមអរគុណ|ដឹងគុណ/i },
+  { id:'love',     emoji:'🥰', label:'Love',     rx:/\b(love (you|it|this)|i love|adore|so cute|crush)\b|❤|😍|🥰|ស្រលាញ់|ស្រឡាញ់|ចូលចិត្តណាស់/i },
+  { id:'excited',  emoji:'🤩', label:'Excited',  rx:/\b(excited|can'?t wait|awesome|amazing|so cool|yay|woohoo|let'?s go|passed|i won|good news)\b|🎉|🤩|🥳|រំភើប|អស្ចារ្យ|ឆ្នើម|ជាប់ហើយ|ឈ្នះ|ដំណឹងល្អ/i },
+  { id:'laughing', emoji:'😂', label:'Laughing', rx:/\b(lol|lmao|haha+|hehe+|funny|rofl)\b|😂|🤣|ហាហា|ហិហិ|គួរឱ្យសើច|ខ្លាំងណាស់ហ្នឹង/i },
+  { id:'happy',    emoji:'😊', label:'Happy',    rx:/\b(happy|glad|great day|feeling good|joy\w*|cheerful|so good today)\b|😊|😄|😁|សប្បាយ|រីករាយ|ត្រេកអរ|សប្បាយចិត្ត/i }
+];
+function detectMood(text) {
+  const t = String(text || '');
+  for (const m of MOODS) if (m.rx.test(t)) return { id: m.id, emoji: m.emoji, label: m.label };
+  return null;
+}
+function moodNote() {
+  return currentMood
+    ? '\n8. Mood hint from the app (may be imperfect, use it only if it fits the message): the user seems to feel ' + currentMood.label.toLowerCase() + ' ' + currentMood.emoji + '. Acknowledge this feeling kindly and start your reply with a matching emoji.'
+    : '';
+}
+function tagMood(m) {
+  if (!m) return;
+  const rows = document.querySelectorAll('.msg-row.user .msg-body');
+  const body = rows[rows.length - 1]; if (!body) return;
+  const t = document.createElement('div'); t.className = 'mood-tag'; t.title = m.label;
+  t.innerHTML = '<span class="mood-em">' + m.emoji + '</span><span>' + m.label + '</span>';
+  body.appendChild(t);
 }
 </script>
 </body>
