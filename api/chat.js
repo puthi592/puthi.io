@@ -8,7 +8,8 @@
 //   4. openai/gpt-oss-20b   (supports live web search)
 //
 // IMAGES: when a message contains a picture, only vision models are used
-// (VISION_MODELS below, or the GROQ_VISION_MODEL env var). Text-only models
+// (VISION_MODELS below, or the GROQ_VISION_MODEL env var). Groq's current
+// vision models are the Qwen 3.x ones; Llama 4 may not be on every account. Text-only models
 // and live web search are skipped for those requests.
 //
 // Live web search uses Groq's built-in "browser_search" tool, which only
@@ -18,7 +19,7 @@
 
 const FALLBACK_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
 // Vision-capable models (can read pictures). First one that works is used.
-const VISION_MODELS = ['meta-llama/llama-4-scout-17b-16e-instruct', 'meta-llama/llama-4-maverick-17b-128e-instruct'];
+const VISION_MODELS = ['qwen/qwen3.8-27b', 'qwen/qwen3.6-27b', 'meta-llama/llama-4-scout-17b-16e-instruct'];
 const TIMEZONE = process.env.APP_TIMEZONE || 'Asia/Phnom_Penh';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const UPSTREAM_TIMEOUT_MS = 55000;
@@ -141,7 +142,7 @@ export default async function handler(req, res) {
   // Models to try (requested one first), without duplicates.
   // Picture requests only use vision models; everything else uses the normal list.
   const candidates = (hasImage
-    ? [/llama-4|vision|scout|maverick/i.test(cleanModel(model)) ? cleanModel(model) : '', cleanModel(process.env.GROQ_VISION_MODEL), ...VISION_MODELS]
+    ? [VISION_MODELS.includes(cleanModel(model)) ? cleanModel(model) : '', cleanModel(process.env.GROQ_VISION_MODEL), ...VISION_MODELS]
     : [cleanModel(model), cleanModel(process.env.GROQ_MODEL), ...FALLBACK_MODELS])
     .filter((m, i, arr) => m && arr.indexOf(m) === i);
 
