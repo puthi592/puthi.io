@@ -19,7 +19,7 @@
 
 const FALLBACK_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
 // Vision-capable models (can read pictures). First one that works is used.
-const VISION_MODELS = ['qwen/qwen3.8-27b', 'qwen/qwen3.6-27b', 'meta-llama/llama-4-scout-17b-16e-instruct'];
+const VISION_MODELS = ['qwen/qwen3.8-27b', 'qwen/qwen3.6-27b'];
 const TIMEZONE = process.env.APP_TIMEZONE || 'Asia/Phnom_Penh';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const UPSTREAM_TIMEOUT_MS = 55000;
@@ -148,10 +148,15 @@ export default async function handler(req, res) {
 
   let lastStatus = 500;
   let lastData = { error: 'No model could be used.' };
+  let realStatus = null, realData = null; // first error that was NOT just "model not available" (e.g. busy, overloaded)
 
   try {
     for (const candidate of candidates) {
       let result = await callGroq(apiKey, candidate, convo, wantSearch);
+      if (!result.response.ok && isTransient(result.response.status)) {      // busy or temporary: wait a moment and try the same model once more
+        await new Promise((r) => setTimeout(r, 1500));
+        result = await callGroq(apiKey, candidate, convo, wantSearch);
+      }
 
       // If only the search tool caused the error, retry the same model without it.
       if (!result.response.ok && result.searching && isToolError(result.response.status, result.data)) {
@@ -167,14 +172,17 @@ export default async function handler(req, res) {
 
       lastStatus = result.response.status;
       lastData = result.data;
+      if (!realData && !isModelError(result.response.status, result.data)) { realStatus = result.response.status; realData = result.data; }
       console.error(`Groq error with model "${candidate}":`, result.data);
 
       // Only move on to the next model when the problem is the model itself.
       if (!isModelError(result.response.status, result.data) && !isTransient(result.response.status)) break;
     }
 
-    const message = lastData?.error?.message || (typeof lastData?.error === 'string' ? lastData.error : 'All AI models are unavailable right now.');
-    return res.status(lastStatus).json({ error: { message } });
+    // Show the real reason (e.g. rate limit) instead of the last "model does not exist" message.
+    const shownData = realData || lastData, shownStatus = realData ? realStatus : lastStatus;
+    const message = shownData?.error?.message || (typeof shownData?.error === 'string' ? shownData.error : 'All AI models are unavailable right now.');
+    return res.status(shownStatus).json({ error: { message } });
   } catch (error) {
     console.error(error);
     if (error?.name === 'TimeoutError' || error?.name === 'AbortError') {
