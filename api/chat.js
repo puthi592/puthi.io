@@ -7,12 +7,18 @@
 //   3. qwen/qwen3.8-27b
 //   4. openai/gpt-oss-20b   (supports live web search)
 //
+// IMAGES: when a message contains a picture, only vision models are used
+// (VISION_MODELS below, or the GROQ_VISION_MODEL env var). Text-only models
+// and live web search are skipped for those requests.
+//
 // Live web search uses Groq's built-in "browser_search" tool, which only
 // the openai/gpt-oss models support. Other models answer from their own
 // knowledge.
 // ─────────────────────────────────────────────────────────────
 
 const FALLBACK_MODELS = ['openai/gpt-oss-120b', 'qwen/qwen3.8-27b', 'openai/gpt-oss-20b'];
+// Vision-capable models (can read pictures). First one that works is used.
+const VISION_MODELS = ['meta-llama/llama-4-scout-17b-16e-instruct', 'meta-llama/llama-4-maverick-17b-128e-instruct'];
 const TIMEZONE = process.env.APP_TIMEZONE || 'Asia/Phnom_Penh';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const UPSTREAM_TIMEOUT_MS = 55000;
@@ -51,7 +57,7 @@ function withDate(messages) {
     now = new Date().toUTCString();
   }
   const note = `Current date and time: ${now} (${TIMEZONE}).`;
-  if (messages[0]?.role === 'system') {
+  if (messages[0]?.role === 'system' && typeof messages[0].content === 'string') {
     return [{ role: 'system', content: `${messages[0].content}\n\n${note}` }, ...messages.slice(1)];
   }
   return [{ role: 'system', content: note }, ...messages];
@@ -82,6 +88,25 @@ async function callGroq(apiKey, model, messages, useSearch) {
   return { response, data, searching };
 }
 
+export const config = { api: { bodyParser: { sizeLimit: '4mb' } } };
+
+// Accept plain text OR a list of parts: [{type:'text',text}, {type:'image_url',image_url:{url}}]
+function cleanContent(content) {
+  if (typeof content === 'string') return { content, hasImage: false };
+  if (!Array.isArray(content)) return null;
+  const parts = [];
+  let hasImage = false;
+  for (const p of content) {
+    if (p && p.type === 'text' && typeof p.text === 'string') {
+      parts.push({ type: 'text', text: p.text });
+    } else if (p && p.type === 'image_url' && typeof p.image_url?.url === 'string' && /^(https?:\/\/|data:image\/)/i.test(p.image_url.url)) {
+      parts.push({ type: 'image_url', image_url: { url: p.image_url.url } });
+      hasImage = true;
+    }
+  }
+  return parts.length ? { content: parts, hasImage } : null;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -94,21 +119,30 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Server missing GROQ_API_KEY environment variable.' });
   }
 
-  // Keep only valid chat messages.
-  const clean = Array.isArray(messages)
-    ? messages
-        .filter((m) => m && ['system', 'user', 'assistant'].includes(m.role) && typeof m.content === 'string')
-        .map((m) => ({ role: m.role, content: m.content }))
-    : [];
+  // Keep only valid chat messages (text, or text + image parts).
+  let hasImage = false;
+  const clean = [];
+  if (Array.isArray(messages)) {
+    for (const m of messages) {
+      if (!m || !['system', 'user', 'assistant'].includes(m.role)) continue;
+      const c = cleanContent(m.content);
+      if (!c) continue;
+      if (c.hasImage && m.role === 'user') hasImage = true;
+      clean.push({ role: m.role, content: c.content });
+    }
+  }
   if (clean.length === 0) {
     return res.status(400).json({ error: 'messages must be a non-empty array.' });
   }
 
   const convo = withDate(clean);
-  const wantSearch = search !== false; // pages like Translate/Code send search:false
+  const wantSearch = search !== false && !hasImage; // Translate/Code send search:false; picture requests never search
 
   // Models to try (requested one first), without duplicates.
-  const candidates = [cleanModel(model), cleanModel(process.env.GROQ_MODEL), ...FALLBACK_MODELS]
+  // Picture requests only use vision models; everything else uses the normal list.
+  const candidates = (hasImage
+    ? [/llama-4|vision|scout|maverick/i.test(cleanModel(model)) ? cleanModel(model) : '', cleanModel(process.env.GROQ_VISION_MODEL), ...VISION_MODELS]
+    : [cleanModel(model), cleanModel(process.env.GROQ_MODEL), ...FALLBACK_MODELS])
     .filter((m, i, arr) => m && arr.indexOf(m) === i);
 
   let lastStatus = 500;
