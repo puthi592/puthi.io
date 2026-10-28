@@ -2342,11 +2342,11 @@ function shrinkImage(file) {                 // resize to max 1280px JPEG so the
     fr.onload = () => {
       const im = new Image(); im.onerror = rej;
       im.onload = () => {
-        const k = Math.min(1, 1280 / Math.max(im.width, im.height));
+        const k = Math.min(1, 1024 / Math.max(im.width, im.height));
         const w = Math.round(im.width * k), h = Math.round(im.height * k);
         const c = document.createElement('canvas'); c.width = w; c.height = h;
         const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(im, 0, 0, w, h);
-        res(c.toDataURL('image/jpeg', 0.82));
+        res(c.toDataURL('image/jpeg', 0.8));
       };
       im.src = fr.result;
     };
@@ -2443,11 +2443,11 @@ function closeCamera() { stopCamStream(); $('camOv').classList.remove('show'); c
 function snapPhoto() {
   const v = $('camVideo');
   if (!camStream || !v.videoWidth) return;
-  const k = Math.min(1, 1280 / Math.max(v.videoWidth, v.videoHeight));
+  const k = Math.min(1, 1024 / Math.max(v.videoWidth, v.videoHeight));
   const w = Math.round(v.videoWidth * k), h = Math.round(v.videoHeight * k);
   const c = document.createElement('canvas'); c.width = w; c.height = h;
   c.getContext('2d').drawImage(v, 0, 0, w, h);
-  setAtt({ kind: 'image', src: c.toDataURL('image/jpeg', 0.85), name: 'photo.jpg' });
+  setAtt({ kind: 'image', src: c.toDataURL('image/jpeg', 0.8), name: 'photo.jpg' });
   closeCamera();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('camOv').classList.contains('show')) closeCamera(); });
