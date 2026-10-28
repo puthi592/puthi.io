@@ -2318,7 +2318,7 @@ const _applyLangBase = applyLang;
 applyLang = function (l) { _applyLangBase(l); renderAiMode(); };
 
 /* ══════════ UPLOAD: images (vision) + text/code files + links ══════════ */
-const VISION_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct';   // vision-capable model used when a picture is in the chat
+const VISION_MODEL = 'qwen/qwen3.8-27b';   // vision-capable model used when a picture is in the chat
 let pendingAtt = null;                                                // { kind:'image', src, name } | { kind:'text', name, text }
 const TEXT_FILE = /\.(txt|md|csv|json|js|ts|py|html|css|java|php|xml|log|c|cpp|sql|yml|yaml)$/i;
 function pickFile() { closeTools(); $('fileIn').click(); }
