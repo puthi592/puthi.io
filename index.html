@@ -887,6 +887,42 @@ html[lang="km"] .wcc-chip,html[lang="km"] .settings-label,html[lang="km"] .inp-h
 .side .aim-opt.on{background:rgba(91,140,255,.18);color:#7fa6ff}
 .aim-opt .aim-check{margin-left:auto;font-size:13px}
 .side .sb-btn.aim-has-mode{color:#7fa6ff}
+.attach-preview{display:none;align-items:center;gap:8px;width:fit-content;max-width:100%;margin:0 0 8px 6px;padding:5px 6px 5px 5px;border-radius:14px;font-size:12.5px;font-weight:600;color:var(--text2,#b6bfd2);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);animation:popIn .25s cubic-bezier(.16,1,.3,1)}
+.attach-preview.show{display:flex}
+.attach-preview img{width:44px;height:44px;border-radius:9px;object-fit:cover}
+.attach-preview .ap-ic{font-size:22px;padding:0 6px}
+.attach-preview .ap-name{max-width:46vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.attach-preview button{border:0;background:transparent;color:inherit;width:24px;height:24px;border-radius:50%;cursor:pointer}
+.attach-preview button:hover{background:rgba(255,255,255,.14);color:#fff}
+.url-box{display:none;gap:8px;align-items:center;margin:0 0 8px 6px}
+.url-box.show{display:flex}
+.url-box input{flex:1;min-width:0;padding:9px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(2,12,28,.7);color:var(--text,#fff);font:inherit;font-size:14px;outline:none}
+.url-box input:focus{border-color:var(--accent,#4c8dff)}
+.url-box button{border:0;border-radius:999px;padding:9px 16px;background:var(--accent,#4c8dff);color:#fff;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.url-box .ub-x{background:rgba(255,255,255,.09);padding:9px 12px}
+.bubble-img{display:block;max-width:min(260px,100%);max-height:240px;border-radius:12px;margin-bottom:8px;object-fit:cover}
+.bubble-file{display:inline-block;margin-bottom:6px;padding:3px 10px;border-radius:999px;font-size:12px;background:rgba(255,255,255,.08)}
+.drop-ov{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(3,8,20,.72);backdrop-filter:blur(6px)}
+.drop-ov.show{display:flex}
+.drop-card{padding:34px 46px;border:2px dashed rgba(127,166,255,.7);border-radius:24px;font-size:20px;font-weight:600;color:#fff;background:rgba(91,140,255,.12)}
+.cam-ov{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;background:rgba(2,6,16,.92);backdrop-filter:blur(8px)}
+.cam-ov.show{display:flex}
+.cam-wrap{position:relative;width:min(560px,100vw);height:min(86vh,100dvh);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cam-wrap video{width:100%;flex:1;min-height:0;object-fit:cover;background:#000;border-radius:18px}
+.cam-wrap video.mirror{transform:scaleX(-1)}
+.cam-msg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;text-align:center;color:#fff;font-size:15px;line-height:1.6;pointer-events:none}
+.cam-bar{display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 28px calc(18px + env(safe-area-inset-bottom,0px))}
+.cam-shot{width:70px;height:70px;border-radius:50%;border:4px solid #fff;background:rgba(255,255,255,.28);cursor:pointer;transition:transform .12s}
+.cam-shot:active{transform:scale(.92);background:#fff}
+.cam-shot:disabled{opacity:.35;cursor:default}
+.cam-alt{display:none;position:absolute;left:50%;top:calc(50% + 70px);transform:translateX(-50%);padding:10px 20px;border:0;border-radius:999px;background:#fff;color:#0a1020;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.cam-alt.show{display:block}
+.cam-side{width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:18px;cursor:pointer}
+.cam-side:hover{background:rgba(255,255,255,.24)}
+/* keep the message box + its popups above the welcome screen so every button is clickable */
+.bottom-area{position:relative;z-index:30}
+.tools-popup{z-index:200}
+.attach-preview,.url-box,.aimode-chip{position:relative;z-index:2}
 /* ── MOOD BADGE ── */
 .mood-tag{display:flex;width:fit-content;align-items:center;gap:6px;margin-top:5px;padding:3px 11px;border-radius:999px;font-size:11.5px;font-weight:600;line-height:1.6;color:var(--text2,#b6bfd2);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);animation:popIn .3s cubic-bezier(.16,1,.3,1)}
 .mood-tag .mood-em{font-size:14px;line-height:1}
@@ -894,6 +930,20 @@ html[lang="km"] .wcc-chip,html[lang="km"] .settings-label,html[lang="km"] .inp-h
 </style>
 </head>
 <body data-bg="galaxy">
+<div class="cam-ov" id="camOv" role="dialog" aria-modal="true" aria-label="Camera">
+  <div class="cam-wrap">
+    <video id="camVideo" autoplay playsinline muted></video>
+    <div class="cam-msg" id="camMsg"></div>
+    <button type="button" class="cam-alt" id="camAlt" onclick="closeCamera();$('fileIn').click()">Choose a photo instead</button>
+    <div class="cam-bar">
+      <button type="button" class="cam-side" onclick="closeCamera()" aria-label="Close">✕</button>
+      <button type="button" class="cam-shot" id="camShot" onclick="snapPhoto()" aria-label="Capture"></button>
+      <button type="button" class="cam-side" id="camFlip" onclick="flipCamera()" aria-label="Flip camera">🔄</button>
+    </div>
+  </div>
+</div>
+<input type="file" id="camFallback" accept="image/*" capture="environment" hidden onchange="handleFiles(this.files)">
+<div class="drop-ov" id="dropOv"><div class="drop-card">🖼️ Drop an image here</div></div>
 
 <!-- SPLASH / LOGO INTRO -->
 <div id="splashScreen">
@@ -1076,14 +1126,14 @@ html[lang="km"] .wcc-chip,html[lang="km"] .settings-label,html[lang="km"] .inp-h
       <div class="bottom-area">
         <div class="inp-wrap">
           <div class="tools-popup" id="toolsPopup">
-            <div class="tool-item" onclick="injectTool('Translate this to Khmer: ')"><div class="tool-ic" style="background:rgba(34,211,238,.15)">🌐</div> Translate</div>
-            <div class="tool-item" onclick="injectTool('Write and explain code for: ')"><div class="tool-ic" style="background:rgba(167,139,250,.15)">💻</div> Code Runner</div>
-            <div class="tool-item" onclick="injectTool('Summarize this topic: ')"><div class="tool-ic" style="background:rgba(251,191,36,.15)">📝</div> Summarize</div>
-            <div class="tool-item" onclick="injectTool('Explain like I am 5: ')"><div class="tool-ic" style="background:rgba(52,211,153,.15)">🧒</div> Explain Simply</div>
-            <div class="tool-item" onclick="switchMode('image')"><div class="tool-ic" style="background:rgba(244,114,182,.15)">🎨</div> Generate Image →</div>
-            <div class="tool-item" onclick="injectTool('Search and explain: ')"><div class="tool-ic" style="background:rgba(96,165,250,.15)">🔍</div> Web Search</div>
+            <div class="tool-item" onclick="pickFile()"><div class="tool-ic" style="background:rgba(91,140,255,.18)">📁</div> Upload file</div>
+            <div class="tool-item" onclick="openCamera()"><div class="tool-ic" style="background:rgba(244,114,182,.15)">📷</div> Take photo</div>
+            <div class="tool-item" onclick="openUrlBox()"><div class="tool-ic" style="background:rgba(52,211,153,.15)">🔗</div> Upload URL</div>
           </div>
           <button class="close-popup-btn" id="closePopupBtn" onclick="closeTools()">✕</button>
+          <input type="file" id="fileIn" hidden accept="image/*,.txt,.md,.csv,.json,.js,.ts,.py,.html,.css,.java,.php,.xml,.log,.c,.cpp,.sql,.yml,.yaml" onchange="handleFiles(this.files)">
+          <div class="attach-preview" id="attachPreview"></div>
+          <div class="url-box" id="urlBox"><input type="url" id="urlInput" placeholder="Paste image link (https://…)" onkeydown="if(event.key==='Enter'){event.preventDefault();addUrl()}if(event.key==='Escape')closeUrlBox()"><button type="button" onclick="addUrl()">Add</button><button type="button" class="ub-x" onclick="closeUrlBox()" aria-label="Close">✕</button></div>
           <div class="aimode-chip" id="aimodeChip"><span>AI Mood:</span><span id="aimodeChipName"></span><button type="button" onclick="setAiMode('default')" aria-label="Reset mood" title="Reset mood">✕</button></div>
           <div class="input-row">
             <button class="plus-btn" id="plusBtn" onclick="toggleTools()" aria-label="Tools"><svg class="" viewBox="0 0 24 24"><path d="M21 11l-9 9a5 5 0 0 1-7-7l9-9a3.5 3.5 0 0 1 5 5l-9 9a2 2 0 0 1-3-3l8-8"/></svg></button>
@@ -1646,7 +1696,7 @@ async function ask(msgs, system, opts = {}) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: getModel(),
+        model: opts.model || getModel(),
         search: opts.search !== false,
         messages: [{ role: 'system', content: system || (CHAT_SYSTEM + uiLangNote() + moodNote() + aimodeNote()) }, ...msgs]
       })
@@ -1686,10 +1736,12 @@ let sending = false;
 async function sendMsg() {
   if (sending) return;
   const ta = $('chatInput');
-  const text = ta.value.trim();
-  if (!text) return;
+  let text = ta.value.trim();
+  const att = pendingAtt;
+  if (!text && !att) return;
+  if (!text && att) text = att.kind === 'image' ? UI('Describe this image and explain what you see.') : UI('Summarize this file.');
 
-  if (DEV_RX.test(text)) {
+  if (!att && DEV_RX.test(text)) {
     $('welcomeScreen')?.remove();
     ta.value = ''; ta.style.height = 'auto';
     addUser(text); addAI(LANG === 'km' ? DEV_REPLY_KM : DEV_REPLY);
@@ -1699,12 +1751,16 @@ async function sendMsg() {
   $('welcomeScreen')?.remove();
   ta.value = ''; ta.style.height = 'auto';
   sending = true; $('sendBtn').disabled = true;
-  addUser(text);
+  addUser(text, att);
   currentMood = detectMood(text); tagMood(currentMood);
-  chatHistory.push({ role: 'user', content: text });
+  if (att && att.kind === 'image') chatHistory.push({ role: 'user', content: [{ type: 'text', text }, { type: 'image_url', image_url: { url: att.src } }] });
+  else if (att) chatHistory.push({ role: 'user', content: text + '\n\nFile "' + att.name + '":\n```\n' + att.text + '\n```' });
+  else chatHistory.push({ role: 'user', content: text });
+  clearAtt();
   const tid = addTyping();
   try {
-    const r = await ask(chatHistory.slice(-20));
+    const hist = histForAsk();
+    const r = await ask(hist.msgs, undefined, hist.hasImg ? { search: false, model: VISION_MODEL } : {});
     rmNode(tid);
     chatHistory.push({ role: 'assistant', content: r });
     addAI(r);
@@ -1719,10 +1775,15 @@ async function sendMsg() {
 }
 
 function userInitial() { return ((ls('cpai_user_name') || 'U').trim().charAt(0) || 'U').toUpperCase(); }
-function addUser(txt) {
+function addUser(txt, att) {
   const a = $('chatArea');
   const r = document.createElement('div'); r.className = 'msg-row user';
   r.innerHTML = '<div class="msg-av">' + userInitial() + '</div><div class="msg-body"><div class="bubble">' + sh(txt).replace(/\n/g, '<br>') + '</div></div>';
+  if (att) {
+    const bub = r.querySelector('.bubble');
+    if (att.kind === 'image') { const im = document.createElement('img'); im.className = 'bubble-img'; im.alt = ''; im.src = att.src; bub.insertBefore(im, bub.firstChild); }
+    else { const f = document.createElement('div'); f.className = 'bubble-file'; f.textContent = '📄 ' + att.name; bub.insertBefore(f, bub.firstChild); }
+  }
   a.appendChild(r); sb();
 }
 function addAI(txt, isErr) {
@@ -2074,7 +2135,17 @@ const KM = {
   "Explain like I am 5: ":"ពន្យល់ដូចខ្ញុំអាយុ ៥ ឆ្នាំ៖ ","Search and explain: ":"ស្វែងរក និងពន្យល់៖ ",
   /* AI Mood */
   "AI Mood":"របៀប AI","AI Mood:":"របៀប AI៖","Default":"ធម្មតា","Professional":"ផ្លូវការ","Friendly":"មិត្តភាព","Summarized":"សង្ខេប","Coding":"កូដ","Reset mood":"កំណត់របៀបឡើងវិញ",
-  "AI Mood set to":"បានកំណត់របៀប AI ទៅជា"
+  "AI Mood set to":"បានកំណត់របៀប AI ទៅជា",
+  /* Upload */
+  "Upload file":"ផ្ទុកឡើងឯកសារ","Upload URL":"ផ្ទុកឡើង URL","Add":"បន្ថែម","Remove":"លុប","Close":"បិទ",
+  "Paste image link (https://…)":"បិទភ្ជាប់តំណរូបភាព (https://…)","🖼️ Drop an image here":"🖼️ ទម្លាក់រូបភាពនៅទីនេះ","Drop an image here":"ទម្លាក់រូបភាពនៅទីនេះ",
+  "Describe this image and explain what you see.":"ពន្យល់អំពីរូបភាពនេះ និងអ្វីដែលអ្នកឃើញ។","Summarize this file.":"សង្ខេបឯកសារនេះ។",
+  "Only images and text or code files are supported":"គាំទ្រតែរូបភាព និងឯកសារអត្ថបទ ឬកូដប៉ុណ្ណោះ","File too large (max 60 KB)":"ឯកសារធំពេក (អតិបរមា 60 KB)",
+  "Could not read that image":"មិនអាចអានរូបភាពនោះបានទេ","Enter a full link starting with http":"សូមបញ្ចូលតំណពេញ ចាប់ផ្តើមដោយ http","Link added to your message":"បានបន្ថែមតំណទៅក្នុងសារ",
+  /* Camera */
+  "Take photo":"ថតរូប","Choose a photo instead":"ជ្រើសរើសរូបថតជំនួស","Capture":"ថត","Flip camera":"ប្តូរកាមេរ៉ា","Camera":"កាមេរ៉ា","Starting camera…":"កំពុងបើកកាមេរ៉ា…",
+  "Camera access was blocked. Allow the camera for this site in your browser settings, then try again.":"ការចូលប្រើកាមេរ៉ាត្រូវបានរារាំង។ សូមអនុញ្ញាតកាមេរ៉ាសម្រាប់គេហទំព័រនេះក្នុងការកំណត់កម្មវិធីរុករក រួចព្យាយាមម្តងទៀត។",
+  "No camera found on this device.":"រកមិនឃើញកាមេរ៉ានៅលើឧបករណ៍នេះទេ។","Could not start the camera.":"មិនអាចបើកកាមេរ៉ាបានទេ។"
 };
 
 let LANG = 'en';
@@ -2245,6 +2316,142 @@ renderAiMode();
 // keep the chip text in the right language when the EN / ខ្មែរ switch is used
 const _applyLangBase = applyLang;
 applyLang = function (l) { _applyLangBase(l); renderAiMode(); };
+
+/* ══════════ UPLOAD: images (vision) + text/code files + links ══════════ */
+const VISION_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct';   // vision-capable model used when a picture is in the chat
+let pendingAtt = null;                                                // { kind:'image', src, name } | { kind:'text', name, text }
+const TEXT_FILE = /\.(txt|md|csv|json|js|ts|py|html|css|java|php|xml|log|c|cpp|sql|yml|yaml)$/i;
+function pickFile() { closeTools(); $('fileIn').click(); }
+function openUrlBox() { closeTools(); $('urlBox').classList.add('show'); $('urlInput').focus(); }
+function closeUrlBox() { $('urlBox').classList.remove('show'); $('urlInput').value = ''; }
+function addUrl() {
+  const v = $('urlInput').value.trim();
+  if (!v) return;
+  if (!/^https?:\/\//i.test(v)) { toast(UI('Enter a full link starting with http')); return; }
+  if (/\.(png|jpe?g|gif|webp|bmp|avif)(\?.*)?$/i.test(v)) {
+    setAtt({ kind: 'image', src: v, name: decodeURIComponent(v.split('/').pop().split('?')[0]) || 'image' });
+  } else {                                   // normal web page: add the link to the message so the AI can look it up
+    const ta = $('chatInput'); ta.value = (ta.value ? ta.value + '\n' : '') + v; ta.focus();
+    toast(UI('Link added to your message'));
+  }
+  closeUrlBox();
+}
+function shrinkImage(file) {                 // resize to max 1280px JPEG so the request stays small
+  return new Promise((res, rej) => {
+    const fr = new FileReader(); fr.onerror = rej;
+    fr.onload = () => {
+      const im = new Image(); im.onerror = rej;
+      im.onload = () => {
+        const k = Math.min(1, 1280 / Math.max(im.width, im.height));
+        const w = Math.round(im.width * k), h = Math.round(im.height * k);
+        const c = document.createElement('canvas'); c.width = w; c.height = h;
+        const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(im, 0, 0, w, h);
+        res(c.toDataURL('image/jpeg', 0.82));
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+async function handleFiles(files) {
+  const f = files && files[0]; if (!f) return;
+  if (f.type.startsWith('image/')) {
+    try { setAtt({ kind: 'image', src: await shrinkImage(f), name: f.name || 'image' }); }
+    catch (e) { toast(UI('Could not read that image')); }
+  } else if (TEXT_FILE.test(f.name) || f.type.startsWith('text/')) {
+    if (f.size > 60000) { toast(UI('File too large (max 60 KB)')); return; }
+    setAtt({ kind: 'text', name: f.name, text: await f.text() });
+  } else toast(UI('Only images and text or code files are supported'));
+}
+function setAtt(a) { pendingAtt = a; renderAtt(); $('chatInput').focus(); }
+function clearAtt() { pendingAtt = null; renderAtt(); const fi = $('fileIn'); if (fi) fi.value = ''; }
+function renderAtt() {
+  const box = $('attachPreview'); box.innerHTML = '';
+  box.classList.toggle('show', !!pendingAtt);
+  if (!pendingAtt) return;
+  if (pendingAtt.kind === 'image') { const im = document.createElement('img'); im.alt = ''; im.src = pendingAtt.src; box.appendChild(im); }
+  else { const s = document.createElement('span'); s.className = 'ap-ic'; s.textContent = '📄'; box.appendChild(s); }
+  const n = document.createElement('span'); n.className = 'ap-name'; n.textContent = pendingAtt.name; box.appendChild(n);
+  const b = document.createElement('button'); b.type = 'button'; b.textContent = '✕'; b.setAttribute('aria-label', 'Remove'); b.onclick = clearAtt; box.appendChild(b);
+}
+// keep only the newest picture in the request (older ones become a text note) and report if one is present
+function histForAsk() {
+  const h = chatHistory.slice(-20);
+  let last = -1; h.forEach((m, i) => { if (Array.isArray(m.content)) last = i; });
+  const msgs = h.map((m, i) => (Array.isArray(m.content) && i !== last)
+    ? { role: m.role, content: ((m.content.find(p => p.type === 'text') || {}).text || '') + ' [an earlier image was attached here]' }
+    : m);
+  return { msgs, hasImg: last !== -1 };
+}
+// drag & drop and paste
+(function () {
+  let depth = 0; const ov = $('dropOv');
+  const hasFiles = e => e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files');
+  document.addEventListener('dragenter', e => { if (!hasFiles(e)) return; depth++; ov.classList.add('show'); });
+  document.addEventListener('dragover',  e => { if (hasFiles(e)) e.preventDefault(); });
+  document.addEventListener('dragleave', e => { if (!hasFiles(e)) return; depth = Math.max(0, depth - 1); if (!depth) ov.classList.remove('show'); });
+  document.addEventListener('drop', e => {
+    if (!hasFiles(e)) return;
+    e.preventDefault(); depth = 0; ov.classList.remove('show');
+    if (typeof switchMode === 'function') switchMode('chat');
+    handleFiles(e.dataTransfer.files);
+  });
+  $('chatInput').addEventListener('paste', e => {
+    const f = e.clipboardData && Array.from(e.clipboardData.files || []).find(x => x.type.startsWith('image/'));
+    if (f) { e.preventDefault(); handleFiles([f]); }
+  });
+})();
+
+/* ══════════ TAKE PHOTO: asks the browser for camera permission (phone or laptop) ══════════ */
+let camStream = null, camFacing = 'environment';
+function camText(t) { $('camMsg').textContent = t ? UI(t) : ''; $('camAlt').classList.toggle('show', !!t && t !== 'Starting camera…'); }
+async function openCamera() {
+  closeTools();
+  const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Macintosh/i.test(navigator.userAgent));
+  if (mobile || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) || !window.isSecureContext) {
+    $('camFallback').click(); return;                       // phone: opens the phone's own camera app, no permission popup needed
+  }
+  $('camOv').classList.add('show');
+  startCamera();
+}
+async function startCamera() {
+  stopCamStream();
+  $('camShot').disabled = true;
+  camText('Starting camera…');
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: camFacing }, width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false });
+    const v = $('camVideo');
+    v.srcObject = camStream;
+    const s = camStream.getVideoTracks()[0].getSettings ? camStream.getVideoTracks()[0].getSettings() : {};
+    v.classList.toggle('mirror', s.facingMode === 'user' || (!s.facingMode && camFacing === 'user'));
+    await v.play().catch(() => {});
+    camText(''); $('camShot').disabled = false;
+    try { const d = await navigator.mediaDevices.enumerateDevices(); $('camFlip').style.visibility = d.filter(x => x.kind === 'videoinput').length > 1 ? 'visible' : 'hidden'; } catch (e) {}
+  } catch (e) {
+    const n = e && e.name;
+    if (n === 'NotAllowedError' || n === 'SecurityError' || n === 'PermissionDeniedError') camText('Camera access was blocked. Allow the camera for this site in your browser settings, then try again.');
+    else if (n === 'NotFoundError' || n === 'DevicesNotFoundError') camText('No camera found on this device.');
+    else camText('Could not start the camera.');
+  }
+}
+function flipCamera() { camFacing = camFacing === 'environment' ? 'user' : 'environment'; startCamera(); }
+function stopCamStream() {
+  if (camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  const v = $('camVideo'); if (v) v.srcObject = null;
+}
+function closeCamera() { stopCamStream(); $('camOv').classList.remove('show'); camText(''); }
+function snapPhoto() {
+  const v = $('camVideo');
+  if (!camStream || !v.videoWidth) return;
+  const k = Math.min(1, 1280 / Math.max(v.videoWidth, v.videoHeight));
+  const w = Math.round(v.videoWidth * k), h = Math.round(v.videoHeight * k);
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  c.getContext('2d').drawImage(v, 0, 0, w, h);
+  setAtt({ kind: 'image', src: c.toDataURL('image/jpeg', 0.85), name: 'photo.jpg' });
+  closeCamera();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('camOv').classList.contains('show')) closeCamera(); });
+window.addEventListener('pagehide', stopCamStream);
 </script>
 </body>
 </html>
