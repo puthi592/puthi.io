@@ -870,6 +870,23 @@ html[lang="km"] .wcc-chip,html[lang="km"] .settings-label,html[lang="km"] .inp-h
 @media (max-width:520px){.lang-switch button{padding:4px 10px;font-size:12px}}
 @media (max-width:420px){.tb-right .online-pill{display:none}}
 
+/* ── AI MOOD (tools popup submenu + chip) ── */
+.tool-item .tool-caret{margin-left:auto;font-size:11px;opacity:.7;transition:transform .2s}
+.tool-item.sub-open .tool-caret{transform:rotate(180deg)}
+.aimode-sub{display:none;margin:2px 0 4px 18px;padding-left:8px;border-left:1px solid rgba(255,255,255,.14);max-height:240px;overflow-y:auto}
+.aimode-sub.open{display:block}
+.aimode-sub .tool-item{padding:8px 11px}
+.aimode-sub .tool-item.on{color:#fff;background:rgba(91,140,255,.18)}
+.aimode-sub .tool-item .aim-check{margin-left:auto;font-size:12px;color:var(--accent,#4c8dff)}
+.aimode-chip{display:none;align-items:center;gap:6px;width:fit-content;margin:0 0 8px 6px;padding:4px 6px 4px 11px;border-radius:999px;font-size:12px;font-weight:600;line-height:1.6;color:var(--text2,#b6bfd2);background:rgba(91,140,255,.14);border:1px solid rgba(91,140,255,.35);animation:popIn .25s cubic-bezier(.16,1,.3,1)}
+.aimode-chip.show{display:inline-flex}
+.aimode-chip button{border:0;background:transparent;color:inherit;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:12px;line-height:1}
+.aimode-chip button:hover{background:rgba(255,255,255,.12);color:#fff}
+.aim-list{display:none;flex-direction:column;gap:2px}.aim-list.open{display:flex}
+.side .aim-opt{padding-left:46px;font-size:14.5px}
+.side .aim-opt.on{background:rgba(91,140,255,.18);color:#7fa6ff}
+.aim-opt .aim-check{margin-left:auto;font-size:13px}
+.side .sb-btn.aim-has-mode{color:#7fa6ff}
 /* ── MOOD BADGE ── */
 .mood-tag{display:flex;width:fit-content;align-items:center;gap:6px;margin-top:5px;padding:3px 11px;border-radius:999px;font-size:11.5px;font-weight:600;line-height:1.6;color:var(--text2,#b6bfd2);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);animation:popIn .3s cubic-bezier(.16,1,.3,1)}
 .mood-tag .mood-em{font-size:14px;line-height:1}
@@ -988,6 +1005,14 @@ html[lang="km"] .wcc-chip,html[lang="km"] .settings-label,html[lang="km"] .inp-h
       <button class="sb-btn sub" id="sb-code" onclick="switchMode('code')"><svg class="" viewBox="0 0 24 24"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg> Code runner</button>
       <button class="sb-btn sub" id="sb-image" onclick="switchMode('image')"><svg class="" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 9"/></svg> Generate image</button>
       <button class="sb-btn sub" id="sb-creator" onclick="switchMode('creator')"><svg class="" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg> About CP-AI</button>
+      <button class="sb-btn sub" id="sb-aimood" aria-expanded="false" onclick="toggleAiModeMenu(event)"><svg class="" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c1 1.4 2.2 2 3.5 2s2.500-.6 3.500-2M9 9.500h.01M15 9.500h.01"/></svg> AI Mood <svg class="side-caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="aim-list" id="aimodeSub">
+        <button class="sb-btn sub aim-opt" data-mode="default" onclick="setAiMode('default')">🤖 Default <span class="aim-check"></span></button>
+        <button class="sb-btn sub aim-opt" data-mode="professional" onclick="setAiMode('professional')">💼 Professional <span class="aim-check"></span></button>
+        <button class="sb-btn sub aim-opt" data-mode="friendly" onclick="setAiMode('friendly')">😊 Friendly <span class="aim-check"></span></button>
+        <button class="sb-btn sub aim-opt" data-mode="summarized" onclick="setAiMode('summarized')">📝 Summarized <span class="aim-check"></span></button>
+        <button class="sb-btn sub aim-opt" data-mode="coding" onclick="setAiMode('coding')">💻 Coding <span class="aim-check"></span></button>
+      </div>
     </div>
     <div class="side-spacer"></div>
     <div class="side-user"><div class="side-av" id="sideAv">?</div><div><div class="side-uname" id="sideName">Guest</div><div class="side-usub">Free plan</div></div></div>
@@ -1059,6 +1084,7 @@ html[lang="km"] .wcc-chip,html[lang="km"] .settings-label,html[lang="km"] .inp-h
             <div class="tool-item" onclick="injectTool('Search and explain: ')"><div class="tool-ic" style="background:rgba(96,165,250,.15)">🔍</div> Web Search</div>
           </div>
           <button class="close-popup-btn" id="closePopupBtn" onclick="closeTools()">✕</button>
+          <div class="aimode-chip" id="aimodeChip"><span>AI Mood:</span><span id="aimodeChipName"></span><button type="button" onclick="setAiMode('default')" aria-label="Reset mood" title="Reset mood">✕</button></div>
           <div class="input-row">
             <button class="plus-btn" id="plusBtn" onclick="toggleTools()" aria-label="Tools"><svg class="" viewBox="0 0 24 24"><path d="M21 11l-9 9a5 5 0 0 1-7-7l9-9a3.5 3.5 0 0 1 5 5l-9 9a2 2 0 0 1-3-3l8-8"/></svg></button>
             <textarea class="chat-ta" id="chatInput" placeholder="Type a message…" rows="1"
@@ -1622,7 +1648,7 @@ async function ask(msgs, system, opts = {}) {
       body: JSON.stringify({
         model: getModel(),
         search: opts.search !== false,
-        messages: [{ role: 'system', content: system || (CHAT_SYSTEM + uiLangNote() + moodNote()) }, ...msgs]
+        messages: [{ role: 'system', content: system || (CHAT_SYSTEM + uiLangNote() + moodNote() + aimodeNote()) }, ...msgs]
       })
     });
     let data = null; try { data = await res.json(); } catch (e) {}
@@ -2045,7 +2071,10 @@ const KM = {
   "Who is the developer of CP-AI?":"តើអ្នកណាជាអ្នកបង្កើត CP-AI?","Tell me a fun fact!":"សូមប្រាប់ការពិតគួរឱ្យចាប់អារម្មណ៍មួយ!",
   "Help me study. Give me a study plan for learning programming.":"ជួយខ្ញុំរៀន។ សូមផ្តល់ផែនការសិក្សាសម្រាប់រៀនសរសេរកម្មវិធី។",
   "Translate this to Khmer: ":"បកប្រែអត្ថបទនេះទៅជាភាសាខ្មែរ៖ ","Write and explain code for: ":"សរសេរ និងពន្យល់កូដសម្រាប់៖ ","Summarize this topic: ":"សង្ខេបប្រធានបទនេះ៖ ",
-  "Explain like I am 5: ":"ពន្យល់ដូចខ្ញុំអាយុ ៥ ឆ្នាំ៖ ","Search and explain: ":"ស្វែងរក និងពន្យល់៖ "
+  "Explain like I am 5: ":"ពន្យល់ដូចខ្ញុំអាយុ ៥ ឆ្នាំ៖ ","Search and explain: ":"ស្វែងរក និងពន្យល់៖ ",
+  /* AI Mood */
+  "AI Mood":"របៀប AI","AI Mood:":"របៀប AI៖","Default":"ធម្មតា","Professional":"ផ្លូវការ","Friendly":"មិត្តភាព","Summarized":"សង្ខេប","Coding":"កូដ","Reset mood":"កំណត់របៀបឡើងវិញ",
+  "AI Mood set to":"បានកំណត់របៀប AI ទៅជា"
 };
 
 let LANG = 'en';
@@ -2168,6 +2197,54 @@ function tagMood(m) {
   t.innerHTML = '<span class="mood-em">' + m.emoji + '</span><span>' + m.label + '</span>';
   body.appendChild(t);
 }
+
+/* ══════════ AI MOOD: choose how the AI answers (Professional / Friendly / Summarized / Coding) ══════════ */
+const AIMODES = {
+  default:      { label:'Default',      emoji:'🤖', prompt:'' },
+  professional: { label:'Professional', emoji:'💼', prompt:'AI MOOD = PROFESSIONAL (chosen by the user, overrides rules 4 and 5 where they conflict). Answer in a formal, polished, business-like tone. Be precise, well organized and respectful, using short headings or numbered points when helpful. No slang and no emojis.' },
+  friendly:     { label:'Friendly',     emoji:'😊', prompt:'AI MOOD = FRIENDLY (chosen by the user, overrides rule 5 where it conflicts). Answer like a warm, caring close friend: casual, simple words, encouraging and positive. Use 1 to 3 fitting emojis and keep the answer short and easy to read.' },
+  summarized:   { label:'Summarized',   emoji:'📝', prompt:'AI MOOD = SUMMARIZED (chosen by the user, overrides rule 4 length). Give the shortest useful answer: a one-sentence answer followed by at most 3 short bullet points, and never more than about 60 words in total. No introductions, no filler, no extra background.' },
+  coding:       { label:'Coding',       emoji:'💻', prompt:'AI MOOD = CODING (chosen by the user, overrides rules 4 and 5 where they conflict). Act as a senior software engineer. Reply with complete, working code first in a fenced code block that names the language, then a brief explanation (key points only), then any bugs, edge cases or improvements worth knowing. If the user pasted code, find and fix the bugs and show the corrected version. No emojis. Keep code, identifiers and technical terms in English.' }
+};
+let aiMode = 'default';
+try { const s = ls('cpai_ai_mode'); if (s && AIMODES[s]) aiMode = s; } catch (e) {}
+function aimodeNote() {
+  const m = AIMODES[aiMode];
+  return m && m.prompt ? '\n9. ' + m.prompt : '';
+}
+function toggleAiModeMenu(e) {
+  if (e) e.stopPropagation();
+  const open = $('aimodeSub').classList.toggle('open');
+  const b = $('sb-aimood');
+  b.classList.toggle('open-caret', open);
+  b.setAttribute('aria-expanded', open);
+}
+function renderAiMode() {
+  document.querySelectorAll('#aimodeSub .aim-opt').forEach(it => {
+    const on = it.dataset.mode === aiMode;
+    it.classList.toggle('on', on);
+    const c = it.querySelector('.aim-check'); if (c) c.textContent = on ? '✓' : '';
+  });
+  $('sb-aimood').classList.toggle('aim-has-mode', aiMode !== 'default');
+  const m = AIMODES[aiMode], chip = $('aimodeChip');
+  chip.classList.toggle('show', aiMode !== 'default');
+  $('aimodeChipName').textContent = m.emoji + ' ' + UI(m.label);
+}
+function setAiMode(key) {
+  if (!AIMODES[key]) key = 'default';
+  aiMode = key;
+  try { ls('cpai_ai_mode', key); } catch (e) {}
+  renderAiMode();
+  if (typeof switchMode === 'function') switchMode('chat');   // moods apply to the chat
+  if (typeof closeDrawer === 'function') closeDrawer();
+  if (typeof closeSide === 'function' && typeof isMobileNav === 'function' && isMobileNav()) closeSide();
+  if (key !== 'default') toast(UI('AI Mood set to') + ' ' + UI(AIMODES[key].label) + ' ' + AIMODES[key].emoji);
+  const ta = $('chatInput'); if (ta) ta.focus();
+}
+renderAiMode();
+// keep the chip text in the right language when the EN / ខ្មែរ switch is used
+const _applyLangBase = applyLang;
+applyLang = function (l) { _applyLangBase(l); renderAiMode(); };
 </script>
 </body>
 </html>
